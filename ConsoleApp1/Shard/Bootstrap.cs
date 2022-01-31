@@ -19,7 +19,7 @@ namespace Shard
 
         private static Game runningGame;
         private static Display displayEngine;
-        private static Sound soundEngine;
+        private static SoundManager soundEngine;
         private static InputSystem input;
         private static PhysicsManager phys;
 
@@ -48,7 +48,7 @@ namespace Shard
             return displayEngine;
         }
 
-        public static Sound getSound()
+        public static SoundManager getSound()
         {
             return soundEngine;
         }
@@ -92,7 +92,7 @@ namespace Shard
                         displayEngine.initialize();
                         break;
                     case "sound":
-                        soundEngine = (Sound)ob;
+                        soundEngine = (SoundManager)ob;
                         break;
                     case "game":
                         runningGame = (Game)ob;
@@ -162,6 +162,7 @@ namespace Shard
             int sleep;
             int tfro = 1;
             bool physUpdate = false;
+            bool soundUpdate = false;
 
             // Setup the engine.
             setup();
@@ -177,6 +178,8 @@ namespace Shard
 
             phys.Debugging = true;
             phys.GravityModifier = 0.1f;
+
+   
             // This is our game loop.
             while (true)
             {
@@ -221,6 +224,14 @@ namespace Shard
                     }
 
                     phys.drawDebugColliders();
+
+
+                    // runs at 50 fps at the mometn (same as physics)
+                    soundUpdate = soundEngine.update();
+                    if (soundUpdate)
+                    {
+                        GameObjectManager.getInstance().soundUpdate();
+                    }
                 }
 
                 // Render the screen.

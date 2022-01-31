@@ -27,11 +27,13 @@
   </ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="OpenTK" Version="4.6.7" />
 		<PackageReference Include="SDL2-CS" Version="2.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="SDL2\" />
+	  <Folder Include="Shard\Game\" />
 	</ItemGroup>
 
 </Project>

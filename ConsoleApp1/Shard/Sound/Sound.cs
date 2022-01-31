@@ -32,6 +32,8 @@ namespace Shard
 
         public abstract void loop(bool b);
 
+        internal abstract void update();
+
     }
 
 }

@@ -13,13 +13,17 @@ using OpenTK.Audio.OpenAL;
 namespace Shard
 {
 
-    class defultLisener : Lisener
+    public class defultLisener : Listener
     {
 
         private Vector3 pos = new Vector3(0.0f, 0.0f, 4.0f);
         private Vector3 dir = new Vector3(0.0f, 0.0f, -1.0f);
         private Vector3 up =  new Vector3(0.0f, 1.0f, 0.0f);
         private Vector3 vel = new Vector3(0.0f, 0.0f, 0.0f);
+
+        public defultLisener() {
+            setStatic(true);
+        }
 
         public override Vector3 getUp()
         {
@@ -42,52 +46,92 @@ namespace Shard
         }
     }
 
-    class SoundManeger
+    public class SoundManager
     {
 
-        private static SoundManeger me;
+        //private static SoundManager me;
         private Dictionary<string, int> buffers;
         private List<SoundSource> sources;
-       
 
-        private Lisener lisener = new defultLisener();
+        private double start;
+        private double TimeInterval;
 
-        public void update() {
-            updateLisenr();
-            updateSources();
-        }
 
-        public void setLisenr(Lisener l)
+        private Listener listener = new defultLisener();
+
+        internal Listener Listener { get => listener; set => listener = value; }
+
+        public SoundManager()
         {
-            lisener = l;
-            updateLisenr();
+            start = 0;
+            // 60 FPS
+            TimeInterval = 1.0/50.0;
         }
-
-        private void updateLisenr() {
-            Vector3 pos = lisener.getPos();
-            AL.Listener(ALListener3f.Position, ref pos);
-
-
-            Vector3 vel = lisener.getVel();
-            AL.Listener(ALListener3f.Velocity, ref vel);
-
-
-            Vector3 dir = lisener.getDir();
-            Vector3 up = lisener.getUp();
-            AL.Listener(ALListenerfv.Orientation, ref dir, ref up);
-        }
-
-        private SoundManeger() { 
-            
-        }
-
-        private static SoundManeger getInstance()
+        /*
+        public static SoundManager getInstance()
         {
-            if (me == null) {
-                me = new SoundManeger();
+            if (me == null)
+            {
+                me = new SoundManager();
             }
 
             return me;
+        }
+        */
+        public void setFPS(int fps) {
+            TimeInterval = 1.0 / (double)fps;
+        }
+
+        public bool willTick()
+        {
+            if (start < TimeInterval)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool update() {
+
+            start += Bootstrap.getDeltaTime();
+
+            if (willTick() == false)
+            {
+                return false;
+            }
+
+            if (!listener.IsStatic)
+            {
+                updateListener();
+            }
+            updateSources();
+
+            start -= TimeInterval;
+
+            return true;
+
+        }
+
+        public void setListener(Listener l)
+        {
+            this.Listener = l;
+            updateListener();
+        }
+
+        private void updateListener() {
+  
+                Vector3 pos = listener.getPos();
+                AL.Listener(ALListener3f.Position, ref pos);
+
+
+                Vector3 vel = listener.getVel();
+                AL.Listener(ALListener3f.Velocity, ref vel);
+
+
+                Vector3 dir = listener.getDir();
+                Vector3 up = listener.getUp();
+                AL.Listener(ALListenerfv.Orientation, ref dir, ref up);
         }
 
 

@@ -20,7 +20,6 @@ namespace Shard
         private bool toBeDestroyed;
         private bool visible;
         private PhysicsBody myBody;
-        private List<Sound> mySounds;
         private List<string> tags;
 
         public void addTag(string str)

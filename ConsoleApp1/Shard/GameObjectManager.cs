@@ -43,6 +43,15 @@ namespace Shard
             myObjects.Remove(gob);
         }
 
+        public void soundUpdate()
+        {
+            GameObject gob;
+            for (int i = 0; i < myObjects.Count; i++)
+            {
+                gob = myObjects[i];
+                gob.soundUpdate();
+            }
+        }
 
         public void physicsUpdate()
         {
