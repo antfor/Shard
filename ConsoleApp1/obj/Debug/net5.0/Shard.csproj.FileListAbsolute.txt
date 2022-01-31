@@ -580,3 +580,20 @@ D:\Jobs\(2019 - xxxx) Chalmers University of Technology\Teaching\Game Engine Arc
 D:\Jobs\(2019 - xxxx) Chalmers University of Technology\Teaching\Game Engine Architecture\Lecture Releases\Week 7\1.0.2\Shard\ConsoleApp1\obj\Debug\net5.0\ref\Shard.dll
 D:\Jobs\(2019 - xxxx) Chalmers University of Technology\Teaching\Game Engine Architecture\Lecture Releases\Week 7\1.0.2\Shard\ConsoleApp1\obj\Debug\net5.0\Shard.pdb
 D:\Jobs\(2019 - xxxx) Chalmers University of Technology\Teaching\Game Engine Architecture\Lecture Releases\Week 7\1.0.2\Shard\ConsoleApp1\obj\Debug\net5.0\Shard.genruntimeconfig.cache
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\bin\Debug\net5.0\Shard.exe
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\bin\Debug\net5.0\Shard.deps.json
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\bin\Debug\net5.0\Shard.runtimeconfig.json
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\bin\Debug\net5.0\Shard.runtimeconfig.dev.json
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\bin\Debug\net5.0\Shard.dll
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\bin\Debug\net5.0\ref\Shard.dll
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\bin\Debug\net5.0\Shard.pdb
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\obj\Debug\net5.0\Shard.csproj.AssemblyReference.cache
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\obj\Debug\net5.0\Shard.csproj.ResolveComReference.cache
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\obj\Debug\net5.0\Shard.GeneratedMSBuildEditorConfig.editorconfig
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\obj\Debug\net5.0\Shard.AssemblyInfoInputs.cache
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\obj\Debug\net5.0\Shard.AssemblyInfo.cs
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\obj\Debug\net5.0\Shard.csproj.CoreCompileInputs.cache
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\obj\Debug\net5.0\Shard.dll
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\obj\Debug\net5.0\ref\Shard.dll
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\obj\Debug\net5.0\Shard.pdb
+D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\obj\Debug\net5.0\Shard.genruntimeconfig.cache

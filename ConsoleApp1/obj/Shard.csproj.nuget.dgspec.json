@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Jobs\\(2019 - xxxx) Chalmers University of Technology\\Teaching\\Game Engine Architecture\\Lecture Releases\\Week 7\\1.0.2\\Shard\\ConsoleApp1\\Shard.csproj": {}
+    "D:\\chalmers\\tda572\\shard\\1.0.0\\Shard\\ConsoleApp1\\Shard.csproj": {}
   },
   "projects": {
-    "D:\\Jobs\\(2019 - xxxx) Chalmers University of Technology\\Teaching\\Game Engine Architecture\\Lecture Releases\\Week 7\\1.0.2\\Shard\\ConsoleApp1\\Shard.csproj": {
+    "D:\\chalmers\\tda572\\shard\\1.0.0\\Shard\\ConsoleApp1\\Shard.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Jobs\\(2019 - xxxx) Chalmers University of Technology\\Teaching\\Game Engine Architecture\\Lecture Releases\\Week 7\\1.0.2\\Shard\\ConsoleApp1\\Shard.csproj",
+        "projectUniqueName": "D:\\chalmers\\tda572\\shard\\1.0.0\\Shard\\ConsoleApp1\\Shard.csproj",
         "projectName": "Shard",
-        "projectPath": "D:\\Jobs\\(2019 - xxxx) Chalmers University of Technology\\Teaching\\Game Engine Architecture\\Lecture Releases\\Week 7\\1.0.2\\Shard\\ConsoleApp1\\Shard.csproj",
-        "packagesPath": "C:\\Users\\Michael\\.nuget\\packages\\",
-        "outputPath": "D:\\Jobs\\(2019 - xxxx) Chalmers University of Technology\\Teaching\\Game Engine Architecture\\Lecture Releases\\Week 7\\1.0.2\\Shard\\ConsoleApp1\\obj\\",
+        "projectPath": "D:\\chalmers\\tda572\\shard\\1.0.0\\Shard\\ConsoleApp1\\Shard.csproj",
+        "packagesPath": "C:\\Users\\Anton Forsberg\\.nuget\\packages\\",
+        "outputPath": "D:\\chalmers\\tda572\\shard\\1.0.0\\Shard\\ConsoleApp1\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Michael\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Anton Forsberg\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,6 +43,10 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "OpenTK": {
+              "target": "Package",
+              "version": "[4.6.7, )"
+            },
             "SDL2-CS": {
               "target": "Package",
               "version": "[2.0.0, )"
@@ -60,7 +67,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.404\\RuntimeIdentifierGraph.json"
         }
       }
     }
