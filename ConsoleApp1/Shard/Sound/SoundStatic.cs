@@ -51,7 +51,7 @@ namespace Shard
         
         public void setGain(float newGain)
         {
-            gain = newGain;
+            gain = Math.Max(Math.Min(newGain, 10.0f), 0.0f);
             gainChange = true;
         }
         private void setGain()

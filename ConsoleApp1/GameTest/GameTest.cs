@@ -1,4 +1,5 @@
 ﻿using GameTest;
+using SDL2;
 using System;
 using System.Drawing;
 
@@ -7,6 +8,7 @@ namespace Shard
     class GameTest : Game, InputListener
     {
         GameObject background;
+        SoundStatic sound; 
         public override void update()
         {
             //            Bootstrap.getDisplay().addToDraw(background);
@@ -43,7 +45,11 @@ namespace Shard
         {
             Bootstrap.getInput().addListener(this);
             createShip();
-
+            SoundManager soundManager = Bootstrap.getSound();
+            soundManager.addSound("doom", @"D:\chalmers\tda572\music\doomMono.wav");
+            
+            sound = new SoundStatic();
+            soundManager.loadSource(sound, "doom");
 
         }
 
@@ -58,8 +64,32 @@ namespace Shard
                 asteroid.Transform.Y = inp.Y;
             }
 
+            if (eventType == "KeyDown")
+            {
 
+                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_P)
+                {
+                    if (sound.Playing)
+                    {
+                        sound.pause();
+                    }
+                    else
+                    {
+                        sound.unPause();
+                    }
 
+                }
+
+                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_O)
+                {
+                    sound.setGain(sound.Gain + sound.Gain * 0.1f);
+                }
+
+                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_I)
+                {
+                    sound.setGain(sound.Gain - sound.Gain * 0.1f);
+                }
+            }
         }
     }
 }
