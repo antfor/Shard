@@ -15,7 +15,7 @@ namespace Shard
 
     public class defultLisener : Listener
     {
-
+        
         private Vector3 pos = new Vector3(0.0f, 0.0f, 4.0f);
         private Vector3 dir = new Vector3(0.0f, 0.0f, -1.0f);
         private Vector3 up =  new Vector3(0.0f, 1.0f, 0.0f);
@@ -50,8 +50,8 @@ namespace Shard
     {
 
         //private static SoundManager me;
-        private Dictionary<string, int> buffers;
-        private List<SoundSource> sources;
+        private Dictionary<string, int> buffers = new Dictionary<string, int> { };
+        private List<SoundSource> sources = new List<SoundSource> { };
 
         private double start;
         private double TimeInterval;
@@ -61,23 +61,65 @@ namespace Shard
 
         internal Listener Listener { get => listener; set => listener = value; }
 
-        public SoundManager()
+        public unsafe  SoundManager()
         {
             start = 0;
             // 60 FPS
             TimeInterval = 1.0/50.0;
-        }
-        /*
-        public static SoundManager getInstance()
-        {
-            if (me == null)
-            {
-                me = new SoundManager();
-            }
 
-            return me;
+            //Initialize
+            var device = ALC.OpenDevice(null);
+            var context = ALC.CreateContext(device, (int*)null);
+
+            ALC.MakeContextCurrent(context);
+
+            var version = AL.Get(ALGetString.Version);
+            var vendor = AL.Get(ALGetString.Vendor);
+            var renderer = AL.Get(ALGetString.Renderer);
+            Console.WriteLine(version);
+            Console.WriteLine(vendor);
+            Console.WriteLine(renderer);
+           
+           //Process
+           int buffer = AL.GenBuffer();
+           int source  = AL.GenSource();
+
+            
+           int sampleFreq = 44100;
+           double dt = 2 * Math.PI / sampleFreq;
+           double amp = 0.5;
+
+           int freq = 440;
+           var dataCount = sampleFreq / freq;
+
+           var sinData = new short[dataCount];
+           for (int i = 0; i < sinData.Length; ++i)
+           {
+               sinData[i] = (short)(amp * short.MaxValue * Math.Sin(i * dt * freq));
+           }
+           fixed (short* p = sinData)
+           {
+               IntPtr ptr = (IntPtr)p;
+               AL.BufferData(buffer, ALFormat.Mono16, ptr, sinData.Length * sizeof(short), sampleFreq);
+           }
+
+           addSound("doom", @"D:\chalmers\tda572\music\doomMono.wav");
+           int track;
+           buffers.TryGetValue("doom", out track);
+           Console.WriteLine("track playing:" + track);
+           Console.WriteLine("buffer playing:" + buffer);
+            AL.Source(source, ALSourcei.Buffer, track);
+           AL.Source(source, ALSourceb.Looping, true);
+
+           AL.SourcePlay(source);
+        
+            
+            ///Dispose
+
+
         }
-        */
+        
+        
         public void setFPS(int fps) {
             TimeInterval = 1.0 / (double)fps;
         }
@@ -135,19 +177,22 @@ namespace Shard
         }
 
 
+       
+
         unsafe public bool addSound(string id, string file)
         {
             int buffer = AL.GenBuffer();
             int channels, bits_per_sample, sample_rate;
 
-            byte[] sound_data = LoadWave(File.Open(file, FileMode.Open), out channels, out bits_per_sample, out sample_rate);
+            Stream s = File.Open(file, FileMode.Open);
+            byte[] sound_data = LoadWave(s, out channels, out bits_per_sample, out sample_rate);
 
             fixed (byte* p = sound_data)
             {
                 IntPtr ptr = (IntPtr)p;
                 AL.BufferData(buffer, GetSoundFormat(channels, bits_per_sample), ptr, sound_data.Length, sample_rate);
             }
-
+            buffers.Add(id, buffer);
             return true;
         }
 
@@ -174,7 +219,7 @@ namespace Shard
             return false;
         }
 
-        // From: https://github.com/mono/opentk/blob/e5859900d3a41885e03be46b492bfd382442f130/Source/Examples/OpenAL/1.1/Playback.cs
+       
         private static byte[] LoadWave(Stream stream, out int channels, out int bits, out int rate) {
 
             if (stream == null)
@@ -183,6 +228,18 @@ namespace Shard
             using (BinaryReader reader = new BinaryReader(stream))
             {
 
+                // RIFF header
+                string signature = new string(reader.ReadChars(4));
+                if (signature != "RIFF")
+                    throw new NotSupportedException("Specified stream is not a wave file.");
+
+                int riff_chunck_size = reader.ReadInt32();
+
+                string format = new string(reader.ReadChars(4));
+                if (format != "WAVE")
+                    throw new NotSupportedException("Specified stream is not a wave file.");
+
+                
                 // WAVE header
                 string format_signature = new string(reader.ReadChars(4));
                 if (format_signature != "fmt ")
@@ -196,12 +253,13 @@ namespace Shard
                 int block_align = reader.ReadInt16();
                 int bits_per_sample = reader.ReadInt16();
 
+                
                 string data_signature = new string(reader.ReadChars(4));
                 if (data_signature != "data")
                     throw new NotSupportedException("Specified wave file is not supported.");
 
                 int data_chunk_size = reader.ReadInt32();
-
+                
                 channels = num_channels;
                 bits = bits_per_sample;
                 rate = sample_rate;
@@ -215,7 +273,7 @@ namespace Shard
             switch (channels)
             {
                 case 1: return bits == 8 ? ALFormat.Mono8 : ALFormat.Mono16;
-                case 2: return bits == 8 ? ALFormat.Stereo8 : ALFormat.Stereo16;
+                //case 2: return bits == 8 ? ALFormat.Stereo8 : ALFormat.Stereo16;
                 default: throw new NotSupportedException("The specified sound format is not supported.");
             }
         }
@@ -252,9 +310,10 @@ namespace Shard
 
         private void updateSources()
         {
-            foreach(SoundSource source in sources) {
-                source.update();
-            }
+                foreach (SoundSource source in sources)
+                {
+                    source.update();
+                }
         }
 
     }

@@ -10,7 +10,7 @@ using OpenTK.Audio.OpenAL;
 
 namespace Shard
 {
-    public class SoundSource : Sound
+    public class SoundSource : ISound
     {
   
         private float gain = 1f;

@@ -105,7 +105,7 @@ namespace Shard
                         break;
 
                 }
-
+                
                 Debug.getInstance().log("Config file... setting " + kvp.Key + " to " + kvp.Value);
             }
 
@@ -193,6 +193,12 @@ namespace Shard
                 // Update 
                 runningGame.update();
                 // Input
+                
+                //soundEngine.addSound("doom", @"D:\chalmers\tda572\music\ex.wav");
+                //SoundSource  s = new SoundSource();
+                //soundEngine.addSource(s);
+                //soundEngine.loadSource(s, "doom");
+                //s.play();
 
                 if (runningGame.isRunning() == true)
                 {

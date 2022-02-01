@@ -1,4 +1,6 @@
 ﻿using OpenTK.Mathematics;
+using OpenTK.Audio;
+using OpenTK.Audio.OpenAL;
 
 namespace Shard
 {

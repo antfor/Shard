@@ -17,6 +17,12 @@
 		<StartupObject />
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <Compile Remove="Shard\Game\**" />
+	  <EmbeddedResource Remove="Shard\Game\**" />
+	  <None Remove="Shard\Game\**" />
+	</ItemGroup>
+
   <ItemGroup>
     <COMReference Include="{215d64d2-031c-33c7-96e3-61794cd1ee61}">
       <WrapperTool>tlbimp</WrapperTool>
@@ -27,13 +33,23 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="OpenTK" Version="4.6.7" />
 		<PackageReference Include="SDL2-CS" Version="2.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="SDL2\" />
-	  <Folder Include="Shard\Game\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="OpenTK.Core">
+	    <HintPath>..\..\..\..\opentk\src\OpenAL\OpenTK.OpenAL\bin\Release\netcoreapp3.1\OpenTK.Core.dll</HintPath>
+	  </Reference>
+	  <Reference Include="OpenTK.Mathematics">
+	    <HintPath>..\..\..\..\opentk\src\OpenAL\OpenTK.OpenAL\bin\Release\netcoreapp3.1\OpenTK.Mathematics.dll</HintPath>
+	  </Reference>
+	  <Reference Include="OpenTK.OpenAL">
+	    <HintPath>..\..\..\..\opentk\src\OpenAL\OpenTK.OpenAL\bin\Release\netcoreapp3.1\OpenTK.OpenAL.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 </Project>

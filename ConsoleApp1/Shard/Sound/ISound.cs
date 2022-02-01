@@ -8,7 +8,7 @@
 
 namespace Shard
 {
-    public abstract class Sound        
+    public abstract class ISound        
     {
 
         private protected bool playing = false;
