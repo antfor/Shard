@@ -2,7 +2,7 @@
 using OpenTK.Audio;
 using OpenTK.Audio.OpenAL;
 
-namespace Shard
+namespace Shard.Sound
 {
     public abstract class Listener
     {

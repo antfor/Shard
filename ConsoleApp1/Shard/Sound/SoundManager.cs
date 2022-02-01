@@ -10,13 +10,15 @@ using OpenTK.Mathematics;
 using OpenTK.Audio;
 using OpenTK.Audio.OpenAL;
 
+using Shard.Sound;
+
 namespace Shard
 {
 
     public class defultLisener : Listener
     {
         
-        private Vector3 pos = new Vector3(0.0f, 0.0f, 4.0f);
+        private Vector3 pos = new Vector3(0.0f, 0.0f, 5.0f);
         private Vector3 dir = new Vector3(0.0f, 0.0f, -1.0f);
         private Vector3 up =  new Vector3(0.0f, 1.0f, 0.0f);
         private Vector3 vel = new Vector3(0.0f, 0.0f, 0.0f);
@@ -51,21 +53,20 @@ namespace Shard
 
         //private static SoundManager me;
         private Dictionary<string, int> buffers = new Dictionary<string, int> { };
-        private List<SoundSource> sources = new List<SoundSource> { };
+        private List<IopenAL> sources = new List<IopenAL> { };
 
         private double start;
         private double TimeInterval;
 
 
-        private Listener listener = new defultLisener();
+        private Listener listener;
 
         internal Listener Listener { get => listener; set => listener = value; }
 
         public unsafe  SoundManager()
         {
             start = 0;
-            // 60 FPS
-            TimeInterval = 1.0/50.0;
+            setFPS(50);
 
             //Initialize
             var device = ALC.OpenDevice(null);
@@ -76,46 +77,18 @@ namespace Shard
             var version = AL.Get(ALGetString.Version);
             var vendor = AL.Get(ALGetString.Vendor);
             var renderer = AL.Get(ALGetString.Renderer);
+            
+
+            //AL.RegisterOpenALResolver();
             Console.WriteLine(version);
             Console.WriteLine(vendor);
             Console.WriteLine(renderer);
-           
-           //Process
-           int buffer = AL.GenBuffer();
-           int source  = AL.GenSource();
 
+            setListener(new defultLisener());
+
+             AL.DistanceModel(ALDistanceModel.ExponentDistance);
+            //AL.DistanceModel(ALDistanceModel.LinearDistance);
             
-           int sampleFreq = 44100;
-           double dt = 2 * Math.PI / sampleFreq;
-           double amp = 0.5;
-
-           int freq = 440;
-           var dataCount = sampleFreq / freq;
-
-           var sinData = new short[dataCount];
-           for (int i = 0; i < sinData.Length; ++i)
-           {
-               sinData[i] = (short)(amp * short.MaxValue * Math.Sin(i * dt * freq));
-           }
-           fixed (short* p = sinData)
-           {
-               IntPtr ptr = (IntPtr)p;
-               AL.BufferData(buffer, ALFormat.Mono16, ptr, sinData.Length * sizeof(short), sampleFreq);
-           }
-
-           addSound("doom", @"D:\chalmers\tda572\music\doomMono.wav");
-           int track;
-           buffers.TryGetValue("doom", out track);
-           Console.WriteLine("track playing:" + track);
-           Console.WriteLine("buffer playing:" + buffer);
-            AL.Source(source, ALSourcei.Buffer, track);
-           AL.Source(source, ALSourceb.Looping, true);
-
-           AL.SourcePlay(source);
-        
-            
-            ///Dispose
-
 
         }
         
@@ -207,7 +180,7 @@ namespace Shard
            
             if (buffers.TryGetValue(id, out buffer)) {
 
-                foreach (SoundSource s in sources)
+                foreach (IopenAL s in sources)
                 {
                     s.stop(id);
                 }
@@ -280,7 +253,7 @@ namespace Shard
 
         //stream file
 
-        public void addSource(SoundSource source)
+        public void addSource(IopenAL source)
         {
             if (sources.Contains(source)) {
                 return;
@@ -290,19 +263,19 @@ namespace Shard
             sources.Add(source);
         }
 
-        public void removeSource(SoundSource source) {
+        public void removeSource(IopenAL source) {
 
             source.stop();
             AL.DeleteSource(source.Id);
             sources.Remove(source);
         }
 
-        public bool loadSource(SoundSource source, string id) {
+        public bool loadSource(IopenAL source, string id) {
             int sound;
             bool exist = buffers.TryGetValue(id, out sound);
 
             if (exist) {
-                source.loadSound(sound);
+                source.loadSound(id, sound);
             }
             
             return exist;
@@ -310,7 +283,7 @@ namespace Shard
 
         private void updateSources()
         {
-                foreach (SoundSource source in sources)
+                foreach (IopenAL source in sources)
                 {
                     source.update();
                 }

@@ -8,31 +8,23 @@
 
 namespace Shard
 {
-    public abstract class ISound        
+    public  interface ISound        
     {
 
-        private protected bool playing = false;
-        private protected bool paused = false;
-        private protected bool looping = false;
 
-        public bool Looping { get => looping;}
-        private bool Paused { get => paused;}
+        public bool play();
 
-        private bool Playing { get => playing; }
+        public bool playNew();
 
-        public abstract bool play();
+        public bool pause();
 
-        public abstract bool playNew();
+        public bool unPause();
 
-        public abstract bool pause();
+        public void stop();
 
-        public abstract bool unPause();
+        public void loop(bool b);
 
-        public abstract void stop();
-
-        public abstract void loop(bool b);
-
-        internal abstract void update();
+        public void update();
 
     }
 

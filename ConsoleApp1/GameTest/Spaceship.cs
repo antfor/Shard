@@ -1,19 +1,34 @@
-﻿using SDL2;
+﻿using OpenTK.Mathematics;
+using SDL2;
 using Shard;
+using System;
 using System.Drawing;
+
 
 namespace GameTest
 {
-    class Spaceship : GameObject, InputListener, CollisionHandler
+    class Spaceship : GameObject, InputListener, CollisionHandler, ISoundSourceObject
     {
         bool up, down, turnLeft, turnRight;
 
+        float w = Bootstrap.getDisplay().getWidth();
+        float h = Bootstrap.getDisplay().getHeight();
+        float sw = 32;
+        float sh = 64;
+        float dw;
+        float dh;
+        float cw;
+        float ch;
 
         public override void initialize()
         {
 
-            this.Transform.X = 500.0f;
-            this.Transform.Y = 500.0f;
+            dw = (w - sw);
+            dh = (h - sh);
+            cw = dw / 2.0f;
+            ch = dh / 2.0f; 
+            this.Transform.X = cw;
+            this.Transform.Y = ch;
             this.Transform.SpritePath = "spaceship.png";
 
 
@@ -39,6 +54,17 @@ namespace GameTest
 //            MyBody.addCircleCollider(0, 34, 5);
 //            MyBody.addCircleCollider(60, 18, 5);
             MyBody.addCircleCollider();
+
+
+            SoundManager soundManeger = Bootstrap.getSound();
+            soundManeger.addSound("engine", @"D:\chalmers\tda572\music\spaceship.wav");
+
+            SoundSource soundPlayer = new SoundSource(this);
+            soundManeger.loadSource(soundPlayer, "engine");
+            soundPlayer.loop(true);
+            soundPlayer.setGain(8);
+            soundPlayer.play();
+         
 
             addTag("Spaceship");
 
@@ -175,5 +201,21 @@ namespace GameTest
             return "Spaceship: [" + Transform.X + ", " + Transform.Y + ", " + Transform.Wid + ", " + Transform.Ht + "]";
         }
 
+        public Vector3 getSoundPos()
+        {
+           
+            float scale = 0.01f;
+
+            float x = scale * ((float)this.Transform.X - cw);
+            float y = scale * ((float)this.Transform.Y - ch);
+            float z = scale * ((float)this.Transform.Z);
+            Console.WriteLine("pos: x=" + x + " y= " + y + " z= " + z);
+            return new Vector3(x,y,z);
+        }
+
+        public Vector3 getSoundVel()
+        {
+            return new Vector3(0, 0, 0);
+        }
     }
 }
