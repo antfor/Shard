@@ -11,7 +11,8 @@ namespace Shard
         SoundStatic sound; 
         public override void update()
         {
-            //            Bootstrap.getDisplay().addToDraw(background);
+
+            Bootstrap.getDisplay().addToDraw(background);
 
             Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255);
 
@@ -88,11 +89,11 @@ namespace Shard
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_I)
                 {
                     sound.setGain(sound.Gain - sound.Gain * 0.1f);
-                }
+                }                   
 
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_L)
                 {
-                    sound.setPitch(2);
+                    sound.setPitch(1.5f);
                 }
 
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_K)
@@ -105,6 +106,6 @@ namespace Shard
                     sound.setPitch(0.5f);
                 }
             }
-        }
+        }   
     }
 }
