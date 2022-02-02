@@ -89,6 +89,21 @@ namespace Shard
                 {
                     sound.setGain(sound.Gain - sound.Gain * 0.1f);
                 }
+
+                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_L)
+                {
+                    sound.setPitch(2);
+                }
+
+                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_K)
+                {
+                    sound.setPitch(1);
+                }
+
+                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_J)
+                {
+                    sound.setPitch(0.5f);
+                }
             }
         }
     }
