@@ -38,11 +38,23 @@
 	  <Reference Include="OpenTK.Core">
 	    <HintPath>..\..\..\..\opentk\src\OpenAL\OpenTK.OpenAL\bin\Release\netcoreapp3.1\OpenTK.Core.dll</HintPath>
 	  </Reference>
+	  <Reference Include="OpenTK.Graphics">
+	    <HintPath>..\..\..\..\opentk\src\OpenTK.Graphics\bin\Release\netcoreapp3.1\OpenTK.Graphics.dll</HintPath>
+	  </Reference>
 	  <Reference Include="OpenTK.Mathematics">
 	    <HintPath>..\..\..\..\opentk\src\OpenAL\OpenTK.OpenAL\bin\Release\netcoreapp3.1\OpenTK.Mathematics.dll</HintPath>
 	  </Reference>
 	  <Reference Include="OpenTK.OpenAL">
 	    <HintPath>..\..\..\..\opentk\src\OpenAL\OpenTK.OpenAL\bin\Release\netcoreapp3.1\OpenTK.OpenAL.dll</HintPath>
+	  </Reference>
+	  <Reference Include="OpenTK.Windowing.Common">
+	    <HintPath>..\..\..\..\opentk\src\OpenTK.Windowing.Desktop\bin\Release\netcoreapp3.1\OpenTK.Windowing.Common.dll</HintPath>
+	  </Reference>
+	  <Reference Include="OpenTK.Windowing.Desktop">
+	    <HintPath>..\..\..\..\opentk\src\OpenTK.Windowing.Desktop\bin\Release\netcoreapp3.1\OpenTK.Windowing.Desktop.dll</HintPath>
+	  </Reference>
+	  <Reference Include="OpenTK.Windowing.GraphicsLibraryFramework">
+	    <HintPath>..\..\..\..\opentk\src\OpenTK.Windowing.Desktop\bin\Release\netcoreapp3.1\OpenTK.Windowing.GraphicsLibraryFramework.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 

@@ -1,0 +1,703 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenTK.Windowing.Common</name>
+    </assembly>
+    <members>
+        <member name="T:OpenTK.Windowing.Common.ContextAPI">
+            <summary>
+            Describes the graphics API you want the context to use.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.ContextAPI.NoAPI">
+            <summary>
+            Indicates that an API has not been specifically requested for context creation.
+            </summary>
+            <remarks>
+            <para>
+            This is primarily for integrating an external API with this window, such as Vulkan.
+            </para>
+            </remarks>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.ContextAPI.OpenGLES">
+            <summary>
+            Indicates that the context should be created for OpenGL ES.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.ContextAPI.OpenGL">
+            <summary>
+            Indicates that the context should be created for OpenGL.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.ContextFlags">
+            <summary>
+            Enumerates various flags that affect the creation of new GraphicsContexts.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.ContextFlags.Default">
+            <summary>
+            The default value of the GraphicsContextFlags enumeration.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.ContextFlags.Debug">
+            <summary>
+            Indicates that this is a debug GraphicsContext. Debug contexts may provide
+            additional debugging information at the cost of performance.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.ContextFlags.ForwardCompatible">
+            <summary>
+            Indicates that this is a forward compatible GraphicsContext. Forward-compatible contexts
+            do not support functionality marked as deprecated in the current GraphicsContextVersion.
+            </summary>
+            <remarks>Forward-compatible contexts are defined only for OpenGL versions 3.0 and later.</remarks>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.ContextFlags.Offscreen">
+            <summary>
+            Indicates that this GraphicsContext is intended for offscreen rendering.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.ContextProfile">
+            <summary>
+            Selects the profile for the context's graphics API.
+            For versions below 3.2 the <see cref="F:OpenTK.Windowing.Common.ContextProfile.Any"/> option needs to be used.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.ContextProfile.Any">
+            <summary>
+            Used for unknown OpenGL profile or OpenGL ES.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.ContextProfile.Compatability">
+            <summary>
+            Selects compatability profile. You should only use this if maintaining legacy code.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.ContextProfile.Core">
+            <summary>
+            Selects core profile. All new projects should use this unless they have a good reason not to.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.FileDropEventArgs">
+            <summary>
+            Defines the event data for files being dropped onto the window.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.FileDropEventArgs.#ctor(System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.FileDropEventArgs"/> struct.
+            </summary>
+            <param name="paths">
+            The <see cref="T:System.Array" /> of strings giving the names of all files dropped.
+            </param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.FileDropEventArgs.FileNames">
+            <summary>
+            Gets the names of the files.
+            </summary>
+            <value>An <see cref="T:System.Array" /> of strings giving the names of all files dropped.</value>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.FocusedChangedEventArgs">
+            <summary>
+            Defines the event data for the window focus changing.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.FocusedChangedEventArgs.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.FocusedChangedEventArgs"/> struct.
+            </summary>
+            <param name="isFocused">A value indicating whether the window is focused.</param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.FocusedChangedEventArgs.IsFocused">
+            <summary>
+            Gets a value indicating whether the window is focused.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.FrameEventArgs">
+            <summary>
+            Defines the arguments for frame events.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.FrameEventArgs.#ctor(System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.FrameEventArgs"/> struct.
+            </summary>
+            <param name="elapsed">The amount of time that has elapsed since the previous event, in seconds.</param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.FrameEventArgs.Time">
+            <summary>
+            Gets how many seconds of time elapsed since the previous event.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.JoystickEventArgs">
+            <summary>
+            Defines the event data for the <see cref="!:NativeWindow.JoystickConnected"/> event.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.JoystickEventArgs.#ctor(System.Int32,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.JoystickEventArgs"/> struct.
+            </summary>
+            <param name="joystickId">The Id of the joystick which triggered this event.</param>
+            <param name="isConnected">
+            A value indicating whether the joystick which triggered this event was connected.
+            </param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.JoystickEventArgs.JoystickId">
+            <summary>
+            Gets the Id of the joystick which triggered this event.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.JoystickEventArgs.IsConnected">
+            <summary>
+            Gets a value indicating whether the joystick which triggered this event was connected.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.MaximizedEventArgs">
+            <summary>
+            Defines the event data for the window maximizing event.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.MaximizedEventArgs.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.MaximizedEventArgs"/> struct.
+            </summary>
+            <param name="isMaximized">
+            A value indicating whether the window is maximized.
+            </param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MaximizedEventArgs.IsMaximized">
+            <summary>
+            Gets a value indicating whether the window is maximized.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.MinimizedEventArgs">
+            <summary>
+            Defines the event data for the window minimizing event.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.MinimizedEventArgs.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.MinimizedEventArgs"/> struct.
+            </summary>
+            <param name="isMinimized">
+            A value indicating whether the window is minimized.
+            </param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MinimizedEventArgs.IsMinimized">
+            <summary>
+            Gets a value indicating whether the window is minimized.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.MonitorEventArgs">
+            <summary>
+            Defines the event data for the <see cref="!:NativeWindow.MonitorConnected"/> event.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.MonitorEventArgs.#ctor(OpenTK.Windowing.Common.MonitorHandle,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.MonitorEventArgs"/> struct.
+            </summary>
+            <param name="monitor">The <see cref="P:OpenTK.Windowing.Common.MonitorEventArgs.Monitor"/> which triggered the event.</param>
+            <param name="isConnected">Whether the <see cref="P:OpenTK.Windowing.Common.MonitorEventArgs.Monitor"/> is connected.</param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MonitorEventArgs.Monitor">
+            <summary>
+            Gets the <see cref="P:OpenTK.Windowing.Common.MonitorEventArgs.Monitor"/> which triggered the event.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MonitorEventArgs.IsConnected">
+            <summary>
+            Gets a value indicating whether the <see cref="P:OpenTK.Windowing.Common.MonitorEventArgs.Monitor"/> that triggered this event is connected or not.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.MouseMoveEventArgs">
+            <summary>
+            Defines the event data for <see cref="!:NativeWindow.MouseMove"/> events.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.MouseMoveEventArgs.#ctor(OpenTK.Mathematics.Vector2,OpenTK.Mathematics.Vector2)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.MouseMoveEventArgs"/> struct.
+            </summary>
+            <param name="position">The new mouse position.</param>
+            <param name="delta">The change in position produced by this event.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.MouseMoveEventArgs.#ctor(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.MouseMoveEventArgs"/> struct.
+            </summary>
+            <param name="x">The new mouse X position.</param>
+            <param name="y">The new mouse Y position.</param>
+            <param name="deltaX">The change in X position produced by this event.</param>
+            <param name="deltaY">The change in Y position produced by this event.</param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MouseMoveEventArgs.X">
+            <summary>
+            Gets the new X position produced by this event.
+            This position is relative to the top-left corner of the contents of the window.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MouseMoveEventArgs.Y">
+            <summary>
+            Gets the new Y position produced by this event.
+            This position is relative to the top-left corner of the contents of the window.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MouseMoveEventArgs.Position">
+            <summary>
+            Gets the new position produced by this event.
+            This position is relative to the top-left corner of the contents of the window.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MouseMoveEventArgs.DeltaX">
+            <summary>
+            Gets the change in X position since the last event.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MouseMoveEventArgs.DeltaY">
+            <summary>
+            Gets the change in Y position since the last event.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MouseMoveEventArgs.Delta">
+            <summary>
+            Gets the change in position since the last event.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.MouseWheelEventArgs">
+            <summary>
+            Defines the event data for <see cref="!:NativeWindow.MouseWheel" /> events.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.MouseWheelEventArgs.#ctor(OpenTK.Mathematics.Vector2)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.MouseWheelEventArgs"/> struct.
+            </summary>
+            <param name="offset">The offset the mouse wheel was moved.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.MouseWheelEventArgs.#ctor(System.Single,System.Single)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.MouseWheelEventArgs"/> struct.
+            </summary>
+            <param name="offsetX">The offset on the X axis.</param>
+            <param name="offsetY">The offset on the Y axis.</param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MouseWheelEventArgs.Offset">
+            <summary>
+            Gets the offset the mouse wheel was moved.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MouseWheelEventArgs.OffsetX">
+            <summary>
+            Gets the offset on the X axis.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MouseWheelEventArgs.OffsetY">
+            <summary>
+            Gets the offset on the Y axis.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.ResizeEventArgs">
+            <summary>
+            Defines the event data for the window resize event.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.ResizeEventArgs.#ctor(OpenTK.Mathematics.Vector2i)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.ResizeEventArgs"/> struct.
+            </summary>
+            <param name="size">The new window size.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.ResizeEventArgs.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.ResizeEventArgs"/> struct.
+            </summary>
+            <param name="width">The new window width.</param>
+            <param name="height">The new window height.</param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.ResizeEventArgs.Size">
+            <summary>
+            Gets the new window size.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.ResizeEventArgs.Width">
+            <summary>
+            Gets the new window width.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.ResizeEventArgs.Height">
+            <summary>
+            Gets the new window height.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.TextInputEventArgs">
+            <summary>
+                Raised when a single unicode code point is input.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.TextInputEventArgs.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.TextInputEventArgs"/> struct.
+            </summary>
+            <param name="unicode">The unicode code point that was input.</param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.TextInputEventArgs.Unicode">
+            <summary>
+                Gets the Unicode code point that was input.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.TextInputEventArgs.AsString">
+            <summary>
+                Gets the string representation of the input Unicode code point.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.WindowPositionEventArgs">
+            <summary>
+            Defines the event data for the window position event.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.WindowPositionEventArgs.#ctor(OpenTK.Mathematics.Vector2i)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.WindowPositionEventArgs"/> struct.
+            </summary>
+            <param name="position">The new window position.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.WindowPositionEventArgs.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.WindowPositionEventArgs"/> struct with given coordinate.
+            </summary>
+            <param name="x">The new window x position.</param>
+            <param name="y">The new window y position.</param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.WindowPositionEventArgs.Position">
+            <summary>
+            Gets the new window position, in pixels relative to the top left corner of the current monitor.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.WindowPositionEventArgs.X">
+            <summary>
+            Gets the new window x position.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.WindowPositionEventArgs.Y">
+            <summary>
+            Gets the new window y position.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.Input.Hat">
+            <summary>
+            Status of a joystick hat.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.Input.Hat.Centered">
+            <summary>
+            Hat is centered.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.Input.Hat.Up">
+            <summary>
+            Hat is pointing up.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.Input.Hat.Right">
+            <summary>
+            Hat is pointing right.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.Input.Hat.Down">
+            <summary>
+            Hat is pointing down.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.Input.Hat.Left">
+            <summary>
+            Hat is pointing left.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.Input.Hat.RightUp">
+            <summary>
+            Hat is pointing up and to the right.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.Input.Hat.RightDown">
+            <summary>
+            Hat is pointing down and to the right.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.Input.Hat.LeftUp">
+            <summary>
+            Hat is pointing up and to the left.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.Input.Hat.LeftDown">
+            <summary>
+            Hat is pointing down and to the left.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.Input.Image">
+            <summary>
+            Stores a window icon. A window icon is defined
+            as a 2-dimensional buffer of RGBA values.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.Input.Image.#ctor(System.Int32,System.Int32,System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.Input.Image" /> class.
+            </summary>
+            <param name="width">The icon pixel width.</param>
+            <param name="height">The icon pixel height.</param>
+            <param name="data">The RGBA pixel data of the icon.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.Input.Image.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.Input.Image"/> class.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.Input.Image.Width">
+            <summary>
+            Gets the icon pixel width.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.Input.Image.Height">
+            <summary>
+            Gets the icon pixel height.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.Input.Image.Data">
+            <summary>
+            Gets the RGBA pixel data of the icon.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.Input.MouseCursor">
+            <summary>
+            Represents a predefined or custom mouse cursor.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.Input.MouseCursor.Default">
+            <summary>
+            Gets the default mouse cursor for this platform.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.Input.MouseCursor.IBeam">
+            <summary>
+            Gets the default I beam cursor for this platform.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.Input.MouseCursor.Crosshair">
+            <summary>
+            Gets the default crosshair cursor for this platform.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.Input.MouseCursor.Hand">
+            <summary>
+            Gets the default hand cursor for this platform.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.Input.MouseCursor.VResize">
+            <summary>
+            Gets the default vertical resize cursor for this platform.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.Input.MouseCursor.HResize">
+            <summary>
+            Gets the default horizontal cursor for this platform.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.Input.MouseCursor.Empty">
+            <summary>
+            Gets an empty (invisible) mouse cursor.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.Input.MouseCursor.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.Input.MouseCursor" /> class from a
+            contiguous array of RGBA pixels.
+            Each pixel is composed of 4 bytes, representing R, G, B and A values,
+            respectively. On some backends, the R, G, and B components should be premultiplied with the A component
+            for correct antialiasing of translucent cursors:
+            <code>
+            B = (byte)((B * A) / 255)
+            G = (byte)((G * A) / 255)
+            R = (byte)((R * A) / 255)
+            </code>
+            </summary>
+            <param name="hotX">The x-coordinate of the cursor hotspot, in the range [0, width].</param>
+            <param name="hotY">The y-coordinate of the cursor hotspot, in the range [0, height].</param>
+            <param name="width">The width of the cursor data, in pixels.</param>
+            <param name="height">The height of the cursor data, in pixels.</param>
+            <param name="data">
+            A byte array representing the cursor image,
+            laid out as a contiguous array of RGBA pixels.
+            </param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.Input.MouseCursor.Shape">
+            <summary>
+                Gets the shape for standard preset cursors.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.Input.MouseCursor.X">
+            <summary>
+            Gets the x-coordinate of the cursor hotspot.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.Input.MouseCursor.Y">
+            <summary>
+            Gets the y-coordinate of the cursor hotspot.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.Input.MouseCursor.StandardShape">
+            <summary>
+                Standard cursor shapes.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.Input.MouseCursor.StandardShape.CustomShape">
+            <summary>
+                Default standard shape for user-created cursors.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.Input.WindowIcon">
+            <summary>
+            Stores an array of <see cref="T:OpenTK.Windowing.Common.Input.Image" />s, meant for use as window icons.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.Input.WindowIcon.#ctor(OpenTK.Windowing.Common.Input.Image[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.Input.WindowIcon" /> class.
+            </summary>
+            <param name="images">An array of <see cref="T:OpenTK.Windowing.Common.Input.Image" />s, which will be used as the window icons.</param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.Input.WindowIcon.Images">
+            <summary>
+            Gets or sets the array of <see cref="T:OpenTK.Windowing.Common.Input.Image" />s to use.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.Input.WindowIcon.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.Input.WindowIcon" /> class.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.IGraphicsContext">
+            <summary>
+            Defines the interface for OpenGL context management.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.IGraphicsContext.IsCurrent">
+            <summary>
+            Gets a value indicating whether the context is the current active on of the current thread.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.IGraphicsContext.SwapInterval">
+            <summary>
+            Gets or sets the swap interval (the number of screen updates to wait between swapping front and back buffers. See <see cref="M:OpenTK.Windowing.Common.IGraphicsContext.SwapBuffers"/>).
+            </summary>
+            <value>
+            The swap interval.
+            </value>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.IGraphicsContext.SwapBuffers">
+            <summary>
+            Swaps the front and back buffers of the current GraphicsContext, presenting the rendered scene to the user.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.IGraphicsContext.MakeCurrent">
+            <summary>
+            Makes the GraphicsContext current on the calling thread.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.IGraphicsContext.MakeNoneCurrent">
+            <summary>
+            Makes no GraphicsContext current one on the calling thread.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.MonitorHandle">
+            <summary>
+            Wrapper around an implementation-defined monitor struct.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MonitorHandle.Pointer">
+            <summary>
+            Gets a pointer to the underlying native Monitor.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.MonitorHandle.#ctor(System.IntPtr)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.MonitorHandle"/> struct.
+            </summary>
+            <param name="ptr">A pointer to the underlying native Monitor.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.MonitorHandle.ToUnsafePtr``1">
+            <summary>
+            Converts the underlying <see cref="P:OpenTK.Windowing.Common.MonitorHandle.Pointer"/> to a unmanaged pointer.
+            </summary>
+            <typeparam name="T">The type of the object found at the <see cref="P:OpenTK.Windowing.Common.MonitorHandle.Pointer"/> memory address.</typeparam>
+            <returns>A unmanaged pointer to the underlying native Monitor.</returns>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.VSyncMode">
+            <summary>
+            Enumerates available VSync modes.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.VSyncMode.Off">
+            <summary>
+            Vsync disabled.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.VSyncMode.On">
+            <summary>
+            VSync enabled.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.VSyncMode.Adaptive">
+            <summary>
+            VSync enabled, unless framerate falls below one half of target framerate.
+            If no target framerate is specified, this behaves exactly like <see cref="F:OpenTK.Windowing.Common.VSyncMode.On" />.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.WindowBorder">
+            <summary>
+            Enumerates available window borders.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.WindowBorder.Resizable">
+            <summary>
+            The window has a resizable border. A window with a resizable border can be resized by the user or programmatically.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.WindowBorder.Fixed">
+            <summary>
+            The window has a fixed border. A window with a fixed border can only be resized programmatically.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.WindowBorder.Hidden">
+            <summary>
+            The window does not have a border. A window with a hidden border can only be resized programmatically.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.WindowState">
+            <summary>
+            Enumerates available window states.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.WindowState.Normal">
+            <summary>
+            The window is in its normal state.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.WindowState.Minimized">
+            <summary>
+            The window is minimized to the taskbar (also known as 'iconified').
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.WindowState.Maximized">
+            <summary>
+            The window covers the whole working area, which includes the desktop but not the taskbar and/or panels.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Common.WindowState.Fullscreen">
+            <summary>
+            The window covers the whole screen, including all taskbars and/or panels.
+            </summary>
+        </member>
+    </members>
+</doc>

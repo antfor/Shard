@@ -1,0 +1,1387 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenTK.Windowing.Desktop</name>
+    </assembly>
+    <members>
+        <member name="T:OpenTK.Windowing.Common.KeyboardKeyEventArgs">
+            <summary>
+            Defines the event data for <see cref="!:INativeWindow.KeyDown"/> and <see cref="!:INativeWindow.KeyUp"/> events.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.KeyboardKeyEventArgs.#ctor(OpenTK.Windowing.GraphicsLibraryFramework.Keys,System.Int32,OpenTK.Windowing.GraphicsLibraryFramework.KeyModifiers,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.KeyboardKeyEventArgs"/> struct.
+            </summary>
+            <param name="key">The key that generated this event.</param>
+            <param name="scanCode">The scan code of the key that generated this event.</param>
+            <param name="modifiers">The key modifiers that were active when this event was generated.</param>
+            <param name="isRepeat">Whether this event is a repeat from the user holding the key down.</param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.KeyboardKeyEventArgs.Key">
+            <summary>
+            Gets the key that generated this event.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.KeyboardKeyEventArgs.ScanCode">
+            <summary>
+            Gets the keyboard scan code of the key that generated this event.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.KeyboardKeyEventArgs.Modifiers">
+            <summary>
+            Gets a bitwise combination representing the key modifiers were active when this event was generated.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.KeyboardKeyEventArgs.IsRepeat">
+            <summary>
+            Gets a value indicating whether
+            this key event is a repeat.
+            </summary>
+            <value>
+            true, if this event was caused by the user holding down
+            a key; false, if this was caused by the user pressing a
+            key for the first time.
+            </value>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.KeyboardKeyEventArgs.Alt">
+            <summary>
+            Gets a value indicating whether <see cref="!:OpenTK.Windowing.Common.Input.KeyModifiers.Alt" /> is pressed.
+            </summary>
+            <value><c>true</c> if pressed; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.KeyboardKeyEventArgs.Control">
+            <summary>
+            Gets a value indicating whether <see cref="!:OpenTK.Windowing.Common.Input.KeyModifiers.Control" /> is pressed.
+            </summary>
+            <value><c>true</c> if pressed; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.KeyboardKeyEventArgs.Shift">
+            <summary>
+            Gets a value indicating whether <see cref="!:OpenTK.Windowing.Common.Input.KeyModifiers.Shift" /> is pressed.
+            </summary>
+            <value><c>true</c> if pressed; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.KeyboardKeyEventArgs.Command">
+            <summary>
+            Gets a value indicating whether <see cref="!:OpenTK.Windowing.Common.Input.KeyModifiers.Shift" /> is pressed.
+            </summary>
+            <value><c>true</c> if pressed; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="T:OpenTK.Windowing.Common.MouseButtonEventArgs">
+            <summary>
+            Defines the event data for <see cref="!:INativeWindow.MouseDown" />
+            and <see cref="!:INativeWindow.MouseUp" /> events.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Common.MouseButtonEventArgs.#ctor(OpenTK.Windowing.GraphicsLibraryFramework.MouseButton,OpenTK.Windowing.GraphicsLibraryFramework.InputAction,OpenTK.Windowing.GraphicsLibraryFramework.KeyModifiers)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Common.MouseButtonEventArgs"/> struct.
+            </summary>
+            <param name="button">The mouse button for the event.</param>
+            <param name="action">The action of the mouse button.</param>
+            <param name="modifiers">The key modifiers held during the mouse button's action.</param>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MouseButtonEventArgs.Button">
+            <summary>
+            Gets the <see cref="T:OpenTK.Windowing.GraphicsLibraryFramework.MouseButton" /> that triggered this event.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MouseButtonEventArgs.Action">
+            <summary>
+            Gets the <see cref="T:OpenTK.Windowing.GraphicsLibraryFramework.InputAction"/> of the pressed button.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MouseButtonEventArgs.Modifiers">
+            <summary>
+            Gets the active <see cref="T:OpenTK.Windowing.GraphicsLibraryFramework.KeyModifiers"/> of the pressed button.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Common.MouseButtonEventArgs.IsPressed">
+            <summary>
+            Gets a value indicating whether the <see cref="P:OpenTK.Windowing.Common.MouseButtonEventArgs.Button"/> which triggered this event was pressed or released.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Desktop.GameWindow">
+            <summary>
+            The <see cref="T:OpenTK.Windowing.Desktop.GameWindow"/> class contains cross-platform methods to create and render on an OpenGL
+            window, handle input and load resources.
+            </summary>
+            <remarks>
+            <see cref="T:OpenTK.Windowing.Desktop.GameWindow"/> contains several events you can hook or override to add your custom logic:
+            <list>
+            <item>
+            <see cref="M:OpenTK.Windowing.Desktop.GameWindow.OnLoad"/>: Occurs after creating the OpenGL context, but before entering the main loop.
+            Override to load resources.
+            </item>
+            <item>
+            <see cref="M:OpenTK.Windowing.Desktop.GameWindow.OnUnload"/>: Occurs after exiting the main loop, but before deleting the OpenGL context.
+            Override to unload resources.
+            </item>
+            <item>
+            <see cref="M:OpenTK.Windowing.Desktop.NativeWindow.OnResize(OpenTK.Windowing.Common.ResizeEventArgs)"/>: Occurs whenever GameWindow is resized. You should update the OpenGL Viewport
+            and Projection Matrix here.
+            </item>
+            <item>
+            <see cref="M:OpenTK.Windowing.Desktop.GameWindow.OnUpdateFrame(OpenTK.Windowing.Common.FrameEventArgs)"/>: Occurs at the specified logic update rate. Override to add your game
+            logic.
+            </item>
+            <item>
+            <see cref="M:OpenTK.Windowing.Desktop.GameWindow.OnRenderFrame(OpenTK.Windowing.Common.FrameEventArgs)"/>: Occurs at the specified frame render rate. Override to add your
+            rendering code.
+            </item>
+            </list>
+            </remarks>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.GameWindow.Load">
+            <summary>
+            Occurs before the window is displayed for the first time.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.GameWindow.Unload">
+            <summary>
+            Occurs before the window is destroyed.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.GameWindow.UpdateFrame">
+            <summary>
+            Occurs when it is time to update a frame.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.GameWindow.RenderThreadStarted">
+            <summary>
+            If game window is configured to run with a dedicated update thread (by passing isSingleThreaded = false in the
+            constructor),
+            occurs when the update thread has started. This would be a good place to initialize thread specific stuff (like
+            setting a synchronization context).
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.GameWindow.RenderFrame">
+            <summary>
+            Occurs when it is time to render a frame.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Desktop.GameWindow.MaxFrequency">
+            <summary>
+            Frequency cap for Update/RenderFrame events.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.GameWindow.IsRunningSlowly">
+            <summary>
+            Gets a value indicating whether or not UpdatePeriod has consistently failed to reach TargetUpdatePeriod.
+            This can be used to do things such as decreasing visual quality if the user's computer isn't powerful enough
+            to handle the application.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.GameWindow.IsMultiThreaded">
+            <summary>
+            Gets a value indicating whether or not the GameWindow should use a separate thread for rendering.
+            </summary>
+            <remarks>
+              <para>
+                If this is true, render frames will be processed in a separate thread.
+                Do not enable this unless your code is thread safe.
+              </para>
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.GameWindow.RenderFrequency">
+            <summary>
+            Gets or sets a double representing the render frequency, in hertz.
+            </summary>
+            <remarks>
+             <para>
+            A value of 0.0 indicates that RenderFrame events are generated at the maximum possible frequency (i.e. only
+            limited by the hardware's capabilities).
+             </para>
+             <para>Values lower than 1.0Hz are clamped to 0.0. Values higher than 500.0Hz are clamped to 500.0Hz.</para>
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.GameWindow.RenderTime">
+            <summary>
+            Gets a double representing the time spent in the RenderFrame function, in seconds.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.GameWindow.UpdateTime">
+            <summary>
+            Gets a double representing the time spent in the UpdateFrame function, in seconds.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.GameWindow.UpdateFrequency">
+            <summary>
+            Gets or sets a double representing the update frequency, in hertz.
+            </summary>
+            <remarks>
+             <para>
+            A value of 0.0 indicates that UpdateFrame events are generated at the maximum possible frequency (i.e. only
+            limited by the hardware's capabilities).
+             </para>
+             <para>Values lower than 1.0Hz are clamped to 0.0. Values higher than 500.0Hz are clamped to 500.0Hz.</para>
+            </remarks>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.GameWindow.#ctor(OpenTK.Windowing.Desktop.GameWindowSettings,OpenTK.Windowing.Desktop.NativeWindowSettings)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Desktop.GameWindow"/> class with sensible default attributes.
+            </summary>
+            <param name="gameWindowSettings">The <see cref="T:OpenTK.Windowing.Desktop.GameWindow"/> related settings.</param>
+            <param name="nativeWindowSettings">The <see cref="T:OpenTK.Windowing.Desktop.NativeWindow"/> related settings.</param>
+            <remarks>
+            <para>
+            Use GameWindowSettings.Default and NativeWindowSettings.Default to get some sensible default attributes.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.GameWindow.Run">
+            <summary>
+            Initialize the update thread (if using a multi-threaded context, and enter the game loop of the GameWindow).
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.GameWindow.SwapBuffers">
+            <summary>
+            Swaps the front and back buffers of the current GraphicsContext, presenting the rendered scene to the user.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.GameWindow.Close">
+            <inheritdoc />
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.GameWindow.OnRenderThreadStarted">
+            <summary>
+            Run when the update thread is started. This will never run if you set IsSingleThreaded to true.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.GameWindow.OnLoad">
+            <summary>
+            Run immediately after Run() is called.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.GameWindow.OnUnload">
+            <summary>
+            Run when the window is about to close.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.GameWindow.OnUpdateFrame(OpenTK.Windowing.Common.FrameEventArgs)">
+            <summary>
+            Run when the window is ready to update.
+            </summary>
+            <param name="args">The event arguments for this frame.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.GameWindow.OnRenderFrame(OpenTK.Windowing.Common.FrameEventArgs)">
+            <summary>
+            Run when the window is ready to update.
+            </summary>
+            <param name="args">The event arguments for this frame.</param>
+        </member>
+        <member name="T:OpenTK.Windowing.Desktop.GameWindowSettings">
+            <summary>
+            <see cref="T:OpenTK.Windowing.Desktop.GameWindow"/> related settings.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Desktop.GameWindowSettings.Default">
+            <summary>
+            The default <see cref="T:OpenTK.Windowing.Desktop.GameWindowSettings"/>.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.GameWindowSettings.IsMultiThreaded">
+            <summary>
+            Gets or sets a value indicating whether the game window should use a separate thread for render events.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.GameWindowSettings.RenderFrequency">
+            <summary>
+            Gets or sets a double representing the render frequency, in hertz.
+            </summary>
+            <remarks>
+             <para>
+            A value of 0.0 indicates that RenderFrame events are generated at the maximum possible frequency (i.e. only
+            limited by the hardware's capabilities).
+             </para>
+             <para>Values lower than 1.0Hz are clamped to 0.0. Values higher than 500.0Hz are clamped to 200.0Hz.</para>
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.GameWindowSettings.UpdateFrequency">
+            <summary>
+            Gets or sets a double representing the update frequency, in hertz.
+            </summary>
+            <remarks>
+             <para>
+            A value of 0.0 indicates that UpdateFrame events are generated at the maximum possible frequency (i.e. only
+            limited by the hardware's capabilities).
+             </para>
+             <para>Values lower than 1.0Hz are clamped to 0.0. Values higher than 500.0Hz are clamped to 500.0Hz.</para>
+            </remarks>
+        </member>
+        <member name="T:OpenTK.Windowing.Desktop.GLFWGraphicsContext">
+            <summary>
+            OpenGL context implemented using GLFW.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.GLFWGraphicsContext.WindowPtr">
+            <inheritdoc />
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.GLFWGraphicsContext.#ctor(OpenTK.Windowing.GraphicsLibraryFramework.Window*)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Desktop.GLFWGraphicsContext"/> class, a GLFW managed opengl context.
+            </summary>
+            <param name="windowPtr">The window pointer that is associated with the context.</param>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.GLFWGraphicsContext.IsCurrent">
+            <inheritdoc />
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.GLFWGraphicsContext.SwapInterval">
+            <inheritdoc/>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.GLFWGraphicsContext.SwapBuffers">
+            <inheritdoc />
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.GLFWGraphicsContext.MakeCurrent">
+            <inheritdoc />
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.GLFWGraphicsContext.MakeNoneCurrent">
+            <inheritdoc />
+        </member>
+        <member name="T:OpenTK.Windowing.Desktop.GLFWProvider">
+            <summary>
+            Singleton providing easy GLFW implementation access.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.GLFWProvider.IsOnMainThread">
+            <summary>
+            Gets a value indicating whether the <see cref="P:System.Threading.Thread.CurrentThread"/> is the same as the GLFW main thread.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Desktop.IGLFWGraphicsContext">
+            <summary>
+             Defines the interface for GLFW OpenGL context management.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.IGLFWGraphicsContext.WindowPtr">
+            <summary>
+            The GLFW Window that represents the context.
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Desktop.MonitorInfo">
+            <summary>
+            This class contains information about a monitor.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Desktop.MonitorInfo._handle">
+            <summary>
+            The handle to the monitor.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.Handle">
+            <summary>
+            Gets the internal handle to the monitor.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.Name">
+            <summary>
+            Human-readable name for this monitor. Not guaranteed to be unique among the connected monitors.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.ClientArea">
+            <summary>
+            Gets the client area of the monitor (in the virtual screen-space).
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.WorkArea">
+            <summary>
+            Get the work area of the monitor.
+            The work area is defined as the area of the monitor not occluded by the operating system task bar where present.
+            If no task bar exists then the work area is the monitor resolution in screen coordinates.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.HorizontalResolution">
+            <summary>
+            Gets the horizontal resolution of the monitor.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.VerticalResolution">
+            <summary>
+            Gets the vertical resolution of the monitor.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.HorizontalScale">
+            <summary>
+            Gets the scale of the monitor in the horizontal axis.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.VerticalScale">
+            <summary>
+            Gets the scale of the monitor in the vertical axis.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.HorizontalDpi">
+            <summary>
+            Gets the approximate dpi of the monitor on the horizontal axis.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.VerticalDpi">
+            <summary>
+            Gets the approximate dpi of the monitor on the vertical axis.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.PhysicalWidth">
+            <summary>
+            Gets the physical width of the monitor in milimeters.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.PhysicalHeight">
+            <summary>
+            Gets the physical height of the monitor in milimeters.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.HorizontalRawDpi">
+            <summary>
+            Gets the raw, calculated dpi of the monitor in the horizontal axis.
+            </summary>
+            <remarks>
+            This value may be incorrect. Use <see cref="P:OpenTK.Windowing.Desktop.MonitorInfo.HorizontalDpi"/> if possible.
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.VerticalRawDpi">
+            <summary>
+            Gets the raw, calculated dpi of the monitor in the vertical axis.
+            </summary>
+            <remarks>
+            This value may be incorrect. Use <see cref="P:OpenTK.Windowing.Desktop.MonitorInfo.HorizontalDpi"/> if possible.
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.SupportedVideoModes">
+            <summary>
+            A list of supported video modes for this monitor.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.MonitorInfo.CurrentVideoMode">
+            <summary>
+            The current VideoMode used by this monitor.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.MonitorInfo.#ctor(OpenTK.Windowing.Common.MonitorHandle)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Desktop.MonitorInfo"/> class.
+            </summary>
+            <remarks>
+            <paramref pref="handle"/> must be a valid pointer to a monitor.
+            </remarks>
+            <param name="handle">An opaque handle to a monitor.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.MonitorInfo.CalculateDpi(System.Int32,System.Int32)">
+             <summary>
+             Calculates dpi from a pixel count and a length in mm.
+             </summary>
+             <remarks>
+             How does this formula calculate dpi?
+            
+             1. 1" = 25.4mm thus dInMm / 25.4 = dInInches
+             2. dpi = pixelCount/dInInches
+            
+             Ergo:
+                 pixelCount / (dInMm / 25.4)
+               = (pixelCount / dInMm) * 25.4.
+             </remarks>
+        </member>
+        <member name="T:OpenTK.Windowing.Desktop.Monitors">
+            <summary>
+            Information about monitors installed on the system.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.Monitors.OnMonitorConnected">
+            <summary>
+            Occurs when a <see cref="T:OpenTK.Windowing.Common.MonitorHandle"/> is connected or disconnected.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.Monitors.Count">
+            <summary>
+            The number of monitors available.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.Monitors.GetPlatformDefaultDpi">
+            <summary>
+            Gets the default dpi for platforms.
+            </summary>
+            <returns>The platform default dpi.</returns>
+            <remarks>
+            For historical reasons macOS has a default dpi of 72, and other
+            platforms have a default dpi of 96.
+            </remarks>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.Monitors.GetPrimaryMonitor">
+            <summary>
+            Get the primary monitor. This is usually the monitor where elements like the task bar or global menu bar are located.
+            </summary>
+            <returns>The primary monitor.</returns>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.Monitors.GetMonitors">
+            <summary>
+            Retrives a list of connected monitors.
+            </summary>
+            <returns>A list of connected monitors.</returns>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.Monitors.GetMonitorFromWindow(OpenTK.Windowing.GraphicsLibraryFramework.Window*)">
+            <summary>
+            Find the monitor a window is in.
+            </summary>
+            <param name="window">The window to find.</param>
+            <returns>The window the monitor was found in.</returns>
+            <remarks>
+            This function searches for the window by finding which monitor has the largest
+            intersection area with the given monitor.
+            </remarks>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.Monitors.GetMonitorFromWindow(OpenTK.Windowing.Desktop.NativeWindow)">
+            <summary>
+            Find the monitor a window is in.
+            </summary>
+            <param name="window">The window to find.</param>
+            <returns>The window the monitor was found in.</returns>
+            <remarks>
+            This function searches for the window by finding which monitor has the largest
+            intersection area with the given monitor.
+            </remarks>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.Monitors.TryGetMonitorInfo(System.Int32,OpenTK.Windowing.Desktop.MonitorInfo@)">
+            <summary>
+            Try to get information about a monitor.
+            </summary>
+            <param name="index">The index of the monitor.</param>
+            <param name="info">Monitor information.</param>
+            <returns>True when the object was retrieved from cache, or built successfully.</returns>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.Monitors.TryGetMonitorInfo(OpenTK.Windowing.Common.MonitorHandle,OpenTK.Windowing.Desktop.MonitorInfo@)">
+            <summary>
+            Try to get information about a monitor.
+            </summary>
+            <param name="monitor">The window handle.</param>
+            <param name="info">Monitor information.</param>
+            <returns>True when the object was retrieved from cache, or built successfully.</returns>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.Monitors.CheckCache">
+            <summary>
+            Checks wheter the cache has been built or builds it if it can.
+            </summary>
+            <returns>Wether the current cache is valid or not.</returns>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.Monitors.BuildMonitorCache">
+            <summary>
+            Builds the monitor cache (again if previously called).
+            </summary>
+        </member>
+        <member name="T:OpenTK.Windowing.Desktop.NativeWindow">
+            <summary>
+            A Native Window.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.WindowPtr">
+            <summary>
+            Gets the native <see cref="T:OpenTK.Windowing.GraphicsLibraryFramework.Window"/> pointer for use with <see cref="T:OpenTK.Windowing.GraphicsLibraryFramework.GLFW"/> API.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.KeyboardState">
+            <summary>
+                Gets the current state of the keyboard as of the last time the window processed events.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.LastKeyboardState">
+            <summary>
+                Gets the previous keyboard state.
+                This value is updated with the new state every time the window processes events.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.JoystickStates">
+            <summary>
+            Gets the current state of the joysticks as of the last time the window processed events.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.MousePosition">
+            <summary>
+                Gets or sets the position of the mouse relative to the content area of this window.
+                NOTE: It is not necessary to center the mouse on each frame. Use CursorGrabbed = true;
+                to enable this behavior.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.MouseDelta">
+            <summary>
+                Gets the amount that the mouse moved since the last frame.
+                This does not necessarily correspond to pixels, for example in the case of raw input.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.MouseState">
+            <summary>
+                Gets the current state of the mouse as of the last time the window processed events.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.LastMouseState">
+            <summary>
+                Gets the previous keyboard state.
+                This value is updated with the new state every time the window processes events.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.IsAnyKeyDown">
+            <summary>
+            Gets a value indicating whether any key is down.
+            </summary>
+            <value><c>true</c> if any key is down; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.IsAnyMouseButtonDown">
+            <summary>
+            Gets a value indicating whether any mouse button is pressed.
+            </summary>
+            <value><c>true</c> if any button is pressed; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.VSync">
+            <summary>
+            Gets or sets the VSync state of this <see cref="T:OpenTK.Windowing.Desktop.NativeWindow"/>.
+            </summary>
+            <value>
+            The VSync state.
+            </value>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.Icon">
+            <summary>
+            Gets or sets the current <see cref="T:OpenTK.Windowing.Common.Input.WindowIcon" /> for this window.
+            </summary>
+            <remarks>
+            <para>
+            This does nothing on macOS; on that platform, the icon is determined by the application bundle.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.IsEventDriven">
+            <summary>
+            Gets or sets a value indicating whether or not this window is event-driven.
+            An event-driven window will wait for events before updating/rendering. It is useful for non-game applications,
+            where the program only needs to do any processing after the user inputs something.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.ClipboardString">
+            <summary>
+            Gets or sets the clipboard string.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.Title">
+            <summary>
+            Gets or sets the title of the window.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.API">
+            <summary>
+            Gets a value representing the current graphics API.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.Profile">
+            <summary>
+            Gets a value representing the current graphics API profile.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.Flags">
+            <summary>
+            Gets a value representing the current graphics profile flags.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.APIVersion">
+            <summary>
+            Gets a value representing the current version of the graphics API.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.Context">
+            <summary>
+            Gets the graphics context associated with this NativeWindow.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.CurrentMonitor">
+            <summary>
+            Gets or sets the current <see cref="T:OpenTK.Windowing.Common.MonitorHandle"/>.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.IsFocused">
+            <summary>
+            Gets a value indicating whether this window has input focus.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.Focus">
+            <summary>
+            Brings the window into focus.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.IsVisible">
+            <summary>
+            Gets or sets a value indicating whether the window is visible.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.Exists">
+            <summary>
+            Gets a value indicating whether the window has been created and has not been destroyed.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.IsExiting">
+            <summary>
+            Gets a value indicating whether the shutdown sequence has been initiated
+            for this window, by calling NativeWindow.Close() or hitting the 'close' button.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.WindowState">
+            <summary>
+            Gets or sets the <see cref="P:OpenTK.Windowing.Desktop.NativeWindow.WindowState" /> for this window.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.WindowBorder">
+            <summary>
+            Gets or sets the <see cref="P:OpenTK.Windowing.Desktop.NativeWindow.WindowBorder" /> for this window.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.Bounds">
+            <summary>
+            Gets or sets a <see cref="T:OpenTK.Mathematics.Box2i" /> structure the contains the external bounds of this window,
+            in screen coordinates.
+            External bounds include the title bar, borders and drawing area of the window.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.Location">
+            <summary>
+            Gets or sets a <see cref="T:OpenTK.Mathematics.Vector2i" /> structure that contains the location of this window on the
+            desktop.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.Size">
+            <summary>
+            Gets or sets a <see cref="T:OpenTK.Mathematics.Vector2i" /> structure that contains the external size of this window.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.ClientRectangle">
+            <summary>
+            Gets or sets a <see cref="T:OpenTK.Mathematics.Box2i" /> structure that contains the internal bounds of this window,
+            in client coordinates.
+            The internal bounds include the drawing area of the window, but exclude the title bar and window borders.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.ClientSize">
+            <summary>
+            Gets a <see cref="T:OpenTK.Mathematics.Vector2i" /> structure that contains the internal size this window.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.IsFullscreen">
+            <summary>
+            Gets a value indicating whether the window is fullscreen or not.
+            Use <see cref="P:OpenTK.Windowing.Desktop.NativeWindow.WindowState"/> to set the window to fullscreen.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.Cursor">
+            <summary>
+            Gets or sets the <see cref="T:OpenTK.Windowing.Common.Input.MouseCursor" /> for this window.
+            </summary>
+            <value>The cursor.</value>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.CursorVisible">
+            <summary>
+            Gets or sets a value indicating whether the mouse cursor is visible.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindow.CursorGrabbed">
+            <summary>
+            Gets or sets a value indicating whether the mouse cursor is confined inside the window size.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.#ctor(OpenTK.Windowing.Desktop.NativeWindowSettings)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Desktop.NativeWindow"/> class.
+            </summary>
+            <param name="settings">The <see cref="T:OpenTK.Windowing.Desktop.NativeWindow"/> related settings.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.UpdateWindowForStateAndVisibility">
+            <summary>
+            Not all OSes observe the same behavior about managing window state, and
+            GLFW doesn't abstract away the underlying OS behavior consistently enough.
+            So this method simultaneously updates both window state and visibility to
+            match our internal state, so that what the user sees always matches what
+            the programmer intended.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.GetWindowStateFromGLFW">
+            <summary>
+            After the OS notifies us of a window change, we can't be certain that our
+            cached state is correct.  This method exists to allow us to directly ask
+            the OS what state it says our window is really in.
+            </summary>
+            <returns>The current actual state of the window.</returns>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.Close">
+            <summary>
+            Closes this window.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.MakeCurrent">
+            <summary>
+            Makes the GraphicsContext current on the calling thread.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.ProcessEvents(System.Double)">
+            <summary>
+            Processes pending window events and waits <paramref name="timeout"/> seconds for events.
+            </summary>
+            <param name="timeout">The timeout in seconds.</param>
+            <returns>This function will always return true.</returns>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.ProcessEvents">
+            <summary>
+            Processes pending window events.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.PointToClient(OpenTK.Mathematics.Vector2i)">
+            <summary>
+            Transforms the specified point from screen to client coordinates.
+            </summary>
+            <param name="point">
+            A <see cref="T:OpenTK.Mathematics.Vector2" /> to transform.
+            </param>
+            <returns>
+            The point transformed to client coordinates.
+            </returns>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.PointToScreen(OpenTK.Mathematics.Vector2i)">
+            <summary>
+            Transforms the specified point from client to screen coordinates.
+            </summary>
+            <param name="point">
+            A <see cref="T:OpenTK.Mathematics.Vector2" /> to transform.
+            </param>
+            <returns>
+            The point transformed to screen coordinates.
+            </returns>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.Move">
+            <summary>
+            Occurs whenever the window is moved.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.Resize">
+            <summary>
+            Occurs whenever the window is resized.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.Refresh">
+            <summary>
+            Occurs whenever the window is refreshed.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.Closing">
+            <summary>
+            Occurs when the window is about to close.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.Closed">
+            <summary>
+            Occurs after the window has closed.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.Minimized">
+            <summary>
+            Occurs when the window is minimized.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.Maximized">
+            <summary>
+            Occurs when the window is maximized.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.JoystickConnected">
+            <summary>
+            Occurs when a joystick is connected or disconnected.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.FocusedChanged">
+            <summary>
+            Occurs when the <see cref="P:OpenTK.Windowing.Desktop.NativeWindow.IsFocused" /> property of the window changes.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.KeyDown">
+            <summary>
+            Occurs whenever a keyboard key is pressed.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.TextInput">
+            <summary>
+            Occurs whenever a Unicode code point is typed.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.KeyUp">
+            <summary>
+            Occurs whenever a keyboard key is released.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.MonitorConnected">
+            <summary>
+            Occurs when a <see cref="T:OpenTK.Windowing.Common.MonitorHandle"/> is connected or disconnected.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.MouseLeave">
+            <summary>
+            Occurs whenever the mouse cursor leaves the window <see cref="P:OpenTK.Windowing.Desktop.NativeWindow.Bounds" />.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.MouseEnter">
+            <summary>
+            Occurs whenever the mouse cursor enters the window <see cref="P:OpenTK.Windowing.Desktop.NativeWindow.Bounds" />.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.MouseDown">
+            <summary>
+            Occurs whenever a <see cref="T:OpenTK.Windowing.GraphicsLibraryFramework.MouseButton" /> is clicked.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.MouseUp">
+            <summary>
+            Occurs whenever a <see cref="T:OpenTK.Windowing.GraphicsLibraryFramework.MouseButton" /> is released.
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.MouseMove">
+            <summary>
+            Occurs whenever the mouse cursor is moved;
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.MouseWheel">
+            <summary>
+            Occurs whenever a mouse wheel is moved;
+            </summary>
+        </member>
+        <member name="E:OpenTK.Windowing.Desktop.NativeWindow.FileDrop">
+            <summary>
+            Occurs whenever one or more files are dropped on the window.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.IsKeyDown(OpenTK.Windowing.GraphicsLibraryFramework.Keys)">
+            <summary>
+            Gets a <see cref="T:System.Boolean" /> indicating whether this key is currently down.
+            </summary>
+            <param name="key">The <see cref="T:OpenTK.Windowing.GraphicsLibraryFramework.Keys">key</see> to check.</param>
+            <returns><c>true</c> if <paramref name="key"/> is in the down state; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.IsKeyPressed(OpenTK.Windowing.GraphicsLibraryFramework.Keys)">
+            <summary>
+                Gets whether the specified key is pressed in the current frame but released in the previous frame.
+            </summary>
+            <remarks>
+                "Frame" refers to invocations of <see cref="M:OpenTK.Windowing.Desktop.NativeWindow.ProcessEvents"/> here.
+            </remarks>
+            <param name="key">The <see cref="T:OpenTK.Windowing.GraphicsLibraryFramework.Keys">key</see> to check.</param>
+            <returns>True if the key is pressed in this frame, but not the last frame.</returns>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.IsKeyReleased(OpenTK.Windowing.GraphicsLibraryFramework.Keys)">
+            <summary>
+                Gets whether the specified key is released in the current frame but pressed in the previous frame.
+            </summary>
+            <remarks>
+                "Frame" refers to invocations of <see cref="M:OpenTK.Windowing.Desktop.NativeWindow.ProcessEvents"/> here.
+            </remarks>
+            <param name="key">The <see cref="T:OpenTK.Windowing.GraphicsLibraryFramework.Keys">key</see> to check.</param>
+            <returns>True if the key is released in this frame, but pressed the last frame.</returns>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.IsMouseButtonDown(OpenTK.Windowing.GraphicsLibraryFramework.MouseButton)">
+            <summary>
+            Gets a <see cref="T:System.Boolean" /> indicating whether this button is currently down.
+            </summary>
+            <param name="button">The <see cref="T:OpenTK.Windowing.GraphicsLibraryFramework.MouseButton" /> to check.</param>
+            <returns><c>true</c> if <paramref name="button"/> is in the down state; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.IsMouseButtonPressed(OpenTK.Windowing.GraphicsLibraryFramework.MouseButton)">
+            <summary>
+                Gets whether the specified mouse button is pressed in the current frame but released in the previous frame.
+            </summary>
+            <remarks>
+                "Frame" refers to invocations of <see cref="M:OpenTK.Windowing.Desktop.NativeWindow.ProcessEvents"/> here.
+            </remarks>
+            <param name="button">The button to check.</param>
+            <returns>True if the button is pressed in this frame, but not the last frame.</returns>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.IsMouseButtonReleased(OpenTK.Windowing.GraphicsLibraryFramework.MouseButton)">
+            <summary>
+                Gets whether the specified mouse button is released in the current frame but pressed in the previous frame.
+            </summary>
+            <remarks>
+                "Frame" refers to invocations of <see cref="M:OpenTK.Windowing.Desktop.NativeWindow.ProcessEvents"/> here.
+            </remarks>
+            <param name="button">The button to check.</param>
+            <returns>True if the button is released in this frame, but pressed the last frame.</returns>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.FindMonitor">
+            <summary>
+            Find the monitor this window is currently in.
+            </summary>
+            <returns>The monitor the window is in, if found.</returns>
+            <remarks>
+            This method first tries to find the monitor by querying the GLFW
+            backend. However this rarely works, so this function invokes
+            <see cref="M:OpenTK.Windowing.Desktop.Monitors.GetMonitorFromWindow(OpenTK.Windowing.Desktop.NativeWindow)"/>
+            to find it.
+            </remarks>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.TryGetCurrentMonitorScale(System.Single@,System.Single@)">
+            <summary>
+            Gets the current monitor scale.
+            </summary>
+            <param name="horizontalScale">Horizontal scale.</param>
+            <param name="verticalScale">Vertical scale.</param>
+            <returns><c>true</c>, if current monitor scale was gotten correctly, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.TryGetCurrentMonitorDpi(System.Single@,System.Single@)">
+            <summary>
+            Gets the dpi of the current monitor.
+            </summary>
+            <param name="horizontalDpi">Horizontal dpi.</param>
+            <param name="verticalDpi">Vertical dpi.</param>
+            <returns><c>true</c>, if current monitor's dpi was gotten correctly, <c>false</c> otherwise.</returns>
+            <remarks>
+            This methods approximates the dpi of the monitor by multiplying
+            the monitor scale received from <see cref="M:OpenTK.Windowing.Desktop.NativeWindow.TryGetCurrentMonitorScale(System.Single@,System.Single@)"/>
+            by each platforms respective default dpi (72 for macOS and 96 for other systems).
+            </remarks>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.TryGetCurrentMonitorDpiRaw(System.Single@,System.Single@)">
+            <summary>
+            Gets the raw dpi of current monitor.
+            </summary>
+            <param name="horizontalRawDpi">Raw horizontal dpi.</param>
+            <param name="verticalRawDpi">Raw vertical dpi.</param>
+            <returns><c>true</c>, if current monitor's raw dpi was gotten correctly, <c>false</c> otherwise.</returns>
+            <remarks>
+            This method calculates dpi by retrieving monitor dimensions and resolution.
+            However on certain platforms (such as Windows) these values may not
+            be scaled correctly.
+            </remarks>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnMove(OpenTK.Windowing.Common.WindowPositionEventArgs)">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.Move"/> event.
+            </summary>
+            <param name="e">A <see cref="T:OpenTK.Windowing.Common.WindowPositionEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnResize(OpenTK.Windowing.Common.ResizeEventArgs)">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.Resize"/> event.
+            </summary>
+            <param name="e">A <see cref="T:OpenTK.Windowing.Common.ResizeEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnRefresh">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.Refresh"/> event.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnClosing(System.ComponentModel.CancelEventArgs)">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.Closing"/> event.
+            </summary>
+            <param name="e">A <see cref="T:System.ComponentModel.CancelEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnClosed">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.Closed"/> event.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnJoystickConnected(OpenTK.Windowing.Common.JoystickEventArgs)">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.JoystickConnected"/> event.
+            </summary>
+            <param name="e">A <see cref="T:OpenTK.Windowing.Common.JoystickEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnFocusedChanged(OpenTK.Windowing.Common.FocusedChangedEventArgs)">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.FocusedChanged"/> event.
+            </summary>
+            <param name="e">A <see cref="T:OpenTK.Windowing.Common.FocusedChangedEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnKeyDown(OpenTK.Windowing.Common.KeyboardKeyEventArgs)">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.KeyDown"/> event.
+            </summary>
+            <param name="e">A <see cref="T:OpenTK.Windowing.Common.KeyboardKeyEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnTextInput(OpenTK.Windowing.Common.TextInputEventArgs)">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.TextInput"/> event.
+            </summary>
+            <param name="e">A <see cref="T:OpenTK.Windowing.Common.TextInputEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnKeyUp(OpenTK.Windowing.Common.KeyboardKeyEventArgs)">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.KeyUp"/> event.
+            </summary>
+            <param name="e">A <see cref="T:OpenTK.Windowing.Common.KeyboardKeyEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnMonitorConnected(OpenTK.Windowing.Common.MonitorEventArgs)">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.MonitorConnected"/> event.
+            </summary>
+            <param name="e">A <see cref="T:OpenTK.Windowing.Common.MonitorEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnMouseLeave">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.MouseLeave"/> event.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnMouseEnter">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.MouseEnter"/> event.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnMouseDown(OpenTK.Windowing.Common.MouseButtonEventArgs)">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.MouseDown"/> event.
+            </summary>
+            <param name="e">A <see cref="T:OpenTK.Windowing.Common.MouseButtonEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnMouseUp(OpenTK.Windowing.Common.MouseButtonEventArgs)">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.MouseUp"/> event.
+            </summary>
+            <param name="e">A <see cref="T:OpenTK.Windowing.Common.MouseButtonEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnMouseMove(OpenTK.Windowing.Common.MouseMoveEventArgs)">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.MouseMove"/> event.
+            </summary>
+            <param name="e">A <see cref="T:OpenTK.Windowing.Common.MouseMoveEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnMouseWheel(OpenTK.Windowing.Common.MouseWheelEventArgs)">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.MouseWheel"/> event.
+            </summary>
+            <param name="e">A <see cref="T:OpenTK.Windowing.Common.MouseWheelEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnMinimized(OpenTK.Windowing.Common.MinimizedEventArgs)">
+            <summary>
+            Raises the <see cref="M:OpenTK.Windowing.Desktop.NativeWindow.OnMinimized(OpenTK.Windowing.Common.MinimizedEventArgs)"/> event.
+            </summary>
+            <param name="e">A <see cref="T:OpenTK.Windowing.Common.MinimizedEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnMaximized(OpenTK.Windowing.Common.MaximizedEventArgs)">
+            <summary>
+            Raises the <see cref="M:OpenTK.Windowing.Desktop.NativeWindow.OnMaximized(OpenTK.Windowing.Common.MaximizedEventArgs)"/> event.
+            </summary>
+            <param name="e">A <see cref="T:OpenTK.Windowing.Common.MaximizedEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.OnFileDrop(OpenTK.Windowing.Common.FileDropEventArgs)">
+            <summary>
+            Raises the <see cref="E:OpenTK.Windowing.Desktop.NativeWindow.FileDrop"/> event.
+            </summary>
+            <param name="e">A <see cref="T:OpenTK.Windowing.Common.FileDropEventArgs"/> that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.Dispose(System.Boolean)">
+            <inheritdoc cref="M:System.IDisposable.Dispose" />
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:OpenTK.Windowing.Desktop.NativeWindow"/> class.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.CenterWindow">
+            <summary>
+            Centers the <see cref="T:OpenTK.Windowing.Desktop.NativeWindow"/> on the monitor where resides.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindow.CenterWindow(OpenTK.Mathematics.Vector2i)">
+            <summary>
+            Centers and resizes the <see cref="T:OpenTK.Windowing.Desktop.NativeWindow"/> on the monitor where resides.
+            </summary>
+            <param name="newSize">The size to make the centered window.</param>
+        </member>
+        <member name="T:OpenTK.Windowing.Desktop.NativeWindowSettings">
+            <summary>
+            <see cref="T:OpenTK.Windowing.Desktop.NativeWindow"/> related settings.
+            </summary>
+        </member>
+        <member name="F:OpenTK.Windowing.Desktop.NativeWindowSettings.Default">
+            <summary>
+            Gets the default settings for a <see cref="T:OpenTK.Windowing.Desktop.NativeWindow"/>.
+            </summary>
+        </member>
+        <member name="M:OpenTK.Windowing.Desktop.NativeWindowSettings.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenTK.Windowing.Desktop.NativeWindowSettings"/> class.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.SharedContext">
+            <summary>
+            Gets or sets the context to share.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.Icon">
+            <summary>
+            Gets or sets the current <see cref="T:OpenTK.Windowing.Common.Input.WindowIcon" /> for this window.
+            </summary>
+            <remarks>
+            <para>
+            This does nothing on macOS; on that platform, the icon is determined by the application bundle.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.IsEventDriven">
+            <summary>
+            Gets or sets a value indicating whether or not this window is event-driven.
+            An event-driven window will wait for events before updating/rendering. It is useful for non-game applications,
+            where the program only needs to do any processing after the user inputs something.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.API">
+            <summary>
+            Gets or sets a value representing the current graphics API.
+            </summary>
+            <remarks>
+            <para>
+            If this is changed, you'll have to modify the API version as well, as the versioning of OpenGL and OpenGL ES
+            do not match.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.Profile">
+            <summary>
+            Gets or sets a value representing the current graphics API profile.
+            </summary>
+            <remarks>
+            <para>
+            This only has an effect on OpenGL 3.2 and higher. On older versions, this setting does nothing.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.Flags">
+            <summary>
+            Gets or sets a value representing the current graphics profile flags.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.AutoLoadBindings">
+            <summary>
+            Gets or sets a value indicating whether or not OpenGL bindings should be automatically loaded
+            when the window is created.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.APIVersion">
+            <summary>
+            Gets or sets a value representing the current version of the graphics API.
+            </summary>
+            <remarks>
+            <para>
+            OpenGL 3.3 is selected by default, and runs on almost any hardware made within the last ten years.
+            This will run on Windows, Mac OS, and Linux.
+            </para>
+            <para>
+            OpenGL 4.1 is suggested for modern apps meant to run on more modern hardware.
+            This will run on Windows, Mac OS, and Linux.
+            </para>
+            <para>
+            OpenGL 4.6 is suggested for modern apps that only intend to run on Windows and Linux;
+            Mac OS doesn't support it.
+            </para>
+            <para>
+            Note that if you choose an API other than base OpenGL, this will need to be updated accordingly,
+            as the versioning of OpenGL and OpenGL ES do not match.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.CurrentMonitor">
+            <summary>
+            Gets or sets the monitor to open the new window on.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.Title">
+            <summary>
+            Gets or sets the title of the new window.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.StartFocused">
+            <summary>
+            Gets or sets a value indicating whether this window should start with focus when created.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.StartVisible">
+            <summary>
+            Gets or sets a value indicating whether the new window should start visible.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.WindowState">
+            <summary>
+                Gets or sets the initial value for <see cref="P:OpenTK.Windowing.Desktop.NativeWindow.WindowState"/> on the new window.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.WindowBorder">
+            <summary>
+                Gets or sets the initial value for <see cref="P:OpenTK.Windowing.Desktop.NativeWindow.WindowBorder"/> on the new window.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.Location">
+            <summary>
+            Gets or sets the location to open the new window on.
+            </summary>
+            <remarks>
+            If null, the window will be placed by the OS.
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.Size">
+            <summary>
+                Gets or sets the initial size of the contents of the window.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.IsFullscreen">
+            <summary>
+            Gets or sets a value indicating whether the window should start fullscreen.
+            </summary>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.NumberOfSamples">
+            <summary>
+            Gets or sets a value indicating the number of samples that should be used.
+            </summary>
+            <remarks>
+            <c>0</c> indicates that no multisampling should be used;
+            otherwise multisampling is used if available. The actual number of samples is the closest matching the given number that is supported.
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.StencilBits">
+            <summary>
+            Gets or sets a value indicating the number of stencil bits used for OpenGL context creation.
+            </summary>
+            <remarks>
+            Default value is 8.
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.DepthBits">
+            <summary>
+            Gets or sets a value indicating the number of depth bits used for OpenGL context creation.
+            </summary>
+            <remarks>
+            Default value is 24.
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.RedBits">
+            <summary>
+            Gets or sets a value indicating the number of red bits used for OpenGL context creation.
+            </summary>
+            <remarks>
+            Default value is 8.
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.GreenBits">
+            <summary>
+            Gets or sets a value indicating the number of green bits used for OpenGL context creation.
+            </summary>
+            <remarks>
+            Default value is 8.
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.BlueBits">
+            <summary>
+            Gets or sets a value indicating the number of blue bits used for OpenGL context creation.
+            </summary>
+            <remarks>
+            Default value is 8.
+            </remarks>
+        </member>
+        <member name="P:OpenTK.Windowing.Desktop.NativeWindowSettings.AlphaBits">
+            <summary>
+            Gets or sets a value indicating the number of alpha bits used for OpenGL context creation.
+            </summary>
+            <remarks>
+            Default value is 8.
+            </remarks>
+        </member>
+    </members>
+</doc>
