@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shard.Shard.Threading
 {
-    class ThreadHandler
+    interface ISharedObject
     {
     }
 }

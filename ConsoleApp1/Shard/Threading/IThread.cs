@@ -6,7 +6,19 @@ using System.Threading.Tasks;
 
 namespace Shard
 {
-    interface IThread
+    public interface IThread { 
+    
+    }
+
+    public delegate void Callback<T>(T reult);
+
+    public interface IThread<T> : IThread where T : struct
     {
+        public void addCallBack(Callback<T> callback);
+
+        public void runMethod();
+
+        //public void callBackMethod();
+
     }
 }
