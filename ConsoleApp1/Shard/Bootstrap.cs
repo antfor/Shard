@@ -190,7 +190,8 @@ namespace Shard
                  frames += 1;
 
                  timeInMillisecondsStart = getCurrentMillis();
-                Console.WriteLine(Bootstrap.getDeltaTime());
+                //Console.WriteLine("då");
+                //Console.WriteLine(Bootstrap.getDeltaTime());
                 /*
                                  // Clear the screen.
                                  Bootstrap.getDisplay().clearDisplay();

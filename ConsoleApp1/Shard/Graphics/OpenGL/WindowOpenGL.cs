@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL4;
+//using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTK;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace Shard.Graphics.OpenGL
 {
@@ -33,6 +36,7 @@ namespace Shard.Graphics.OpenGL
         private UpdatingState updating = UpdatingState.Waiting;
         private List<IEventUpdateListener> listeners = new List<IEventUpdateListener> {};
 
+
         public void addEventDoneListener(IEventUpdateListener obj) {
             listeners.Add(obj);
         }
@@ -45,9 +49,11 @@ namespace Shard.Graphics.OpenGL
             nws = nativeWindowSettings;
 
             
-            //gws.IsMultiThreaded = true;
+           // gws.IsMultiThreaded = true;
             gws.UpdateFrequency = 500;
             gws.RenderFrequency = 0;
+
+    
         }
         
 
@@ -85,38 +91,7 @@ namespace Shard.Graphics.OpenGL
         float time = 20.0f;
         float ct = 0f;
         float dir = 1.0f;
-        protected override void OnRenderFrame(FrameEventArgs e)
-        {
-            // Show that we can use OpenGL: Clear the window to cornflower blue.
-            float dt = (float)Bootstrap.getDeltaTime();
-           // Console.WriteLine(Bootstrap.getDeltaTime());
-
-            ct = Math.Min(ct + dir * dt, time);
-            if (ct== time) {
-                dir *= -1f;
-            }
-
-            
-            Vector3 w = new Vector3(1.0f, 1.0f, 1.0f);
-            Vector3 c = w * ct/time;
-            //Vector4 b = new Vector4(0.0f, 0.0f, 0.0f, 1.0f);
-            GL.ClearColor(c.X, c.Y, c.Z, 1.0f);
-            //GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f);
-            GL.Clear(ClearBufferMask.ColorBufferBit);
-
-            // get updated objects (blocking)
-            setUpdatingState(UpdatingState.Updating);
-
-            // set updating to done
-            setUpdatingState(UpdatingState.Done);
-            // render
-
-            // Show in the window the results of the rendering calls.
-            SwapBuffers();
-
-            //setUpdatingState(UpdatingState.Waiting);
-        }
-
+     
 
         public UpdatingState getUpdatingState() {
             return updating;
@@ -127,6 +102,16 @@ namespace Shard.Graphics.OpenGL
             updating = state;
             
         }
-       
+
+        protected override void OnRenderFrame(FrameEventArgs e) {
+
+            GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f);
+            GL.Clear(ClearBufferMask.ColorBufferBit);
+
+
+            // Show in the window the results of the rendering calls.
+            SwapBuffers();
+        }
+
     }
 }

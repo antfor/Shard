@@ -17,7 +17,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Shard
 {
-    class DisplayOpenGL: IDisplay
+    class DisplayOpenGL: IDisplay, IThread<UpdatingState>
     {
         private int _height, _width;
         private WindowOpenGL window;
@@ -26,9 +26,7 @@ namespace Shard
         public int Width { get => _width; set => resizeDisplay(value, _height); }
 
         public DisplayOpenGL() {
-            //this.RenderFrequency = 0;
             
-
         }
 
         public bool resizeDisplay(int w, int h) {
@@ -43,8 +41,10 @@ namespace Shard
 
         public void initialize()
         {
-            window = new WindowOpenGL(GameWindowSettings.Default, NativeWindowSettings.Default);
-            window.Run();
+            ThreadManager tm = ThreadManager.getInstance();
+            tm.addThread("display", this);
+            tm.runThread("display");
+
         }
 
         public void update() { 
@@ -61,5 +61,15 @@ namespace Shard
             throw new NotImplementedException();
         }
 
+        public void addCallBack(Callback<UpdatingState> callback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void runMethod()
+        {
+            window = new WindowOpenGL(GameWindowSettings.Default, NativeWindowSettings.Default);
+            window.Run();
+        }
     }
 }

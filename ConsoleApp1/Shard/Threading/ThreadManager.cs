@@ -8,44 +8,10 @@ using System.Threading;
 namespace Shard
 {
 
-    public class Maybe<T> {
-        private T value;
-        private bool nothing = true;
-
-
-        public Maybe(){
-        
-        }
-        public Maybe(T v)
-        {
-            setValue(v);
-        }
-        public bool isJust() {
-            return !nothing;
-        }
-
-        public T fromJust() {
-            return value;
-        }
-
-        public T fromMaybe(T defult) {
-            if (nothing) {
-                return defult;
-            }
-            return value;
-        }
-
-        public void setValue(T v) {
-            value = v;
-            nothing = false;
-        }
-
-    }
-
     public class ThreadManager
     {
 
-        private static ThreadManager me = null;
+        private static ThreadManager me;
 
         private Dictionary<string, (IThread, Thread)> threads = new Dictionary<string, (IThread, Thread)> { };
 
@@ -74,7 +40,10 @@ namespace Shard
 
             if (threads.TryGetValue(id, out thread)) {
 
-                thread.Item2.Abort();
+                if (thread.Item2.IsAlive) {
+                    thread.Item2.Abort();
+                }
+
                 threads.Remove(id);
                 return true;
             }
@@ -114,14 +83,15 @@ namespace Shard
         }
         */
         
-        private bool join (string id) {
+        public bool join (string id) {
 
             (IThread, Thread) thread;
 
             if (threads.TryGetValue(id, out thread))
             {
                 thread.Item2.Join();
-                return true;
+                
+                return removeThread(id); ;
             }
             return false;
         }
