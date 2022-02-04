@@ -5,8 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Drawing;
-namespace Shard.Graphics
+namespace Shard
 {
+    public enum DisplayBorder
+    {
+        Resizable = 0,
+        BorderLess = 1,
+        Fixed = 2
+    }
+
+    public enum DisplayState {
+        Normal = 0,
+        Fullscreen = 1,
+        Maximized = 2,
+        Minimized = 3
+    }
+
     interface IDisplay
     {
 
@@ -14,7 +28,7 @@ namespace Shard.Graphics
         int Width { get; set; }
 
 
-        public virtual void setFullscreen()
+        public virtual void setFullscreen(bool b)
         {
         }
 

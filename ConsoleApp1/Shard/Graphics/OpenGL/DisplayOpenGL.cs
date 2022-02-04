@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Shard;
+using Shard.Graphics.OpenGL;
+
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Windowing.Desktop;
@@ -13,17 +15,20 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 //using OpenTK.Windowing.Desktop;
 
-namespace Shard.Graphics.OpenGL
+namespace Shard
 {
-    class DisplayOpenGL: GameWindow, IDisplay
+    class DisplayOpenGL: IDisplay
     {
         private int _height, _width;
+        private WindowOpenGL window;
 
         public int Height { get => _height; set => resizeDisplay(_width, value); }
         public int Width { get => _width; set => resizeDisplay(value, _height); }
 
-        public DisplayOpenGL(int width, int height, string title) : base(GameWindowSettings.Default, NativeWindowSettings.Default) {
+        public DisplayOpenGL() {
             //this.RenderFrequency = 0;
+            
+
         }
 
         public bool resizeDisplay(int w, int h) {
@@ -38,7 +43,12 @@ namespace Shard.Graphics.OpenGL
 
         public void initialize()
         {
-            throw new NotImplementedException();
+            window = new WindowOpenGL(GameWindowSettings.Default, NativeWindowSettings.Default);
+            window.Run();
+        }
+
+        public void update() { 
+        
         }
 
         public void clearDisplay()

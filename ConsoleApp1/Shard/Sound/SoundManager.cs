@@ -51,7 +51,6 @@ namespace Shard
     public class SoundManager
     {
 
-        //private static SoundManager me;
         private Dictionary<string, int> buffers = new Dictionary<string, int> { };
         private List<IopenAL> sources = new List<IopenAL> { };
 

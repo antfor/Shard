@@ -8,7 +8,7 @@ namespace Shard
     class GameTest : Game, InputListener
     {
         GameObject background;
-        SoundStatic sound; 
+        SoundStatic soundPlayer; 
         public override void update()
         {
 
@@ -33,7 +33,6 @@ namespace Shard
 //            asteroid.MyBody.Kinematic = true;
      
 
-
             background = new GameObject();
             background.Transform.SpritePath = "background2.jpg";
             background.Transform.X = 0;
@@ -46,11 +45,14 @@ namespace Shard
         {
             Bootstrap.getInput().addListener(this);
             createShip();
+
+
+            //Sound
             SoundManager soundManager = Bootstrap.getSound();
             soundManager.addSound("doom", @"D:\chalmers\tda572\music\doomMono.wav");
             
-            sound = new SoundStatic();
-            soundManager.loadSource(sound, "doom");
+            soundPlayer = new SoundStatic();
+            soundManager.loadSource(soundPlayer, "doom");
 
         }
 
@@ -70,40 +72,40 @@ namespace Shard
 
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_P)
                 {
-                    if (sound.Playing)
+                    if (soundPlayer.Playing)
                     {
-                        sound.pause();
+                        soundPlayer.pause();
                     }
                     else
                     {
-                        sound.unPause();
+                        soundPlayer.unPause();
                     }
 
                 }
 
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_O)
                 {
-                    sound.setGain(sound.Gain + sound.Gain * 0.1f);
+                    soundPlayer.setGain(soundPlayer.Gain + soundPlayer.Gain * 0.1f);
                 }
 
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_I)
                 {
-                    sound.setGain(sound.Gain - sound.Gain * 0.1f);
+                    soundPlayer.setGain(soundPlayer.Gain - soundPlayer.Gain * 0.1f);
                 }                   
 
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_L)
                 {
-                    sound.setPitch(1.5f);
+                    soundPlayer.setPitch(1.5f);
                 }
 
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_K)
                 {
-                    sound.setPitch(1);
+                    soundPlayer.setPitch(1);
                 }
 
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_J)
                 {
-                    sound.setPitch(0.5f);
+                    soundPlayer.setPitch(0.5f);
                 }
             }
         }   

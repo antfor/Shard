@@ -10,6 +10,7 @@ using System.Drawing;
 
 namespace Shard
 {
+
     abstract class Display
     {
         protected int _height, _width;

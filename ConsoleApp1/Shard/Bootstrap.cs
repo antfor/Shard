@@ -181,96 +181,103 @@ namespace Shard
             phys.Debugging = true;
             phys.GravityModifier = 0.1f;
 
-   
-            // This is our game loop.
-            while (true)
-            {
-                frames += 1;
+            DisplayOpenGL dis = new DisplayOpenGL();
+            dis.initialize();
+            
+             // This is our game loop.
+             while (true)
+             {
+                 frames += 1;
 
-                timeInMillisecondsStart = getCurrentMillis();
+                 timeInMillisecondsStart = getCurrentMillis();
+                Console.WriteLine(Bootstrap.getDeltaTime());
+                /*
+                                 // Clear the screen.
+                                 Bootstrap.getDisplay().clearDisplay();
 
-                // Clear the screen.
-                Bootstrap.getDisplay().clearDisplay();
+                                 // Update 
+                                 runningGame.update();
+                                 // Input
 
-                // Update 
-                runningGame.update();
-                // Input
-                
-                //soundEngine.addSound("doom", @"D:\chalmers\tda572\music\ex.wav");
-                //SoundSource  s = new SoundSource();
-                //soundEngine.addSource(s);
-                //soundEngine.loadSource(s, "doom");
-                //s.play();
+                                 //soundEngine.addSound("doom", @"D:\chalmers\tda572\music\ex.wav");
+                                 //SoundSource  s = new SoundSource();
+                                 //soundEngine.addSource(s);
+                                 //soundEngine.loadSource(s, "doom");
+                                 //s.play();
 
-                if (runningGame.isRunning() == true)
-                {
-
-                    // Get input, which works at 50 FPS to make sure it doesn't interfere with the 
-                    // variable frame rates.
-                    input.getInput();
-
-                    // Update runs as fast as the system lets it.  Any kind of movement or counter 
-                    // increment should be based then on the deltaTime variable.
-                    GameObjectManager.getInstance().update();
-
-                    // This will update every 20 milliseconds or thereabouts.  Our physics system aims 
-                    // at a 50 FPS cycle.
-                    if (phys.willTick())
-                    {
-                        GameObjectManager.getInstance().prePhysicsUpdate();
-                    }
-
-                    // Update the physics.  If it's too soon, it'll return false.   Otherwise 
-                    // it'll return true.
-                    physUpdate = phys.update();
-
-                    if (physUpdate)
-                    {
-                        // If it did tick, give every object an update
-                        // that is pinned to the timing of the physics system.
-                        GameObjectManager.getInstance().physicsUpdate();
-                    }
-
-                    phys.drawDebugColliders();
+                                 // test
 
 
-                    // runs at 50 fps at the mometn (same as physics)
-                    soundUpdate = soundEngine.update();
-                    if (soundUpdate)
-                    {
-                        GameObjectManager.getInstance().soundUpdate();
-                    }
-                }
+                                 if (runningGame.isRunning() == true)
+                                 {
 
-                // Render the screen.
-                Bootstrap.getDisplay().display();
+                                     // Get input, which works at 50 FPS to make sure it doesn't interfere with the 
+                                     // variable frame rates.
+                                     input.getInput();
 
-                timeInMillisecondsEnd = getCurrentMillis();
+                                     // Update runs as fast as the system lets it.  Any kind of movement or counter 
+                                     // increment should be based then on the deltaTime variable.
+                                     GameObjectManager.getInstance().update();
 
-                interval = timeInMillisecondsEnd - timeInMillisecondsStart;
+                                     // This will update every 20 milliseconds or thereabouts.  Our physics system aims 
+                                     // at a 50 FPS cycle.
+                                     if (phys.willTick())
+                                     {
+                                         GameObjectManager.getInstance().prePhysicsUpdate();
+                                     }
 
-                sleep = (int)(millisPerFrame - interval);
+                                     // Update the physics.  If it's too soon, it'll return false.   Otherwise 
+                                     // it'll return true.
+                                     physUpdate = phys.update();
 
+                                     if (physUpdate)
+                                     {
+                                         // If it did tick, give every object an update
+                                         // that is pinned to the timing of the physics system.
+                                         GameObjectManager.getInstance().physicsUpdate();
+                                     }
 
-                TimeElapsed += deltaTime;
+                                     phys.drawDebugColliders();
 
-                if (sleep >= 0)
-                {
-                    // Frame rate regulator.
-                    Thread.Sleep(sleep);
-                }
+                                     // Sound
+                                     // runs at 50 fps at the mometn (same as physics)
+                                     soundUpdate = soundEngine.update();
+                                     if (soundUpdate)
+                                     {
+                                         GameObjectManager.getInstance().soundUpdate();
+                                     }
+                                 }
+
+                                 // Render the screen.
+                                 Bootstrap.getDisplay().display();
+                                  */
 
                 timeInMillisecondsEnd = getCurrentMillis();
-                deltaTime = (timeInMillisecondsEnd - timeInMillisecondsStart) / 1000.0f;
 
-                millisPerFrame = 1000 / targetFrameRate;
+                 interval = timeInMillisecondsEnd - timeInMillisecondsStart;
 
-                lastTick = timeInMillisecondsStart;
+                 sleep = (int)(millisPerFrame - interval);
 
-                //                deltaTime = (getCurrentMillis() - timeInMillisecondsStart) / 1000.0f;
 
-            }
+                 TimeElapsed += deltaTime;
 
+                 if (sleep >= 0)
+                 {
+                     // Frame rate regulator.
+                     Thread.Sleep(sleep);
+                 }
+
+                 timeInMillisecondsEnd = getCurrentMillis();
+                 deltaTime = (timeInMillisecondsEnd - timeInMillisecondsStart) / 1000.0f;
+
+                 millisPerFrame = 1000 / targetFrameRate;
+
+                 lastTick = timeInMillisecondsStart;
+
+                 //                deltaTime = (getCurrentMillis() - timeInMillisecondsStart) / 1000.0f;
+
+             }
+          
 
         }
     }
