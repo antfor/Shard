@@ -5,14 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 using OpenTK.Graphics;
-//using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using System.Threading;
 
 namespace Shard.Graphics.OpenGL
 {
@@ -33,7 +32,7 @@ namespace Shard.Graphics.OpenGL
 
             gws.UpdateFrequency = 500;
             gws.RenderFrequency = 0;
-            gws.IsMultiThreaded = true;
+            
 
     
         }
@@ -74,7 +73,8 @@ namespace Shard.Graphics.OpenGL
 
 
         protected override void OnRenderFrame(FrameEventArgs e) {
-
+            Thread.Sleep(1);
+            /*
             GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f);
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
@@ -85,11 +85,34 @@ namespace Shard.Graphics.OpenGL
 
             // Show in the window the results of the rendering calls.
             SwapBuffers();
+            */
         }
 
         internal void addRenderCall(IRenderObject obj)
         {
             renderCall = obj;
+        }
+
+
+        void RenderLoop()
+        {
+            MakeCurrent();
+            GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f);
+            GL.Clear(ClearBufferMask.ColorBufferBit);
+            SwapBuffers();
+        }
+
+        Thread rendering_thread;
+        protected override void OnLoad()
+        {
+            MakeNoneCurrent();
+            // nws.SharedContext.MakeCurrent();
+            //nws.SharedContext.MakeNoneCurrent(); // Release the OpenGL context so it can be used on the new thread.
+
+
+            rendering_thread = new Thread(RenderLoop);
+            rendering_thread.IsBackground = true;
+            rendering_thread.Start();
         }
     }
 }
