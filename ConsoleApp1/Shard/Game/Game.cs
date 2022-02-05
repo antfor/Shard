@@ -26,7 +26,8 @@ namespace Shard
         // needs greater precision than that will start to go... weird.
         public virtual int getTargetFrameRate()
         {
-            return Int32.MaxValue; 
+            // return Int32.MaxValue; 
+            return 1000;
         }
 
     }

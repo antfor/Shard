@@ -253,8 +253,11 @@ namespace Shard
                                  Bootstrap.getDisplay().display();
                                   */
                 
-                dis.display();
-                Console.WriteLine("då");
+               dis.display();
+
+               // Console.Clear();
+               Console.WriteLine("fps: " + getFPS());
+                
 
                 timeInMillisecondsEnd = getCurrentMillis();
 
@@ -267,6 +270,7 @@ namespace Shard
 
                  if (sleep >= 0)
                  {
+                    //Console.WriteLine("hej");
                      // Frame rate regulator.
                      Thread.Sleep(sleep);
                  }

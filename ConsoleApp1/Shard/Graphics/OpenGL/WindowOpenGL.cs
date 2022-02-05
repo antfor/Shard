@@ -16,12 +16,14 @@ using System.Threading;
 namespace Shard.Graphics.OpenGL
 {
 
-    class WindowOpenGL : GameWindow
+    class WindowOpenGL : GameWindow , IThread
     {
 
         private GameWindowSettings gws;
         private NativeWindowSettings nws;
         private IRenderObject renderCall;
+        private readonly string threadID = "widow";
+        private bool running = true;
 
 
         public WindowOpenGL(GameWindowSettings gameWindowSettings,
@@ -60,15 +62,15 @@ namespace Shard.Graphics.OpenGL
             
         }
         
-      /*  protected override void OnUpdateFrame(FrameEventArgs e)
+        protected override void OnUpdateFrame(FrameEventArgs e)
         {
             // This gets called every 1/60 of a second.
             if (KeyboardState.IsKeyDown(Keys.Escape))
                 Close();
 
-            base.OnUpdateFrame(e);
+           // base.OnUpdateFrame(e);
         }
-      */
+     
      
 
 
@@ -93,26 +95,52 @@ namespace Shard.Graphics.OpenGL
             renderCall = obj;
         }
 
+        
+        
+       // private IGraphicsContext context;
+        protected unsafe override void OnLoad()
+        {
+            //Window* wptr = this.WindowPtr;
+            //context = new GLFWGraphicsContext(wptr);
+            this.Context.MakeNoneCurrent();
+        
+            ThreadManager tm = ThreadManager.getInstance();
+            tm.addThread(threadID, this);
+            tm.setPriority(threadID, ThreadPriority.AboveNormal);
+            tm.runThread(threadID);
+
+        }
+
+        protected override void OnUnload()
+        {
+            ThreadManager tm = ThreadManager.getInstance();
+            running = false;
+            tm.join(threadID);
+            base.OnUnload();
+        }
+
+        public void runMethod()
+        {
+            RenderLoop();
+        }
 
         void RenderLoop()
         {
-            MakeCurrent();
-            GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f);
-            GL.Clear(ClearBufferMask.ColorBufferBit);
-            SwapBuffers();
-        }
+            this.Context.MakeCurrent();
 
-        Thread rendering_thread;
-        protected override void OnLoad()
-        {
-            MakeNoneCurrent();
-            // nws.SharedContext.MakeCurrent();
-            //nws.SharedContext.MakeNoneCurrent(); // Release the OpenGL context so it can be used on the new thread.
+            while (running)
+            {
 
+                GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f);
+                GL.Clear(ClearBufferMask.ColorBufferBit);
 
-            rendering_thread = new Thread(RenderLoop);
-            rendering_thread.IsBackground = true;
-            rendering_thread.Start();
+                renderCall.render();
+
+                this.Context.SwapBuffers();
+            }
+
+            this.Context.MakeNoneCurrent();
+
         }
     }
 }
