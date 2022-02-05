@@ -7,13 +7,16 @@ using System.Threading;
 
 namespace Shard
 {
-
     public class ThreadManager
     {
 
         private static ThreadManager me;
 
-        private Dictionary<string, (IThread, Thread)> threads = new Dictionary<string, (IThread, Thread)> { };
+        public readonly string Main = "main";
+
+        private Dictionary<string, Thread> threads = new Dictionary<string, Thread> { };
+
+        private Dictionary<string, Barrier> barriers = new Dictionary<string,Barrier>{};
 
         private ThreadManager() {
 
@@ -26,22 +29,25 @@ namespace Shard
             return me;
         }
 
-        public void addThread<T>(string id, IThread<T> thread) where T : struct {
+        public bool addThread(string id, IThread thread) {
 
-            //todo
+            if (id == "main") {
+                return false;
+            }
             Thread InstanceCaller = new Thread(new ThreadStart(thread.runMethod));
             InstanceCaller.IsBackground = true;
-            threads.Add(id, (thread, InstanceCaller));
+            threads.Add(id,InstanceCaller);
+            return true;
         }
 
         public bool removeThread(string id)
         {
-            (IThread, Thread) thread;
+            Thread thread;
 
             if (threads.TryGetValue(id, out thread)) {
 
-                if (thread.Item2.IsAlive) {
-                    thread.Item2.Abort();
+                if (thread.IsAlive) {
+                    thread.Abort();
                 }
 
                 threads.Remove(id);
@@ -52,44 +58,26 @@ namespace Shard
 
         public bool runThread(string id) {
 
-            (IThread, Thread) thread;
+            Thread thread;
 
             if (threads.TryGetValue(id, out thread))
             {
-                if (!thread.Item2.IsAlive) {
-                    thread.Item2.Start();
+                if (!thread.IsAlive) {
+                    thread.Start();
                     return true;
                 }
             }
             return false;
         }
 
-
-        /*
-        private Maybe<T> waitForCallBack<T>(string id) //where T : struct
-        {
-
-
-            (IThread, Thread) thread;
-
-            if (threads.TryGetValue(id, out thread))
-            {
-                 IThread<thread.Item1.GetType> value = (IThread<thread.Item1.GetType>)thread.Item1;
-
-                return new Maybe<T>();
-            }
-
-            return new Maybe<T>();
-        }
-        */
         
         public bool join (string id) {
 
-            (IThread, Thread) thread;
+            Thread thread;
 
             if (threads.TryGetValue(id, out thread))
             {
-                thread.Item2.Join();
+                thread.Join();
                 
                 return removeThread(id); ;
             }
@@ -98,14 +86,37 @@ namespace Shard
 
 
         public bool setPriority(string id, ThreadPriority prio) {
-            (IThread, Thread) thread;
+            Thread thread;
 
             if (threads.TryGetValue(id, out thread))
             {
-                thread.Item2.Priority = prio;
+                thread.Priority = prio;
                 return true;
             }
             return false;
+        }
+
+        public void addBarrier(string id, int participants) {
+            barriers.Add(id,new Barrier(participants));
+        }
+
+        public void removeBarrier(string id, int participants)
+        {
+            Barrier barrier;
+            if (barriers.TryGetValue(id, out barrier))
+            {
+                barrier.Dispose();
+                barriers.Remove(id);
+            }
+        }
+
+        public void sync(string id) {
+
+            Barrier barrier;
+            if (barriers.TryGetValue(id,out barrier)) {
+                barrier.SignalAndWait();
+            }
+            
         }
 
     }

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Shard
 {
-    interface ISharedObject
+    public interface IRenderObject
     {
+        public void render();
     }
 }

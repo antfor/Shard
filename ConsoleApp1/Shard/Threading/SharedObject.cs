@@ -7,21 +7,23 @@ using System.Threading.Tasks;
 namespace Shard.Threading
 {
 
-    class SharedObject<T> : ISharedObject
+
+    public class SharedObject<T> : LockObject
     {
         private T obj;
-        private readonly object objLock = new object();
-        private bool locked;
+        
 
-        public SharedObject(T obj)
+        public SharedObject(T obj, bool l) : base(l)
         {
             setObject(obj);
+         
         }
 
-        public SharedObject()
+        public SharedObject(bool l):base(l)
         {
             
         }
+
 
         public void setObject(T obj) {
 
@@ -47,17 +49,6 @@ namespace Shard.Threading
                 releseLock();
             }
 
-        }
-
-        public void getLock() {
-            System.Threading.Monitor.Enter(objLock, ref locked);
-        }
-
-        public void releseLock() {
-            lock (objLock) {
-                if (locked)
-                    System.Threading.Monitor.Exit(obj);
-            }
         }
 
     }

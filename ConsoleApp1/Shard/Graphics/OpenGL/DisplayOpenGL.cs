@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Shard;
 using Shard.Graphics.OpenGL;
 
 using OpenTK;
@@ -13,14 +13,23 @@ using OpenTK.Windowing.Desktop;
 using OpenTK.Platform.Windows;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-//using OpenTK.Windowing.Desktop;
+using Shard.Threading;
+using System.Threading;
 
 namespace Shard
 {
-    class DisplayOpenGL: IDisplay, IThread<UpdatingState>
+    class DisplayOpenGL: IDisplay, IThread , IRenderObject
     {
         private int _height, _width;
         private WindowOpenGL window;
+        private SortedList<int, List<IRenderObject>> renderObjects = new SortedList<int, List<IRenderObject>>() { };
+
+        private LockObject updatelock;
+        //private LockObject renderlock;
+        private readonly string threadId = "display";
+        private readonly string barrierId = "displayBarrier";
+
+        ThreadManager tm;
 
         public int Height { get => _height; set => resizeDisplay(_width, value); }
         public int Width { get => _width; set => resizeDisplay(value, _height); }
@@ -41,35 +50,97 @@ namespace Shard
 
         public void initialize()
         {
-            ThreadManager tm = ThreadManager.getInstance();
-            tm.addThread("display", this);
-            tm.runThread("display");
+            updatelock = new LockObject(true);
 
+            tm = ThreadManager.getInstance();
+            tm.addBarrier(barrierId, 2);
+            
+            tm.addThread(threadId, this);
+            tm.setPriority(threadId, System.Threading.ThreadPriority.AboveNormal);
+            tm.runThread(threadId);
+            
         }
 
-        public void update() { 
-        
+        public void update() {
+            display();
+        }
+
+        public int addRenderObject(IRenderObject obj, int prio)
+        {
+
+            List<IRenderObject> list;
+            if (renderObjects.TryGetValue(prio, out list))
+            {
+                list.Add(obj);
+            }
+            else
+            {
+                renderObjects.Add(prio, new List<IRenderObject> { obj });
+            }
+
+            return prio;
+        }
+
+        public bool removeRenderObject(IRenderObject obj, int prio)
+        {
+
+            List<IRenderObject> list;
+
+            if (renderObjects.TryGetValue(prio, out list))
+            {
+
+                return list.Remove(obj);
+            }
+
+            return false;
+        }
+
+        public void render()
+        {
+            updatelock.getLock();
+            
+
+
+            //todo update camera
+
+            foreach (List<IRenderObject> list in renderObjects.Values) {
+                foreach (IRenderObject obj in list) {
+                    obj.render();
+                }
+            }
+
+            updatelock.releseLock();
+            tm.sync(barrierId);
+
+            tm.sync(barrierId);
+        }
+
+
+        public void display()
+        {
+            updatelock.releseLock();
+            
+
+            //while (renderlock == null) { Thread.Sleep(2); }
+
+
+            tm.sync(barrierId);
+            updatelock.getLock();
+            tm.sync(barrierId);
+        }
+
+
+        public void runMethod()
+        {
+            //renderlock = new LockObject(true);
+            window = new WindowOpenGL(GameWindowSettings.Default, NativeWindowSettings.Default);
+            window.addRenderCall(this);
+            window.Run();
         }
 
         public void clearDisplay()
         {
-            throw new NotImplementedException();
-        }
-
-        public void display()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void addCallBack(Callback<UpdatingState> callback)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void runMethod()
-        {
-            window = new WindowOpenGL(GameWindowSettings.Default, NativeWindowSettings.Default);
-            window.Run();
+            
         }
     }
 }

@@ -252,6 +252,9 @@ namespace Shard
                                  // Render the screen.
                                  Bootstrap.getDisplay().display();
                                   */
+                
+                dis.display();
+                Console.WriteLine("då");
 
                 timeInMillisecondsEnd = getCurrentMillis();
 

@@ -16,30 +16,13 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Shard.Graphics.OpenGL
 {
-    public enum UpdatingState{
-        Waiting = 0,
-        Updating =1,
-        Done = 2
-    }
-
-    public interface IEventUpdateListener {
-
-        public void onUpdateEvent(UpdatingState state);
-    
-    }
 
     class WindowOpenGL : GameWindow
     {
 
         private GameWindowSettings gws;
         private NativeWindowSettings nws;
-        private UpdatingState updating = UpdatingState.Waiting;
-        private List<IEventUpdateListener> listeners = new List<IEventUpdateListener> {};
-
-
-        public void addEventDoneListener(IEventUpdateListener obj) {
-            listeners.Add(obj);
-        }
+        private IRenderObject renderCall;
 
 
         public WindowOpenGL(GameWindowSettings gameWindowSettings,
@@ -48,10 +31,9 @@ namespace Shard.Graphics.OpenGL
             gws = gameWindowSettings;
             nws = nativeWindowSettings;
 
-            
-           // gws.IsMultiThreaded = true;
             gws.UpdateFrequency = 500;
             gws.RenderFrequency = 0;
+            gws.IsMultiThreaded = true;
 
     
         }
@@ -79,7 +61,7 @@ namespace Shard.Graphics.OpenGL
             
         }
         
-        protected override void OnUpdateFrame(FrameEventArgs e)
+      /*  protected override void OnUpdateFrame(FrameEventArgs e)
         {
             // This gets called every 1/60 of a second.
             if (KeyboardState.IsKeyDown(Keys.Escape))
@@ -87,31 +69,27 @@ namespace Shard.Graphics.OpenGL
 
             base.OnUpdateFrame(e);
         }
-
-        float time = 20.0f;
-        float ct = 0f;
-        float dir = 1.0f;
+      */
      
 
-        public UpdatingState getUpdatingState() {
-            return updating;
-        }
-
-        private void setUpdatingState(UpdatingState state) {
-
-            updating = state;
-            
-        }
 
         protected override void OnRenderFrame(FrameEventArgs e) {
 
             GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f);
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
+            Console.WriteLine("hej");
+
+            // render
+            renderCall.render();
 
             // Show in the window the results of the rendering calls.
             SwapBuffers();
         }
 
+        internal void addRenderCall(IRenderObject obj)
+        {
+            renderCall = obj;
+        }
     }
 }
