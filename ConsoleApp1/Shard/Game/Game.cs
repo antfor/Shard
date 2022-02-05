@@ -27,7 +27,7 @@ namespace Shard
         public virtual int getTargetFrameRate()
         {
             // return Int32.MaxValue; 
-            return 1000;
+            return 60;
         }
 
     }

@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-
+using Shard.Misc;
 using Shard.Sound;
 
 namespace Shard
@@ -157,8 +157,15 @@ namespace Shard
             return frames;
         }
 
+        // init stuff
+        private static void init() {
+            PConsole.init();
+        }
+
         static void Main(string[] args)
         {
+            init();
+
             long timeInMillisecondsStart, lastTick, timeInMillisecondsEnd;
             long interval;
             int sleep;
@@ -168,6 +175,7 @@ namespace Shard
 
             // Setup the engine.
             setup();
+            
 
             // When we start the program running.
             startTime = getCurrentMillis();
@@ -255,9 +263,8 @@ namespace Shard
                 
                dis.display();
 
-               // Console.Clear();
-               Console.WriteLine("fps: " + getFPS());
-                
+
+                PConsole.WriteLine("fps: " + getFPS());
 
                 timeInMillisecondsEnd = getCurrentMillis();
 
@@ -270,7 +277,6 @@ namespace Shard
 
                  if (sleep >= 0)
                  {
-                    //Console.WriteLine("hej");
                      // Frame rate regulator.
                      Thread.Sleep(sleep);
                  }

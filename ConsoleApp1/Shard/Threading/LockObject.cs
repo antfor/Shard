@@ -29,6 +29,7 @@ namespace Shard.Threading
 
         public void releseLock()
         {
+           
             lock (objLock)
             {
                 if (locked)

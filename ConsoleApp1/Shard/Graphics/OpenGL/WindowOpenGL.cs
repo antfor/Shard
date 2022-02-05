@@ -22,7 +22,7 @@ namespace Shard.Graphics.OpenGL
         private GameWindowSettings gws;
         private NativeWindowSettings nws;
         private IRenderObject renderCall;
-        private readonly string threadID = "widow";
+        private readonly string threadID = "window";
         private bool running = true;
 
 
@@ -32,8 +32,8 @@ namespace Shard.Graphics.OpenGL
             gws = gameWindowSettings;
             nws = nativeWindowSettings;
 
-            gws.UpdateFrequency = 500;
-            gws.RenderFrequency = 0;
+            gws.UpdateFrequency = 1;
+            gws.RenderFrequency = 1;
             
 
     
@@ -72,22 +72,8 @@ namespace Shard.Graphics.OpenGL
         }
      
      
-
-
         protected override void OnRenderFrame(FrameEventArgs e) {
             Thread.Sleep(1);
-            /*
-            GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f);
-            GL.Clear(ClearBufferMask.ColorBufferBit);
-
-            Console.WriteLine("hej");
-
-            // render
-            renderCall.render();
-
-            // Show in the window the results of the rendering calls.
-            SwapBuffers();
-            */
         }
 
         internal void addRenderCall(IRenderObject obj)
