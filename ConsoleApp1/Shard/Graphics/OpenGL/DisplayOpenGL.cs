@@ -97,35 +97,26 @@ namespace Shard
 
         public void render()
         {
-            updatelock.getLock();
-            
+            tm.sync(barrierId);
 
+            // update camera
 
-            //todo update camera
+            //render
 
-            foreach (List<IRenderObject> list in renderObjects.Values) {
-                foreach (IRenderObject obj in list) {
+            foreach (List<IRenderObject> list in renderObjects.Values)
+            {
+                foreach (IRenderObject obj in list)
+                {
                     obj.render();
                 }
             }
-
-            updatelock.releseLock();
-            tm.sync(barrierId);
-
             tm.sync(barrierId);
         }
 
 
         public void display()
         {
-            updatelock.releseLock();
-            
-
-            //while (renderlock == null) { Thread.Sleep(2); }
-
-
             tm.sync(barrierId);
-            updatelock.getLock();
             tm.sync(barrierId);
         }
 

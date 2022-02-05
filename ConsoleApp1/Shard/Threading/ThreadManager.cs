@@ -16,6 +16,8 @@ namespace Shard
 
         public readonly string Main = "main";
 
+        private static Thread main;
+
         private Dictionary<string, Thread> threads = new Dictionary<string, Thread> { };
 
         private Dictionary<string, Barrier> barriers = new Dictionary<string,Barrier>{};
@@ -33,6 +35,11 @@ namespace Shard
                 me = new ThreadManager();
             }
             return me;
+        }
+
+        public void setMain(Thread t) {
+            main = t;
+            main.Priority = ThreadPriority.Highest;
         }
 
         public bool addThread(string id, IThread thread) {

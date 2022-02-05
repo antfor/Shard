@@ -24,6 +24,7 @@ namespace Shard
         private static SoundManager soundEngine;
         private static InputSystem input;
         private static PhysicsManager phys;
+        private static ThreadManager tm;
 
         private static int targetFrameRate;
         private static int millisPerFrame;
@@ -160,6 +161,8 @@ namespace Shard
         // init stuff
         private static void init() {
             PConsole.init();
+            tm = ThreadManager.getInstance();
+            tm.setMain(Thread.CurrentThread);
         }
 
         static void Main(string[] args)
@@ -264,7 +267,7 @@ namespace Shard
                dis.display();
 
 
-                PConsole.WriteLine("fps: " + getFPS());
+                //PConsole.WriteLine("fps: " + getFPS());
 
                 timeInMillisecondsEnd = getCurrentMillis();
 
@@ -277,8 +280,9 @@ namespace Shard
 
                  if (sleep >= 0)
                  {
-                     // Frame rate regulator.
-                     Thread.Sleep(sleep);
+                    // Frame rate regulator.
+                    Thread.Sleep(sleep);
+                    
                  }
 
                  timeInMillisecondsEnd = getCurrentMillis();
