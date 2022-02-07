@@ -203,7 +203,7 @@ namespace Shard
                  timeInMillisecondsStart = getCurrentMillis();
                 //Console.WriteLine("då");
                 //Console.WriteLine(Bootstrap.getDeltaTime());
-                /*
+                ///*
                                  // Clear the screen.
                                  Bootstrap.getDisplay().clearDisplay();
 
@@ -262,12 +262,12 @@ namespace Shard
 
                                  // Render the screen.
                                  Bootstrap.getDisplay().display();
-                                  */
+                               //   */
                 
                dis.display();
 
 
-                //PConsole.WriteLine("fps: " + getFPS());
+                PConsole.WriteLine("fps: " + getFPS());
 
                 timeInMillisecondsEnd = getCurrentMillis();
 
@@ -281,7 +281,10 @@ namespace Shard
                  if (sleep >= 0)
                  {
                     // Frame rate regulator.
-                    Thread.Sleep(sleep);
+                    //BusyWait.BusyWaitMS(sleep);
+                    BusyWait.SmartWait(sleep);
+                   // BusyWait.BusyWaitNS(sleep * 1000000);
+                    //Thread.Sleep(sleep);
                     
                  }
 

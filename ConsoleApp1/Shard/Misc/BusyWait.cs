@@ -8,25 +8,28 @@ using System.Threading.Tasks;
 
 namespace Shard.Misc
 {
+
     public class BusyWait
     {
 
-        private static Stopwatch stopWatch = new Stopwatch();
-        public static void smartWait(int ms) {
+        
+        public static void SmartWait(int ms) {
+            
             long Startticks = Stopwatch.GetTimestamp();
-            if (ms > 25)
+            int sleep = ms - 10;
+            if (sleep > 0)
                 Thread.Sleep(ms - 10);
       
-            long msLeft = (Stopwatch.GetTimestamp() - Startticks) / (Stopwatch.Frequency / 1000);
-            BusyWaitPre(msLeft * 1000, 1000000);
-        }
-        public static void BusyWaitMS(int ms) {
-            BusyWaitNano(ms* 1000);
+            long msLeft = ms - (Stopwatch.GetTimestamp() - Startticks) / (Stopwatch.Frequency / 1000);
+            BusyWaitPre(msLeft, 1000);
         }
 
-        public static void BusyWaitNano(int ns)
-        {
-            BusyWaitPre(ns, 1000000);
+        public static void BusyWaitMS(int ms) {
+            BusyWaitPre(ms, 1000);
+        }
+
+        public static void BusyWaitNS(int ns) {
+            BusyWaitPre(ns/100, 10000000);
         }
 
         public static void BusyWaitPre(long PreS, long pre)
