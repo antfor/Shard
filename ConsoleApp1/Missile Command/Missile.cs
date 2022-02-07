@@ -140,8 +140,8 @@ namespace MissileCommand
             }
 
 
-            Bootstrap.getDisplay().drawLine((int)Originx, (int)Originy, (int)Transform.X, (int)Transform.Y, myColor);
-            Bootstrap.getDisplay().drawCircle((int)Transform.X, (int)Transform.Y, 2, col);
+            ((IDisplay2D)Bootstrap.getDisplay()).drawLine((int)Originx, (int)Originy, (int)Transform.X, (int)Transform.Y, myColor);
+            ((IDisplay2D)Bootstrap.getDisplay()).drawCircle((int)Transform.X, (int)Transform.Y, 2, col);
 
             mirvCount += Bootstrap.getDeltaTime();
         }

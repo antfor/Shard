@@ -12,35 +12,37 @@ namespace Shard.Misc
     public class BusyWait
     {
 
-        
+        private static int timeToBeBusy = 10;
         public static void SmartWait(int ms) {
             
             long Startticks = Stopwatch.GetTimestamp();
-            int sleep = ms - 10;
+            int sleep = ms - timeToBeBusy;
             if (sleep > 0)
-                Thread.Sleep(ms - 10);
+                Thread.Sleep(sleep);
       
             long msLeft = ms - (Stopwatch.GetTimestamp() - Startticks) / (Stopwatch.Frequency / 1000);
-            BusyWaitPre(msLeft, 1000);
+            BusyWaitHz(msLeft, 1000);
         }
 
         public static void BusyWaitMS(int ms) {
-            BusyWaitPre(ms, 1000);
+            BusyWaitHz(ms, 1000);
         }
 
-        public static void BusyWaitNS(int ns) {
-            BusyWaitPre(ns/100, 10000000);
-        }
-
-        public static void BusyWaitPre(long PreS, long pre)
+        public static void BusyWaitHz(long time, long hertz)
         {
             long Startticks = Stopwatch.GetTimestamp();
             long freq = Stopwatch.Frequency;
+
+            if (freq < hertz) {
+                long dif = hertz / freq;
+                time /= dif;
+                hertz /= dif;
+            }
+
             long totalTime = 0;
-            while (PreS > totalTime)
+            while (time > totalTime)
             {
-                totalTime = (Stopwatch.GetTimestamp() - Startticks) / (freq / pre);
-        
+                totalTime = (Stopwatch.GetTimestamp() - Startticks) / (freq / hertz);
             }
 
         }

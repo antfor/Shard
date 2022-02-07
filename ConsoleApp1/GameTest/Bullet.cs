@@ -49,14 +49,14 @@ namespace GameTest
             Color col = Color.FromArgb(r.Next(0, 256), r.Next(0, 256), 0);
 
 
-            Bootstrap.getDisplay().drawLine(
+            ((IDisplay2D)Bootstrap.getDisplay()).drawLine(
                 (int)Transform.X,
                 (int)Transform.Y,
                 (int)Transform.X + 10,
                 (int)Transform.Y + 10,
                 col);
 
-            Bootstrap.getDisplay().drawLine(
+            ((IDisplay2D)Bootstrap.getDisplay()).drawLine(
                 (int)Transform.X + 10,
                 (int)Transform.Y,
                 (int)Transform.X,

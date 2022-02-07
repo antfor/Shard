@@ -13,14 +13,13 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Threading;
 
+
 namespace Shard.Graphics.OpenGL
 {
 
     class WindowOpenGL : GameWindow , IThread
     {
 
-        private GameWindowSettings gws;
-        private NativeWindowSettings nws;
         private IRenderObject renderCall;
         private readonly string threadID = "window";
         private bool running = true;
@@ -29,95 +28,100 @@ namespace Shard.Graphics.OpenGL
         public WindowOpenGL(GameWindowSettings gameWindowSettings,
                               NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
-            gws = gameWindowSettings;
-            nws = nativeWindowSettings;
 
-            gws.UpdateFrequency = 1;
-            gws.RenderFrequency = 1;
-            
+            this.UpdateFrequency = 1;
+            this.RenderFrequency = 1;
 
-    
         }
-        
 
-        private void setBoarder(DisplayBorder border) {
+        public unsafe override void Run()
+        {
+            OnLoad();
+
+            while (GLFW.WindowShouldClose(WindowPtr) == false)
+            {
+               ProcessEvents();
+               Thread.Sleep(1);
+            }
+            OnUnload();
+            
+        }
+
+        public void setBoarder(DisplayBorder border) {
             switch (border){
-                case DisplayBorder.Resizable:  nws.WindowBorder = WindowBorder.Resizable; break;
-                case DisplayBorder.BorderLess: nws.WindowBorder = WindowBorder.Hidden; break;
-                case DisplayBorder.Fixed:      nws.WindowBorder = WindowBorder.Fixed; break;
+                case DisplayBorder.Resizable:  this.WindowBorder = WindowBorder.Resizable; break;
+                case DisplayBorder.BorderLess: this.WindowBorder = WindowBorder.Hidden; break;
+                case DisplayBorder.Fixed:      this.WindowBorder = WindowBorder.Fixed; break;
 
             }
         }
 
-        private void setState(DisplayState state) {
+        public void setState(DisplayState state) {
 
             switch (state)
             {
-                case DisplayState.Normal:     nws.WindowState = WindowState.Normal; break;
-                case DisplayState.Fullscreen: nws.WindowState = WindowState.Fullscreen; break;
-                case DisplayState.Maximized:  nws.WindowState = WindowState.Maximized; break;
-                case DisplayState.Minimized:  nws.WindowState = WindowState.Minimized; break;
+                case DisplayState.Normal:     this.WindowState = WindowState.Normal; break;
+                case DisplayState.Fullscreen: this.WindowState = WindowState.Fullscreen; break;
+                case DisplayState.Maximized:  this.WindowState = WindowState.Maximized; break;
+                case DisplayState.Minimized:  this.WindowState = WindowState.Minimized; break;
 
             }
             
         }
-        
-        protected override void OnUpdateFrame(FrameEventArgs e)
-        {
-            // This gets called every 1/60 of a second.
-            if (KeyboardState.IsKeyDown(Keys.Escape))
-                Close();
 
-           // base.OnUpdateFrame(e);
-        }
-     
-     
-        protected override void OnRenderFrame(FrameEventArgs e) {
-            Thread.Sleep(1);
+
+        public void cursorVisible(bool b) {
+            this.CursorVisible = b;
         }
 
+        public void setName(string name) {
+            this.setName(name);
+        }
+
+        public void useVsync(VsyncSetting setting) {
+            switch (setting) {
+                case VsyncSetting.ON : this.VSync = VSyncMode.On; break;
+                case VsyncSetting.OFF: this.VSync = VSyncMode.On; break;
+                case VsyncSetting.ADAPTIVE: this.VSync = VSyncMode.On; break;
+            }
+        }
+
+        public void resize(int w, int h) {
+            this.Size = new Vector2i(w, h);
+        }
+     
         internal void addRenderCall(IRenderObject obj)
         {
             renderCall = obj;
         }
 
-        
-        
-       // private IGraphicsContext context;
+
         protected unsafe override void OnLoad()
         {
-            //Window* wptr = this.WindowPtr;
-            //context = new GLFWGraphicsContext(wptr);
+
             this.Context.MakeNoneCurrent();
         
             ThreadManager tm = ThreadManager.getInstance();
             tm.addThread(threadID, this);
-            tm.setPriority(threadID, ThreadPriority.AboveNormal);
+            tm.setPriority(threadID, ThreadPriority.Highest);
             tm.runThread(threadID);
 
         }
 
-        protected override void OnUnload()
-        {
-            ThreadManager tm = ThreadManager.getInstance();
-            running = false;
-            tm.join(threadID);
-            base.OnUnload();
-        }
-
         public void runMethod()
         {
+            this.Context.MakeCurrent();
+            VSync = VSyncMode.Off;
+
             RenderLoop();
         }
 
         void RenderLoop()
         {
-            this.Context.MakeCurrent();
+            GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f);
 
             while (running)
             {
-
-                GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f);
                 GL.Clear(ClearBufferMask.ColorBufferBit);
 
                 renderCall.render();
@@ -128,5 +132,15 @@ namespace Shard.Graphics.OpenGL
             this.Context.MakeNoneCurrent();
 
         }
+
+        protected override void OnUnload()
+        {
+            ThreadManager tm = ThreadManager.getInstance();
+            running = false;
+            tm.join(threadID);
+            tm.removeThread(threadID);
+            base.OnUnload();
+        }
+
     }
 }

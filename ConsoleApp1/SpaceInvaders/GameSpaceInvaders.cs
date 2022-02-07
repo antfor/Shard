@@ -33,7 +33,7 @@ namespace Shard
         }
         public override void update()
         {
-            Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255);
+            ((IDisplay2D)Bootstrap.getDisplay()).showText("FPS: " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255);
 
             int ymod = 0;
             int deaths = 0;
@@ -41,7 +41,7 @@ namespace Shard
             if (isRunning() == false)
             {
                 Color col = Color.FromArgb(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256));
-                Bootstrap.getDisplay().showText("GAME OVER!", 300, 300, 128, col);
+                ((IDisplay2D)Bootstrap.getDisplay()).showText("GAME OVER!", 300, 300, 128, col);
                 return;
             }
             animCounter += (float)Bootstrap.getDeltaTime();

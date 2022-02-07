@@ -193,7 +193,7 @@ namespace Shard
 
         public override void drawMe(Color col)
         {
-            Display d = Bootstrap.getDisplay();
+            IDisplay2D d = ((IDisplay2D)Bootstrap.getDisplay());
 
             d.drawLine((int)MinAndMaxX[0], (int)MinAndMaxY[0], (int)MinAndMaxX[1], (int)MinAndMaxY[0], col);
             d.drawLine((int)MinAndMaxX[0], (int)MinAndMaxY[0], (int)MinAndMaxX[0], (int)MinAndMaxY[1], col);

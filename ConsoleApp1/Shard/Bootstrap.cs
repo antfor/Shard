@@ -20,7 +20,7 @@ namespace Shard
 
 
         private static Game runningGame;
-        private static Display displayEngine;
+        private static IDisplay displayEngine;
         private static SoundManager soundEngine;
         private static InputSystem input;
         private static PhysicsManager phys;
@@ -46,7 +46,7 @@ namespace Shard
             return deltaTime;
         }
 
-        public static Display getDisplay()
+        public static IDisplay getDisplay()
         {
             return displayEngine;
         }
@@ -91,7 +91,7 @@ namespace Shard
                 switch (kvp.Key)
                 {
                     case "display":
-                        displayEngine = (Display)ob;
+                        displayEngine = (IDisplay)ob;
                         displayEngine.initialize();
                         break;
                     case "sound":
@@ -192,8 +192,8 @@ namespace Shard
             phys.Debugging = true;
             phys.GravityModifier = 0.1f;
 
-            DisplayOpenGL dis = new DisplayOpenGL();
-            dis.initialize();
+           // DisplayOpenGL dis = new DisplayOpenGL();
+            //dis.initialize();
             
              // This is our game loop.
              while (true)
@@ -201,24 +201,14 @@ namespace Shard
                  frames += 1;
 
                  timeInMillisecondsStart = getCurrentMillis();
-                //Console.WriteLine("då");
-                //Console.WriteLine(Bootstrap.getDeltaTime());
-                ///*
+                /*
                                  // Clear the screen.
                                  Bootstrap.getDisplay().clearDisplay();
 
                                  // Update 
                                  runningGame.update();
+
                                  // Input
-
-                                 //soundEngine.addSound("doom", @"D:\chalmers\tda572\music\ex.wav");
-                                 //SoundSource  s = new SoundSource();
-                                 //soundEngine.addSource(s);
-                                 //soundEngine.loadSource(s, "doom");
-                                 //s.play();
-
-                                 // test
-
 
                                  if (runningGame.isRunning() == true)
                                  {
@@ -259,12 +249,12 @@ namespace Shard
                                          GameObjectManager.getInstance().soundUpdate();
                                      }
                                  }
-
-                                 // Render the screen.
-                                 Bootstrap.getDisplay().display();
-                               //   */
+                */
+                // Render the screen.
+                Bootstrap.getDisplay().display();
+                                 
                 
-               dis.display();
+             
 
 
                 PConsole.WriteLine("fps: " + getFPS());
@@ -283,7 +273,6 @@ namespace Shard
                     // Frame rate regulator.
                     //BusyWait.BusyWaitMS(sleep);
                     BusyWait.SmartWait(sleep);
-                   // BusyWait.BusyWaitNS(sleep * 1000000);
                     //Thread.Sleep(sleep);
                     
                  }

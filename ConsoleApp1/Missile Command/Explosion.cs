@@ -59,7 +59,7 @@ namespace MissileCommand
             }
 
 
-            Bootstrap.getDisplay().drawFilledCircle((int)Transform.X, (int)Transform.Y, (int)currentRadius, col);
+            ((IDisplay2D)Bootstrap.getDisplay()).drawFilledCircle((int)Transform.X, (int)Transform.Y, (int)currentRadius, col);
 
         }
 

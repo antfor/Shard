@@ -178,7 +178,7 @@ namespace Shard
 
         public override void drawMe(Color col)
         {
-            Display d = Bootstrap.getDisplay();
+            IDisplay2D d = ((IDisplay2D)Bootstrap.getDisplay());
 
             d.drawCircle((int)X, (int)Y, (int)Rad, col);
 

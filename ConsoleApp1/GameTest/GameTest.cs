@@ -14,7 +14,7 @@ namespace Shard
 
             Bootstrap.getDisplay().addToDraw(background);
 
-            Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255);
+            ((IDisplay2D)Bootstrap.getDisplay()).showText("FPS: " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255);
 
 
         }

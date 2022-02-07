@@ -37,7 +37,7 @@ namespace Shard
             if (isRunning() == false)
             {
                 Color col = Color.FromArgb(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256));
-                Bootstrap.getDisplay().showText("GAME OVER!", 300, 300, 128, col);
+                ((IDisplay2D)Bootstrap.getDisplay()).showText("GAME OVER!", 300, 300, 128, col);
                 return;
             }
 

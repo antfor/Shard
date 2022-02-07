@@ -49,8 +49,13 @@ namespace Shard
             }
             Thread InstanceCaller = new Thread(new ThreadStart(thread.runMethod));
             InstanceCaller.IsBackground = true;
-            threads.Add(id,InstanceCaller);
-            return true;
+
+            if (!threads.ContainsKey(id)) {
+                threads.Add(id, InstanceCaller);
+                return true;
+            }
+            return false;
+            
         }
 
         public bool removeThread(string id)
@@ -92,7 +97,7 @@ namespace Shard
             {
                 thread.Join();
                 
-                return removeThread(id); ;
+                return true;
             }
             return false;
         }
@@ -111,8 +116,12 @@ namespace Shard
 
         // barrier
 
-        public void addBarrier(string id, int participants) {
-            barriers.Add(id,new Barrier(participants));
+        public bool addBarrier(string id, int participants) {
+            if (!barriers.ContainsKey(id)) {
+                barriers.Add(id, new Barrier(participants));
+                return true;
+            }
+            return false;
         }
 
         public void removeBarrier(string id, int participants)

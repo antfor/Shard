@@ -43,7 +43,7 @@ namespace SpaceInvaders
 
             this.Transform.translate(0, dir * 400 * Bootstrap.getDeltaTime());
 
-            Bootstrap.getDisplay().drawLine(
+            ((IDisplay2D)Bootstrap.getDisplay()).drawLine(
                 (int)Transform.X,
                 (int)Transform.Y,
                 (int)Transform.X,

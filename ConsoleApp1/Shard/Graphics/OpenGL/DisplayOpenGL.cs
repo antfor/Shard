@@ -1,20 +1,11 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Shard.Graphics.OpenGL;
 
-using OpenTK;
-using OpenTK.Graphics;
+
 using OpenTK.Windowing.Desktop;
-using OpenTK.Platform.Windows;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-using Shard.Threading;
-using System.Threading;
+
 
 namespace Shard
 {
@@ -24,8 +15,7 @@ namespace Shard
         private WindowOpenGL window;
         private SortedList<int, List<IRenderObject>> renderObjects = new SortedList<int, List<IRenderObject>>() { };
 
-        private LockObject updatelock;
-        //private LockObject renderlock;
+
         private readonly string threadId = "display";
         private readonly string barrierId = "displayBarrier";
 
@@ -42,7 +32,7 @@ namespace Shard
             if (!(w > 0 && h > 0)) {
                 return false;
             }
-
+            window.resize(w,h);
             _width  = w;
             _height = h;
             return true;
@@ -50,7 +40,6 @@ namespace Shard
 
         public void initialize()
         {
-            updatelock = new LockObject(true);
 
             tm = ThreadManager.getInstance();
             tm.addBarrier(barrierId, 2);
@@ -59,6 +48,14 @@ namespace Shard
             tm.setPriority(threadId, System.Threading.ThreadPriority.AboveNormal);
             tm.runThread(threadId);
             
+        }
+
+        public void runMethod()
+        {
+
+            window = new WindowOpenGL(GameWindowSettings.Default, NativeWindowSettings.Default);
+            window.addRenderCall(this);
+            window.Run();
         }
 
         public void update() {
@@ -120,18 +117,34 @@ namespace Shard
             tm.sync(barrierId);
         }
 
-
-        public void runMethod()
-        {
-            //renderlock = new LockObject(true);
-            window = new WindowOpenGL(GameWindowSettings.Default, NativeWindowSettings.Default);
-            window.addRenderCall(this);
-            window.Run();
-        }
-
         public void clearDisplay()
         {
-            
+            //do nothing
+        }
+
+        public void useVsync(VsyncSetting setting)
+        {
+            window.useVsync(setting);
+        }
+
+        public void cursorVisible(bool b)
+        {
+            window.cursorVisible(true);
+        }
+
+        public void setState(DisplayState state)
+        {
+            window.setState(state);
+        }
+
+        public void setBoarder(DisplayBorder border)
+        {
+            window.setBoarder(border);
+        }
+
+        public void setName(string name)
+        {
+            window.setName(name);
         }
     }
 }

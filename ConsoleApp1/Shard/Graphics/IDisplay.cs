@@ -1,25 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.Drawing;
+﻿
 namespace Shard
 {
-    public enum DisplayBorder
-    {
-        Resizable = 0,
-        BorderLess = 1,
-        Fixed = 2
-    }
 
-    public enum DisplayState {
-        Normal = 0,
-        Fullscreen = 1,
-        Maximized = 2,
-        Minimized = 3
-    }
 
     interface IDisplay
     {
@@ -58,6 +40,17 @@ namespace Shard
         public abstract void initialize();
         public abstract void clearDisplay();
         public abstract void display();
+
+        public abstract void useVsync(VsyncSetting setting);
+
+        public void cursorVisible(bool b);
+
+        public void setState(DisplayState state);
+
+        public void setBoarder(DisplayBorder border);
+
+        public void setName(string name);
+
         public bool resizeDisplay(int w, int h);
 
     }
