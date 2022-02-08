@@ -13,6 +13,11 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Threading;
 
+using Shard.Misc;
+using OpenTK.Windowing.Common.Input;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using System.Runtime.InteropServices;
 
 namespace Shard.Graphics.OpenGL
 {
@@ -31,6 +36,10 @@ namespace Shard.Graphics.OpenGL
 
             this.UpdateFrequency = 1;
             this.RenderFrequency = 1;
+            cursorVisible(false);
+            setName("Shard");
+            setIcon(@"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\bin\Debug\net5.0\Crystal_Shards.png");
+
 
         }
 
@@ -69,13 +78,21 @@ namespace Shard.Graphics.OpenGL
             
         }
 
+        public unsafe void setIcon(string file) {
+            var image = (Image<Rgba32>)SixLabors.ImageSharp.Image.Load(Configuration.Default, file);
+            image.DangerousTryGetSinglePixelMemory (out var imageSpan);
+            var imageBytes = MemoryMarshal.AsBytes(imageSpan.Span).ToArray();
+            var windowIcon = new WindowIcon(new OpenTK.Windowing.Common.Input.Image(image.Width, image.Height, imageBytes));
+
+            this.Icon = windowIcon;
+        }
 
         public void cursorVisible(bool b) {
             this.CursorVisible = b;
         }
 
         public void setName(string name) {
-            this.setName(name);
+            this.Title = name;
         }
 
         public void useVsync(VsyncSetting setting) {
@@ -113,15 +130,34 @@ namespace Shard.Graphics.OpenGL
             this.Context.MakeCurrent();
             VSync = VSyncMode.Off;
 
+
             RenderLoop();
         }
 
         void RenderLoop()
         {
             GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f);
+            
+            float dir = 1;
+            float time = 1.5f;
+            float ct = 0;
 
             while (running)
             {
+
+                float dt = (float) Bootstrap.getDeltaTime();
+
+                ct = Math.Max(Math.Min(ct + 2.0f * dir * dt, time), 0);
+
+                if (ct == time)
+                {
+          
+                    ct = 0;
+                    time = 1.5f;
+        
+                }
+
+                GL.ClearColor(0.4f * (1.0f - ct/time) + 0.2f, 0.0f, 0.0f, 1.0f);
                 GL.Clear(ClearBufferMask.ColorBufferBit);
 
                 renderCall.render();
@@ -135,11 +171,9 @@ namespace Shard.Graphics.OpenGL
 
         protected override void OnUnload()
         {
-            ThreadManager tm = ThreadManager.getInstance();
-            running = false;
-            tm.join(threadID);
-            tm.removeThread(threadID);
+            //running = false;        
             base.OnUnload();
+            Bootstrap.Close();
         }
 
     }

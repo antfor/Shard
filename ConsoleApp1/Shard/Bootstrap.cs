@@ -32,6 +32,7 @@ namespace Shard
         private static double timeElapsed;
         private static int frames;
         private static long startTime;
+        private static bool running = true; 
 
         public static double TimeElapsed { get => timeElapsed; set => timeElapsed = value; }
 
@@ -196,7 +197,7 @@ namespace Shard
             //dis.initialize();
             
              // This is our game loop.
-             while (true)
+             while (running)
              {
                  frames += 1;
 
@@ -289,6 +290,15 @@ namespace Shard
              }
           
 
+        }
+
+        public static bool isRunning() {
+            return running;
+        }
+
+        internal static void Close()
+        {
+            running = false;
         }
     }
 }
