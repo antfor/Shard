@@ -12,7 +12,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Threading;
 
-namespace Shard.Shard.Graphics.OpenGL.Rendering
+namespace Shard.Graphics.OpenGL.Rendering
 {
 
 
@@ -28,7 +28,7 @@ namespace Shard.Shard.Graphics.OpenGL.Rendering
 
         protected void initBuffer() {
             uint VBO;
-            //glGenBuffers(1, &VBO);
+           // lGenBuffers(1, &VBO);
 
         }
 

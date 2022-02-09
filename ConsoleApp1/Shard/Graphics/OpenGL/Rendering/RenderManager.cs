@@ -4,10 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shard.Shard.Graphics.OpenGL.Rendering
+using OpenTK.Mathematics;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTK;
+
+using Shard.Misc;
+
+using GL = OpenTK.Graphics.OpenGL4.GL;
+using GLSaderType = OpenTK.Graphics.OpenGL4.ShaderType;
+using OGL = OpenTK.Graphics.OpenGL4;
+
+namespace Shard.Graphics.OpenGL.Rendering
 {
 
-    enum Shader { 
+    public enum Shader { 
 
     Vertex,
     Fragment
@@ -17,7 +29,9 @@ namespace Shard.Shard.Graphics.OpenGL.Rendering
     class RenderManager
     {
         private static RenderManager me;
-
+        private IRenderContext renderContext;
+        private Dictionary<string, (Shader, int)> shaders = new Dictionary<string, (Shader, int)> { };
+        private Dictionary<string, int> buffers = new Dictionary<string, int> { };
 
         private RenderManager() {
 
@@ -31,12 +45,46 @@ namespace Shard.Shard.Graphics.OpenGL.Rendering
             return me;
         }
 
-        public void addShaders() { 
+        public void setRenderContext(IRenderContext con) {
+            renderContext = con;
         }
 
-        public void addShader()
-        {
+        public void addShader(string file, Shader type) {
+            
+            int shader = GL.CreateShader(getGLType(type));
+            
         }
 
+        public bool loadArrayBuffer(string id, float[] arr) {
+
+            if (buffers.ContainsKey(id)) {
+                return false;
+            }
+
+            int buffer;
+            GL.GenBuffers(1,out buffer);
+            GL.BindBuffer(OGL.BufferTarget.ArrayBuffer, buffer);
+            
+            GL.BufferData(OGL.BufferTarget.ArrayBuffer, arr.Length, arr, OGL.BufferUsageHint.StaticDraw);
+
+            buffers.Add(id, buffer);
+
+            GL.BindBuffer(OGL.BufferTarget.ArrayBuffer, -1);
+
+            return true;
+        }
+
+        public void update() { 
+        
+        }
+
+        private GLSaderType getGLType(Shader shader) {
+
+            switch (shader) {
+                case Shader.Vertex:   return GLSaderType.VertexShader;
+                case Shader.Fragment: return GLSaderType.FragmentShader;
+            }
+            throw new Exception("shader is not implemented ");
+        }
     }
 }

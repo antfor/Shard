@@ -18,11 +18,12 @@ using OpenTK.Windowing.Common.Input;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Runtime.InteropServices;
+using Shard.Graphics.OpenGL.Rendering;
 
 namespace Shard.Graphics.OpenGL
 {
 
-    class WindowOpenGL : GameWindow , IThread
+    class WindowOpenGL : GameWindow , IThread, IRenderContext
     {
 
         private IRenderObject renderCall;

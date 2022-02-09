@@ -253,9 +253,11 @@ namespace Shard
                 */
                 // Render the screen.
                 Bootstrap.getDisplay().display();
-                                 
-                
-             
+
+
+                for (int i = 0; i< 100; i++) {
+                    //PConsole.WriteLine("hej");
+                }
 
 
                 PConsole.WriteLine("fps: " + getFPS());

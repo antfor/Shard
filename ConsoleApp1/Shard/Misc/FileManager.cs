@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Shard.Misc
 {
-    public class FileHandler
+    public class FileManager
     {
 
         public static byte[] fileTobyte(string file) {
@@ -21,5 +21,10 @@ namespace Shard.Misc
 
             return reader.ReadBytes((int)reader.BaseStream.Length); ;
         }
+
+        public static string readFile(string file) {
+            return null;
+        }
+
     }
 }
