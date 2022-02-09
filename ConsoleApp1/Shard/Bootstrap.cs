@@ -255,10 +255,6 @@ namespace Shard
                 Bootstrap.getDisplay().display();
 
 
-                for (int i = 0; i< 100; i++) {
-                    //PConsole.WriteLine("hej");
-                }
-
 
                 PConsole.WriteLine("fps: " + getFPS());
 
@@ -274,6 +270,7 @@ namespace Shard
                  if (sleep >= 0)
                  {
                     // Frame rate regulator.
+
                     //BusyWait.BusyWaitMS(sleep);
                     BusyWait.SmartWait(sleep);
                     //Thread.Sleep(sleep);
