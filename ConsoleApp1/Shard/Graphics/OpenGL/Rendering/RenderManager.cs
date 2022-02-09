@@ -31,6 +31,7 @@ namespace Shard.Graphics.OpenGL.Rendering
         private static RenderManager me;
         private IRenderContext renderContext;
         private Dictionary<string, (Shader, int)> shaders = new Dictionary<string, (Shader, int)> { };
+        private Dictionary<string, int> programs = new Dictionary<string, int> { };
         private Dictionary<string, int> buffers = new Dictionary<string, int> { };
 
         private RenderManager() {
@@ -50,9 +51,19 @@ namespace Shard.Graphics.OpenGL.Rendering
         }
 
         public void addShader(string file, Shader type) {
+
+            string source = FileManager.readFile(file);
+
+            int shader = GL.CreateShader(getShaderType(type));
+
+            GL.ShaderSource(shader, source);
+            GL.CompileShader(shader);
+
+        }
+
+        public void addProgram(string vertID, string fragID) { 
             
-            int shader = GL.CreateShader(getGLType(type));
-            
+        
         }
 
         public bool loadArrayBuffer(string id, float[] arr) {
@@ -78,7 +89,7 @@ namespace Shard.Graphics.OpenGL.Rendering
         
         }
 
-        private GLSaderType getGLType(Shader shader) {
+        private GLSaderType getShaderType(Shader shader) {
 
             switch (shader) {
                 case Shader.Vertex:   return GLSaderType.VertexShader;

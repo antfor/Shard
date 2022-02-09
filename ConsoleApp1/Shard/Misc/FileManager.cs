@@ -23,7 +23,7 @@ namespace Shard.Misc
         }
 
         public static string readFile(string file) {
-            return null;
+            return File.ReadAllText(file); ;
         }
 
     }
