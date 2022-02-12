@@ -10,7 +10,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL4;
 using System.Threading;
 
 using Shard.Misc;
@@ -26,17 +26,18 @@ namespace Shard.Graphics.OpenGL
     class WindowOpenGL : GameWindow , IThread, IRenderContext
     {
 
-        private IRenderObject renderCall;
+        private IDisplay3D renderCall;
         private readonly string threadID = "window";
         private bool running = true;
 
+        object resizeLock = new object();
 
         public WindowOpenGL(GameWindowSettings gameWindowSettings,
                               NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
 
-            this.UpdateFrequency = 1;
-            this.RenderFrequency = 1;
+            this.UpdateFrequency = 500;
+            this.RenderFrequency = 500;
             cursorVisible(false);
             setName("Shard");
             setIcon(@"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\bin\Debug\net5.0\Crystal_Shards.png");
@@ -108,7 +109,7 @@ namespace Shard.Graphics.OpenGL
             this.Size = new Vector2i(w, h);
         }
      
-        internal void addRenderCall(IRenderObject obj)
+        internal void addRenderCall(IDisplay3D obj)
         {
             renderCall = obj;
         }
@@ -137,44 +138,66 @@ namespace Shard.Graphics.OpenGL
 
         void RenderLoop()
         {
-            GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f);
-            
+
+           // GL.ClearColor(0.39f, 0.58f, 0.93f, 1.0f);
+            GL.ClearColor(0.0f, 0.5f, 0.5f, 1.0f);
+
+
             float dir = 1;
             float time = 1.5f;
             float ct = 0;
 
+            //GL.Viewport(0, 0, 600, 600);
+
             while (running)
             {
+            
+                GL.Viewport(0, 0, this.Size.X, this.Size.Y);
+                
 
-                float dt = (float) Bootstrap.getDeltaTime();
+                float dt = (float)Bootstrap.getDeltaTime();
 
-                ct = Math.Max(Math.Min(ct + 2.0f * dir * dt, time), 0);
+                    ct = Math.Max(Math.Min(ct + 2.0f * dir * dt, time), 0);
 
-                if (ct == time)
+                    if (ct == time)
+                    {
+
+                        ct = 0;
+                        time = 1.5f;
+
+                    }
+
+                    //GL.ClearColor(0.4f * (1.0f - ct/time) + 0.2f, 0.0f, 0.0f, 1.0f);
+                    GL.Clear(ClearBufferMask.ColorBufferBit);
+
+
+                lock (resizeLock)
                 {
-          
-                    ct = 0;
-                    time = 1.5f;
-        
+                    renderCall.render();
                 }
 
-                GL.ClearColor(0.4f * (1.0f - ct/time) + 0.2f, 0.0f, 0.0f, 1.0f);
-                GL.Clear(ClearBufferMask.ColorBufferBit);
-
-                renderCall.render();
-
                 this.Context.SwapBuffers();
+                
+
             }
 
             this.Context.MakeNoneCurrent();
 
         }
 
+    
+        protected override void OnResize(ResizeEventArgs e)
+        {
+            lock (resizeLock) {
+                this.Size = e.Size; 
+            }
+        }
         protected override void OnUnload()
         {
             //running = false;        
             base.OnUnload();
             Bootstrap.Close();
+
         }
 
     }

@@ -8,6 +8,9 @@ namespace Shard.Shard.Graphics.OpenGL.rayMarching
 {
     class rayMarching : IRenderObject
     {
+        public string Program => throw new NotImplementedException();
+
+        public string Buffer => throw new NotImplementedException();
 
         public void render()
         {

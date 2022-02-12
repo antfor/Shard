@@ -8,6 +8,7 @@ namespace Shard
 {
     public interface IRenderObject
     {
-        public void render();
+        string Program { get; }
+        string Buffer { get; }
     }
 }

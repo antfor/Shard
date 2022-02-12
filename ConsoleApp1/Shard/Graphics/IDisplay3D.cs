@@ -8,5 +8,6 @@ namespace Shard.Graphics
 {
     interface IDisplay3D : IDisplay
     {
+        public void render();
     }
 }

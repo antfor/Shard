@@ -11,6 +11,9 @@ using System.Collections.Generic;
 using System.Threading;
 using Shard.Misc;
 using Shard.Sound;
+using Shard.Graphics;
+
+using Shard.Graphics.OpenGL.Rendering;
 
 namespace Shard
 {
@@ -166,6 +169,8 @@ namespace Shard
             tm.setMain(Thread.CurrentThread);
         }
 
+
+
         static void Main(string[] args)
         {
             init();
@@ -193,11 +198,29 @@ namespace Shard
             phys.Debugging = true;
             phys.GravityModifier = 0.1f;
 
-           // DisplayOpenGL dis = new DisplayOpenGL();
+            // DisplayOpenGL dis = new DisplayOpenGL();
             //dis.initialize();
-            
-             // This is our game loop.
-             while (running)
+
+            RenderManager rm = RenderManager.getInstance();
+
+            float[] vertices = {
+             -0.5f, -0.5f, 0.0f, //Bottom-left vertex
+              0.5f, -0.5f, 0.0f, //Bottom-right vertex
+              0.0f,  0.5f, 0.0f  //Top vertex
+             };
+
+            Test test = new Test();
+
+            rm.addArrayBuffer(test.Buffer, vertices); 
+            rm.addShader("vert", @"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\Shard\Graphics\OpenGL\Rendering\defult.vert", Shader.Vertex);
+            rm.addShader("frag", @"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\Shard\Graphics\OpenGL\Rendering\defult.frag", Shader.Fragment);
+            rm.addProgram(test.Program,"vert","frag");
+
+            rm.addRenderObject(test,0);
+
+
+            // This is our game loop.
+            while (running)
              {
                  frames += 1;
 
@@ -256,7 +279,7 @@ namespace Shard
 
 
 
-                PConsole.WriteLine("fps: " + getFPS());
+               // PConsole.WriteLine("fps: " + getFPS());
 
                 timeInMillisecondsEnd = getCurrentMillis();
 

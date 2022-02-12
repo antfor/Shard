@@ -6,20 +6,23 @@ using Shard.Graphics.OpenGL;
 
 using OpenTK.Windowing.Desktop;
 
+using Shard.Graphics;
+using Shard.Graphics.OpenGL.Rendering;
 
 namespace Shard
 {
-    class DisplayOpenGL: IDisplay, IThread , IRenderObject
+    class DisplayOpenGL: IDisplay3D, IThread
     {
         private int _height, _width;
         private WindowOpenGL window;
-        private SortedList<int, List<IRenderObject>> renderObjects = new SortedList<int, List<IRenderObject>>() { };
+        private RenderManager rm;
+       
 
 
         private readonly string threadId = "display";
         private readonly string barrierId = "displayBarrier";
 
-        ThreadManager tm;
+        private ThreadManager tm;
 
         public int Height { get => _height; set => resizeDisplay(_width, value); }
         public int Width { get => _width; set => resizeDisplay(value, _height); }
@@ -47,7 +50,9 @@ namespace Shard
             tm.addThread(threadId, this);
             tm.setPriority(threadId, System.Threading.ThreadPriority.AboveNormal);
             tm.runThread(threadId);
-            
+
+            rm = RenderManager.getInstance();
+
         }
 
         public void runMethod()
@@ -62,35 +67,7 @@ namespace Shard
             display();
         }
 
-        public int addRenderObject(IRenderObject obj, int prio)
-        {
 
-            List<IRenderObject> list;
-            if (renderObjects.TryGetValue(prio, out list))
-            {
-                list.Add(obj);
-            }
-            else
-            {
-                renderObjects.Add(prio, new List<IRenderObject> { obj });
-            }
-
-            return prio;
-        }
-
-        public bool removeRenderObject(IRenderObject obj, int prio)
-        {
-
-            List<IRenderObject> list;
-
-            if (renderObjects.TryGetValue(prio, out list))
-            {
-
-                return list.Remove(obj);
-            }
-
-            return false;
-        }
 
         public void render()
         {
@@ -99,14 +76,8 @@ namespace Shard
             // update camera
 
             //render
+            rm.update();
 
-            foreach (List<IRenderObject> list in renderObjects.Values)
-            {
-                foreach (IRenderObject obj in list)
-                {
-                    obj.render();
-                }
-            }
             tm.sync(barrierId);
         }
 
