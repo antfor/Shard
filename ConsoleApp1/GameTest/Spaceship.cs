@@ -209,9 +209,9 @@ namespace GameTest
 
             float x = scale * ((float)this.Transform.X - cw);
             float y = scale * ((float)this.Transform.Y - ch);
-            float z = scale * ((float)this.Transform.Z);
-            Console.WriteLine("pos: x=" + x + " y= " + y + " z= " + z);
-            return new Vector3(x,y,z);
+            //float z = scale * ((float)this.Transform.Z);
+            Console.WriteLine("pos: x=" + x + " y= " + y + " z= " + 0);
+            return new Vector3(x,y,0);
         }
 
         public Vector3 getSoundVel()

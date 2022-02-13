@@ -17,7 +17,7 @@ using System;
 namespace Shard
 {
 
-    class Transform
+    class Transform2D
     {
         private GameObject owner;
         private double x, y;
@@ -38,7 +38,7 @@ namespace Shard
             return new Vector(-dx, -dy);
         }
 
-        public Transform(GameObject ow)
+        public Transform2D(GameObject ow)
         {
             Owner = ow;
             forward = new Vector();

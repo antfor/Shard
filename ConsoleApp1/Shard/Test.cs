@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Mathematics;
 using Shard.Graphics.OpenGL.Rendering;
 
 namespace Shard
@@ -15,5 +16,10 @@ namespace Shard
         public string Program => program;
 
         public string Buffer => buffer;
+
+        public Matrix4 getModelMatrix()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

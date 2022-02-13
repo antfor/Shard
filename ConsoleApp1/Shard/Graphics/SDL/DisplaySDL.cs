@@ -52,7 +52,7 @@ namespace Shard
 
     class DisplaySDL : DisplayText
     {
-        private List<Transform> _toDraw;
+        private List<Transform2D> _toDraw;
         private List<Line> _linesToDraw;
         private List<Circle> _circlesToDraw;
         private Dictionary<string, IntPtr> spriteBuffer;
@@ -62,14 +62,14 @@ namespace Shard
 
             base.initialize();
 
-            _toDraw = new List<Transform>();
+            _toDraw = new List<Transform2D>();
             _linesToDraw = new List<Line>();
             _circlesToDraw = new List<Circle>();
 
 
         }
 
-        public IntPtr loadTexture(Transform trans)
+        public IntPtr loadTexture(Transform2D trans)
         {
             IntPtr ret;
             uint format;
@@ -214,7 +214,7 @@ namespace Shard
 
 
 
-            foreach (Transform trans in _toDraw)
+            foreach (Transform2D trans in _toDraw)
             {
 
                 if (trans.SpritePath == null)

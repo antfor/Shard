@@ -152,7 +152,7 @@ namespace Shard.Graphics.OpenGL
             while (running)
             {
             
-                GL.Viewport(0, 0, this.Size.X, this.Size.Y);
+                
                 
 
                 float dt = (float)Bootstrap.getDeltaTime();
@@ -168,15 +168,18 @@ namespace Shard.Graphics.OpenGL
                     }
 
                     //GL.ClearColor(0.4f * (1.0f - ct/time) + 0.2f, 0.0f, 0.0f, 1.0f);
-                    GL.Clear(ClearBufferMask.ColorBufferBit);
+                    
 
 
                 lock (resizeLock)
                 {
+                    GL.Viewport(0, 0, this.Size.X, this.Size.Y);
+                    GL.Clear(ClearBufferMask.ColorBufferBit);
                     renderCall.render();
+                    this.Context.SwapBuffers();
                 }
 
-                this.Context.SwapBuffers();
+                
                 
 
             }

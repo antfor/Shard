@@ -35,7 +35,7 @@ namespace Shard
         List<Collider> collisionCandidates;
         GameObject parent;
         CollisionHandler colh;
-        Transform trans;
+        Transform2D trans;
         private float angularDrag;
         private float drag;
         private float torque;
@@ -64,7 +64,7 @@ namespace Shard
         public float AngularDrag { get => angularDrag; set => angularDrag = value; }
         public float Drag { get => drag; set => drag = value; }
         internal GameObject Parent { get => parent; set => parent = value; }
-        internal Transform Trans { get => trans; set => trans = value; }
+        internal Transform2D Trans { get => trans; set => trans = value; }
         public float Mass { get => mass; set => mass = value; }
         public float[] MinAndMaxX { get => minAndMaxX; set => minAndMaxX = value; }
         public float[] MinAndMaxY { get => minAndMaxY; set => minAndMaxY = value; }

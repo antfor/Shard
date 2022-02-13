@@ -1,39 +1,129 @@
-﻿/*
-*
-*   Our game engine functions in 2D, but all its features except for graphics can mostly be extended
-*       from existing data structures.
-*       
-*   @author Michael Heron
-*   @version 1.0
-*   
-*/
+﻿using OpenTK.Mathematics;
 
 namespace Shard
 {
-    class Transform3D : Transform
+    class Transform3D
     {
-        private double z;
-        private double rotx, roty;
-        private int scalez;
+        private Matrix4 mat = Matrix4.Identity;
+        private Quaternion rot = Quaternion.Identity;
 
-        public Transform3D(GameObject o) : base(o)
+        private Vector4 forward = new Vector4(0,0,-1,0);
+        private Vector4 left = new Vector4(1, 0, 0,0);
+        private Vector4 up = new Vector4(0, 1, 0,0);
+
+        public float X { get => getPos().X; set => setPos(value, getPos().Y, getPos().Z); }
+        public float Y { get => getPos().Y; set => setPos(getPos().X, value, getPos().Z); }
+        public float Z { get => getPos().Z; set => setPos(getPos().X, getPos().Y, value); }
+
+        public void setForward(Vector4 forward) {
+            this.forward = forward.Normalized();
+            left = new  Vector4(Vector3.Cross(up.Xyz, forward.Xyz), 0);
+        }
+        public void setUP(Vector4 up)
         {
+            this.up = up.Normalized();
+            left = new Vector4(Vector3.Cross(up.Xyz, forward.Xyz), 0);
         }
 
-        public double Z
+        public Matrix4 getModelMatrix()
         {
-            get => z;
-            set => z = value;
+            return mat;
+        }
+
+        public Vector4 getForward() {
+            return (rot * forward).Normalized();
+        }
+
+        public Vector4 getUp()
+        {
+            return (rot * up).Normalized();
+        }
+
+        public Vector4 getLeft()
+        {
+            return (rot * left).Normalized();
+        }
+
+        // scale
+        public void setScale(float x, float y, float z) {
+            mat = mat.ClearScale() + Matrix4.CreateScale(x,y,z);
+        }
+
+        public void scale(float x, float y, float z) { 
+            mat += Matrix4.CreateScale(x, y, z);
+        }
+
+        public Vector3 getScale() {
+            return mat.ExtractScale();
         }
 
 
-
-        public int Scalez
-        {
-            get => scalez;
-            set => scalez = value;
+        // translate 
+        public void translate(float x, float y, float z) {
+            mat += Matrix4.CreateTranslation(x,y,z);
         }
-        public double Rotx { get => rotx; set => rotx = value; }
-        public double Roty { get => roty; set => roty = value; }
+
+        public void setPos(float x, float y, float z)
+        {
+            mat = mat.ClearTranslation() + Matrix4.CreateTranslation(x, y, z);
+        }
+
+        public Vector3 getPos()
+        {
+            return mat.ExtractTranslation();
+        }
+
+        public void moveForward(float dist) {
+            Vector4 move = getForward() * dist;
+            translate(move.X,move.Y,move.Z);
+        }
+
+        public void moveUp(float dist)
+        {
+            Vector4 move = getUp() * dist;
+            translate(move.X, move.Y, move.Z);
+        }
+
+        public void moveLeft(float dist)
+        {
+            Vector4 move = getLeft() * dist;
+            translate(move.X, move.Y, move.Z);
+        }
+        // rot
+        public void rotate(float x, float y, float z) {
+            rot = Quaternion.Multiply(rot, Quaternion.FromEulerAngles(x, y, z));
+            rot.Normalize();
+            mat = mat.ClearRotation() + Matrix4.CreateFromQuaternion(rot);
+        }
+
+        public void rotate(Vector3 axis, float deg) {
+            rot = Quaternion.Multiply(rot, Quaternion.FromAxisAngle(axis, deg));
+            rot.Normalize();
+            mat = mat.ClearRotation() + Matrix4.CreateFromQuaternion(rot);
+        }
+
+        public void setRotation(float x, float y, float z)
+        {
+            rot = Quaternion.FromEulerAngles(x, y, z);
+            rot.Normalize();
+            mat = mat.ClearRotation() + Matrix4.CreateFromQuaternion(rot);
+        }
+
+        public void setRotation(Vector3 axis, float deg)
+        {
+            rot = Quaternion.FromAxisAngle(axis, deg);
+            rot.Normalize();
+            mat = mat.ClearRotation() + Matrix4.CreateFromQuaternion(rot);
+        }
+
+        public Vector3 getRotation() {
+            return mat.ExtractRotation().ToEulerAngles();
+        }
+
+
+        public Vector3 toRad(float x, float y, float z) {
+            return new Vector3(MathHelper.DegreesToRadians(x), MathHelper.DegreesToRadians(y), MathHelper.DegreesToRadians(z));
+        }
+
     }
 }

@@ -4,24 +4,16 @@ using OpenTK.Audio.OpenAL;
 
 namespace Shard.Sound
 {
-    public abstract class Listener
+    public interface Listener
     {
 
-        private bool isStatic = false;
-
-        public bool IsStatic { get => isStatic; }
-
-        protected void setStatic(bool b) {
-            isStatic = b;
-        }
+        bool IsStatic { get; set; }
 
         public abstract Vector3 getPos();
         public abstract Vector3 getVel();
 
         public abstract Vector3 getDir();
         public abstract Vector3 getUp();
-
-        
 
     }
 }

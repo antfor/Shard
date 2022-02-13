@@ -22,27 +22,30 @@ namespace Shard
         private Vector3 dir = new Vector3(0.0f, 0.0f, -1.0f);
         private Vector3 up =  new Vector3(0.0f, 1.0f, 0.0f);
         private Vector3 vel = new Vector3(0.0f, 0.0f, 0.0f);
+        private bool isStatic;
+
+        public bool IsStatic { get => isStatic;  set => isStatic = value; }
 
         public defultLisener() {
-            setStatic(true);
+            isStatic = true;
         }
 
-        public override Vector3 getUp()
+        public Vector3 getUp()
         {
             return up;
         }
 
-        public override Vector3 getDir()
+        public Vector3 getDir()
         {
             return dir;
         }
 
-        public override Vector3 getPos()
+        public Vector3 getPos()
         {
             return pos;
         }
 
-        public override Vector3 getVel()
+        public Vector3 getVel()
         {
             return vel;
         }
@@ -146,6 +149,7 @@ namespace Shard
                 Vector3 dir = listener.getDir();
                 Vector3 up = listener.getUp();
                 AL.Listener(ALListenerfv.Orientation, ref dir, ref up);
+              //  AL.Listener(ALListenerfv.Orientation,);
         }
 
 

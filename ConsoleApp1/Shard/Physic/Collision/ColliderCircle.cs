@@ -13,11 +13,11 @@ namespace Shard
 {
     class ColliderCircle : Collider
     {
-        private Transform myRect;
+        private Transform2D myRect;
         private float x, y, rad;
         private float xoff, yoff;
         private bool fromTrans;
-        public ColliderCircle(CollisionHandler gob, Transform t) : base(gob)
+        public ColliderCircle(CollisionHandler gob, Transform2D t) : base(gob)
         {
 
             this.MyRect = t;
@@ -25,7 +25,7 @@ namespace Shard
             calculateBoundingBox();
         }
 
-        public ColliderCircle(CollisionHandler gob, Transform t, float x, float y, float rad) : base(gob)
+        public ColliderCircle(CollisionHandler gob, Transform2D t, float x, float y, float rad) : base(gob)
         {
 
             Xoff = x;
@@ -84,7 +84,7 @@ namespace Shard
 
 
         }
-        internal Transform MyRect { get => myRect; set => myRect = value; }
+        internal Transform2D MyRect { get => myRect; set => myRect = value; }
         public float X { get => x; set => x = value; }
         public float Y { get => y; set => y = value; }
         public float Rad { get => rad; set => rad = value; }

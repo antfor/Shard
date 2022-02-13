@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK.Mathematics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,11 @@ namespace Shard.Shard.Graphics.OpenGL.rayMarching
         public string Program => throw new NotImplementedException();
 
         public string Buffer => throw new NotImplementedException();
+
+        public Matrix4 getModelMatrix()
+        {
+            throw new NotImplementedException();
+        }
 
         public void render()
         {
