@@ -57,14 +57,14 @@ namespace Shard.Graphics.OpenGL.Rendering
         private Dictionary<string, Buffer> buffers = new Dictionary<string, Buffer> { };
         private Dictionary<string, float[]> unLodedbuffers = new Dictionary<string, float[]> { };
 
-        private SortedList<int, List<IRenderObject>> renderObjects = new SortedList<int, List<IRenderObject>>() { };
+        private SortedList<int, List<RenderObject>> renderObjects = new SortedList<int, List<RenderObject>>() { };
 
         private Dictionary<string , Uniform> uniforms = new Dictionary<string, Uniform> { };
 
         private bool initialized = false;
 
         private RenderManager() {
-
+            uniforms.Add("dt", new Uniform<float>("dt"));
         }
                                     
         public static RenderManager getInstance() {
@@ -227,17 +227,23 @@ namespace Shard.Graphics.OpenGL.Rendering
         }
 
   
-        private void render(string progID, string bufferID) {
+        private void render(RenderObject obj) {
 
-            int prog = useProgram(progID);
+            int prog = useProgram(obj.Program);
 
-            Buffer buffer = getBuffer(bufferID);
+            Buffer buffer = getBuffer(obj.Buffer);
 
             GL.BindVertexArray(buffer.ID);
 
+
             //obj uniforms
-            Uniforms.setUniform(0,new Uniform<float>("hej",0));
+            obj.setUniforms(prog);
             //gen uniforms
+            foreach (Uniform uniform in uniforms.Values) {
+                Uniforms.setUniform(prog, uniform);
+            }
+            //set mvp
+            Uniforms.setUniform(prog, "mvp", obj.getModelMatrix());//todo vp
 
             GL.DrawArrays(OGL.PrimitiveType.Triangles,0, 3);
             string error = GL.GetError().ToString();
@@ -253,42 +259,44 @@ namespace Shard.Graphics.OpenGL.Rendering
 
             updateUniforms();
 
-            foreach (List<IRenderObject> list in renderObjects.Values)
+            foreach (List<RenderObject> list in renderObjects.Values)
             {
-                foreach (IRenderObject obj in list)
+                foreach (RenderObject obj in list)
                 {
-                    render(obj.Program, obj.Buffer);
-
+                    render(obj);
                 }
             }
         }
 
         private void updateUniforms()
         {
-            Bootstrap.getDeltaTime();
-            
+            Uniform uniform;
+            if(uniforms.TryGetValue("dt", out uniform))
+            {
+                ((Uniform<float>)uniform).Value = (float)Bootstrap.getDeltaTime();
+            }
         }
 
-        public int addRenderObject(IRenderObject obj, int prio)
+        public int addRenderObject(RenderObject obj, int prio)
         {
 
-            List<IRenderObject> list;
+            List<RenderObject> list;
             if (renderObjects.TryGetValue(prio, out list))
             {
                 list.Add(obj);
             }
             else
             {
-                renderObjects.Add(prio, new List<IRenderObject> { obj });
+                renderObjects.Add(prio, new List<RenderObject> { obj });
             }
 
             return prio;
         }
 
-        public bool removeRenderObject(IRenderObject obj, int prio)
+        public bool removeRenderObject(RenderObject obj, int prio)
         {
 
-            List<IRenderObject> list;
+            List<RenderObject> list;
 
             if (renderObjects.TryGetValue(prio, out list))
             {

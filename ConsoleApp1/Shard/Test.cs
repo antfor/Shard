@@ -5,21 +5,32 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 using Shard.Graphics.OpenGL.Rendering;
-
+using Shard.Misc;
 namespace Shard
 {
-    class Test : IRenderObject
+    class Test : GameObject
     {
-        public static string buffer = "tri";
-        public static string program = "prog";
-
-        public string Program => program;
-
-        public string Buffer => buffer;
-
-        public Matrix4 getModelMatrix()
+        float time = 0;
+        float fullTime = 2;
+        public override void initialize()
         {
-            throw new NotImplementedException();
+            RenderObject.render("prog", "buffer");
+
+        }
+
+        public override void update()
+        {
+            float dt = (float)Bootstrap.getDeltaTime();
+            time += dt;
+            if (time > fullTime) { time = time - fullTime; }
+            float fullRot = (float)(2 * Math.PI);
+            Transform3D.rotate(0, 0, fullRot * dt / fullTime);
+            //PConsole.WriteLine(""+ dt / fullTime);
+            //Transform3D.setPos(0.0f, 0, 0.0f);
+             Transform3D.setScale(0.75f, 1,1);
+
+           // PConsole.WriteLine(Transform3D.getScale().ToString());
+
         }
     }
 }

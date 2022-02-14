@@ -28,6 +28,7 @@ namespace Shard
         private static InputSystem input;
         private static PhysicsManager phys;
         private static ThreadManager tm;
+        private static RenderManager rm;
 
         private static int targetFrameRate;
         private static int millisPerFrame;
@@ -167,6 +168,8 @@ namespace Shard
             PConsole.init();
             tm = ThreadManager.getInstance();
             tm.setMain(Thread.CurrentThread);
+
+            rm = RenderManager.getInstance();
         }
 
 
@@ -209,14 +212,14 @@ namespace Shard
               0.0f,  0.5f, 0.0f  //Top vertex
              };
 
-            Test test = new Test();
-
-            rm.addArrayBuffer(test.Buffer, vertices); 
+            rm.addArrayBuffer("buffer", vertices); 
             rm.addShader("vert", @"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\Shard\Graphics\OpenGL\Rendering\defult.vert", Shader.Vertex);
             rm.addShader("frag", @"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\Shard\Graphics\OpenGL\Rendering\defult.frag", Shader.Fragment);
-            rm.addProgram(test.Program,"vert","frag");
+            rm.addProgram("prog","vert","frag");
 
-            rm.addRenderObject(test,0);
+            Test test = new Test();
+            
+
 
 
             // This is our game loop.
@@ -225,6 +228,7 @@ namespace Shard
                  frames += 1;
 
                  timeInMillisecondsStart = getCurrentMillis();
+                test.update();
                 /*
                                  // Clear the screen.
                                  Bootstrap.getDisplay().clearDisplay();

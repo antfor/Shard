@@ -29,42 +29,6 @@ namespace Shard.Graphics.OpenGL.Rendering
 
     }
 
-
-    class UniformFactory{
-        public static Uniform<float> createUniform(string name, float value) {
-            return new Uniform<float>(name,value);
-        }
-
-        public static Uniform<bool> createUniform(string name, bool value)
-        {
-            return new Uniform<bool>(name, value);
-        }
-
-        public static Uniform<int> createUniform(string name, int value)
-        {
-            return new Uniform<int>(name, value);
-        }
-
-        public static Uniform<Vector3> createUniform(string name, Vector3 value)
-        {
-            return new Uniform<Vector3>(name, value);
-        }
-
-        public static Uniform<Vector2> createUniform(string name, Vector2 value)
-        {
-            return new Uniform<Vector2>(name, value);
-        }
-
-        public static Uniform<Vector4> createUniform(string name, Vector4 value)
-        {
-            return new Uniform<Vector4>(name, value);
-        }
-
-        public static Uniform<Matrix4> createUniform(string name, Matrix4 value)
-        {
-            return new Uniform<Matrix4>(name, value);
-        }
-    }
     class Uniforms
     {
 

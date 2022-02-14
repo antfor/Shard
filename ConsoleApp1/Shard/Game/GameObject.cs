@@ -17,6 +17,7 @@ namespace Shard
     {
         private Transform2D transform;
         private Transform3D transform3D;
+        private RenderObject renderObject;
         private bool transient;
         private bool toBeDestroyed;
         private bool visible;
@@ -86,6 +87,11 @@ namespace Shard
             get => transform3D;
         }
 
+        internal RenderObject RenderObject
+        {
+            get => renderObject;
+        }
+
         public bool Visible
         {
             get => visible;
@@ -121,7 +127,9 @@ namespace Shard
             GameObjectManager.getInstance().addGameObject(this);
 
             transform = new Transform2D(this);
-            transform3D = new Transform3D();
+            transform3D = new Transform3D(this);
+            renderObject = new RenderObject(this);
+
             visible = false;
 
             ToBeDestroyed = false;
