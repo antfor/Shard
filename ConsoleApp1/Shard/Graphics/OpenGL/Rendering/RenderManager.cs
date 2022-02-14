@@ -59,6 +59,8 @@ namespace Shard.Graphics.OpenGL.Rendering
 
         private SortedList<int, List<IRenderObject>> renderObjects = new SortedList<int, List<IRenderObject>>() { };
 
+        private Dictionary<string , Uniform> uniforms = new Dictionary<string, Uniform> { };
+
         private bool initialized = false;
 
         private RenderManager() {
@@ -189,24 +191,24 @@ namespace Shard.Graphics.OpenGL.Rendering
             return buffers.TryAdd(id, new Buffer(vao,arr.Length));
         }
 
-        private bool useProgram(string progID) {
+        private int useProgram(string progID) {
             int prog;
             if (!programs.TryGetValue(progID, out prog)) {
 
                 if (linkProgram(progID))
                 {
                     if (!programs.TryGetValue(progID, out prog))
-                        return false;
+                        return -1;
                 }
                 else {
-                    return false;
+                    return -1;
                 }
             }
 
             GL.UseProgram(prog);
 
 
-            return true;
+            return prog;
         }
 
         private Buffer getBuffer(string bufferID) {
@@ -227,11 +229,15 @@ namespace Shard.Graphics.OpenGL.Rendering
   
         private void render(string progID, string bufferID) {
 
-            useProgram(progID);
+            int prog = useProgram(progID);
 
             Buffer buffer = getBuffer(bufferID);
 
             GL.BindVertexArray(buffer.ID);
+
+            //obj uniforms
+            Uniforms.setUniform(0,new Uniform<float>("hej",0));
+            //gen uniforms
 
             GL.DrawArrays(OGL.PrimitiveType.Triangles,0, 3);
             string error = GL.GetError().ToString();
@@ -241,11 +247,11 @@ namespace Shard.Graphics.OpenGL.Rendering
         public void update() {
 
 
-
-
             if (!initialized) {
                 initialized = true;
             }
+
+            updateUniforms();
 
             foreach (List<IRenderObject> list in renderObjects.Values)
             {
@@ -255,6 +261,12 @@ namespace Shard.Graphics.OpenGL.Rendering
 
                 }
             }
+        }
+
+        private void updateUniforms()
+        {
+            Bootstrap.getDeltaTime();
+            
         }
 
         public int addRenderObject(IRenderObject obj, int prio)

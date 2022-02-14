@@ -4,7 +4,7 @@ namespace Shard
 {
     class Transform3D
     {
-        private Matrix4 mat = Matrix4.Identity;
+        private Matrix4 modelMatrix = Matrix4.Identity;
         private Quaternion rot = Quaternion.Identity;
 
         private Vector4 forward = new Vector4(0,0,-1,0);
@@ -27,7 +27,7 @@ namespace Shard
 
         public Matrix4 getModelMatrix()
         {
-            return mat;
+            return modelMatrix;
         }
 
         public Vector4 getForward() {
@@ -46,31 +46,31 @@ namespace Shard
 
         // scale
         public void setScale(float x, float y, float z) {
-            mat = mat.ClearScale() + Matrix4.CreateScale(x,y,z);
+            modelMatrix = modelMatrix.ClearScale() + Matrix4.CreateScale(x,y,z);
         }
 
         public void scale(float x, float y, float z) { 
-            mat += Matrix4.CreateScale(x, y, z);
+            modelMatrix += Matrix4.CreateScale(x, y, z);
         }
 
         public Vector3 getScale() {
-            return mat.ExtractScale();
+            return modelMatrix.ExtractScale();
         }
 
 
         // translate 
         public void translate(float x, float y, float z) {
-            mat += Matrix4.CreateTranslation(x,y,z);
+            modelMatrix += Matrix4.CreateTranslation(x,y,z);
         }
 
         public void setPos(float x, float y, float z)
         {
-            mat = mat.ClearTranslation() + Matrix4.CreateTranslation(x, y, z);
+            modelMatrix = modelMatrix.ClearTranslation() + Matrix4.CreateTranslation(x, y, z);
         }
 
         public Vector3 getPos()
         {
-            return mat.ExtractTranslation();
+            return modelMatrix.ExtractTranslation();
         }
 
         public void moveForward(float dist) {
@@ -93,31 +93,31 @@ namespace Shard
         public void rotate(float x, float y, float z) {
             rot = Quaternion.Multiply(rot, Quaternion.FromEulerAngles(x, y, z));
             rot.Normalize();
-            mat = mat.ClearRotation() + Matrix4.CreateFromQuaternion(rot);
+            modelMatrix = modelMatrix.ClearRotation() + Matrix4.CreateFromQuaternion(rot);
         }
 
         public void rotate(Vector3 axis, float deg) {
             rot = Quaternion.Multiply(rot, Quaternion.FromAxisAngle(axis, deg));
             rot.Normalize();
-            mat = mat.ClearRotation() + Matrix4.CreateFromQuaternion(rot);
+            modelMatrix = modelMatrix.ClearRotation() + Matrix4.CreateFromQuaternion(rot);
         }
 
         public void setRotation(float x, float y, float z)
         {
             rot = Quaternion.FromEulerAngles(x, y, z);
             rot.Normalize();
-            mat = mat.ClearRotation() + Matrix4.CreateFromQuaternion(rot);
+            modelMatrix = modelMatrix.ClearRotation() + Matrix4.CreateFromQuaternion(rot);
         }
 
         public void setRotation(Vector3 axis, float deg)
         {
             rot = Quaternion.FromAxisAngle(axis, deg);
             rot.Normalize();
-            mat = mat.ClearRotation() + Matrix4.CreateFromQuaternion(rot);
+            modelMatrix = modelMatrix.ClearRotation() + Matrix4.CreateFromQuaternion(rot);
         }
 
         public Vector3 getRotation() {
-            return mat.ExtractRotation().ToEulerAngles();
+            return modelMatrix.ExtractRotation().ToEulerAngles();
         }
 
 
