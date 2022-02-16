@@ -9,7 +9,7 @@ namespace Shard
         private Quaternion rot = Quaternion.Identity;
 
         private Vector4 forward = new Vector4(0, 0, -1, 0);
-        private Vector4 left = new Vector4(1, 0, 0, 0);
+        private Vector4 right = new Vector4(1, 0, 0, 0);
         private Vector4 up = new Vector4(0, 1, 0, 0);
 
         public float X { get => getPos().X; set => setPos(value, getPos().Y, getPos().Z); }
@@ -20,14 +20,19 @@ namespace Shard
         
         }
 
+        public Transform3D()
+        {
+
+        }
+
         public void setForward(Vector4 forward) {
             this.forward = forward.Normalized();
-            left = new  Vector4(Vector3.Cross(up.Xyz, forward.Xyz), 0);
+            right = new  Vector4(Vector3.Cross(up.Xyz, forward.Xyz), 0);
         }
         public void setUP(Vector4 up)
         {
             this.up = up.Normalized();
-            left = new Vector4(Vector3.Cross(up.Xyz, forward.Xyz), 0);
+            right = new Vector4(Vector3.Cross(up.Xyz, forward.Xyz), 0);
         }
 
         public Matrix4 getModelMatrix()
@@ -44,9 +49,9 @@ namespace Shard
             return (rot * up).Normalized();
         }
 
-        public Vector4 getLeft()
+        public Vector4 getRight()
         {
-            return (rot * left).Normalized();
+            return (rot * right).Normalized();
         }
 
         // scale
@@ -89,9 +94,9 @@ namespace Shard
             translate(move.X, move.Y, move.Z);
         }
 
-        public void moveLeft(float dist)
+        public void moveRight(float dist)
         {
-            Vector4 move = getLeft() * dist;
+            Vector4 move = getRight() * dist;
             translate(move.X, move.Y, move.Z);
         }
         // rot

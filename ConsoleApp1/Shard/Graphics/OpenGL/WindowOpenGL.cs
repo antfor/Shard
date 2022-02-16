@@ -35,14 +35,32 @@ namespace Shard.Graphics.OpenGL
         public WindowOpenGL(GameWindowSettings gameWindowSettings,
                               NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
-
-            this.UpdateFrequency = 500;
-            this.RenderFrequency = 500;
-            cursorVisible(false);
+           
+            this.UpdateFrequency = 1;
+            this.RenderFrequency = 1;
+            //cursorVisible(false);
+           // Cursor = MouseCursor.Crosshair;
+            //CursorGrabbed = true;
+            //cursorVisible(true);
+            //CursorShape.Arrow;
+            cursorVisible(true);
             setName("Shard");
             setIcon(@"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\bin\Debug\net5.0\Crystal_Shards.png");
 
+            MouseMove += delegate (MouseMoveEventArgs e) { };
+            KeyUp += delegate (KeyboardKeyEventArgs e) { };
+            KeyDown += delegate (KeyboardKeyEventArgs e) { };
 
+        }
+
+
+        protected override void OnUpdateFrame(FrameEventArgs e)
+        {
+            // This gets called every 1/60 of a second.
+            if (KeyboardState.IsKeyDown(Keys.Escape))
+                Close();
+
+            base.OnUpdateFrame(e);
         }
 
         public unsafe override void Run()
@@ -108,6 +126,9 @@ namespace Shard.Graphics.OpenGL
         public void resize(int w, int h) {
             this.Size = new Vector2i(w, h);
         }
+        public Vector2i getSize() { 
+            return this.Size;
+        }
      
         internal void addRenderCall(IDisplay3D obj)
         {
@@ -167,8 +188,7 @@ namespace Shard.Graphics.OpenGL
 
                     }
 
-                    //GL.ClearColor(0.4f * (1.0f - ct/time) + 0.2f, 0.0f, 0.0f, 1.0f);
-                    
+                //GL.ClearColor(0.4f * (1.0f - ct/time) + 0.2f, 0.0f, 0.0f, 1.0f);
 
 
                 lock (resizeLock)

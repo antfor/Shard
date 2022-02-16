@@ -24,10 +24,10 @@ namespace Shard
             time += dt;
             if (time > fullTime) { time = time - fullTime; }
             float fullRot = (float)(2 * Math.PI);
-            Transform3D.rotate(0, 0, fullRot * dt / fullTime);
+            Transform3D.rotate(0, fullRot * dt / fullTime, 0);
             //PConsole.WriteLine(""+ dt / fullTime);
-            //Transform3D.setPos(0.0f, 0, 0.0f);
-             Transform3D.setScale(0.75f, 1,1);
+            Transform3D.setPos(0.0f, 1, 0.0f);
+             //Transform3D.setScale(0.75f, 1,1);
 
            // PConsole.WriteLine(Transform3D.getScale().ToString());
 

@@ -7,6 +7,7 @@ using Shard.Graphics.OpenGL;
 using OpenTK.Windowing.Desktop;
 
 using Shard.Graphics;
+using Shard.Misc;
 using Shard.Graphics.OpenGL.Rendering;
 
 namespace Shard
@@ -14,7 +15,7 @@ namespace Shard
     class DisplayOpenGL: IDisplay3D, IThread
     {
         private int _height, _width;
-        private WindowOpenGL window;
+        private static WindowOpenGL window = new WindowOpenGL(GameWindowSettings.Default, NativeWindowSettings.Default);
         private RenderManager rm;
        
 
@@ -24,8 +25,8 @@ namespace Shard
 
         private ThreadManager tm;
 
-        public int Height { get => _height; set => resizeDisplay(_width, value); }
-        public int Width { get => _width; set => resizeDisplay(value, _height); }
+        public int Height { get => window.Size.Y; set => resizeDisplay(window.Size.X, value); }
+        public int Width { get => window.Size.X; set => resizeDisplay(value, window.Size.Y); }
 
         public DisplayOpenGL() {
             
@@ -57,8 +58,6 @@ namespace Shard
 
         public void runMethod()
         {
-
-            window = new WindowOpenGL(GameWindowSettings.Default, NativeWindowSettings.Default);
             window.addRenderCall(this);
             window.Run();
         }

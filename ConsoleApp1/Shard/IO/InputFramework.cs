@@ -9,6 +9,7 @@
 */
 
 using SDL2;
+using Shard.Misc;
 
 namespace Shard
 {
@@ -34,14 +35,14 @@ namespace Shard
 
             while (tick >= timeInterval)
             {
-
+                
                 res = SDL.SDL_PollEvent(out ev);
-
 
                 if (res != 1)
                 {
                     return;
                 }
+                
 
                 ie = new InputEvent();
 
@@ -95,9 +96,10 @@ namespace Shard
                     informListeners(ie, "MouseWheel");
                 }
 
-
+                
                 if (ev.type == SDL.SDL_EventType.SDL_KEYDOWN)
                 {
+                    PConsole.WriteLine("input");
                     ie.Key = (int)ev.key.keysym.scancode;
                     Debug.getInstance().log("Keydown: " + ie.Key);
                     informListeners(ie, "KeyDown");

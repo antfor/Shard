@@ -63,6 +63,11 @@ namespace Shard.Misc
 
         private PConsole() { }
 
+        public static void WriteLine(object obj)
+        {
+            Write("\n" + obj.ToString());
+        }
+
         public static void WriteLine(string line) {
             Write("\n" + line);
         }

@@ -4,7 +4,7 @@ using OpenTK.Audio.OpenAL;
 
 namespace Shard.Sound
 {
-    public interface Listener
+    public interface IListener
     {
 
         bool IsStatic { get; set; }

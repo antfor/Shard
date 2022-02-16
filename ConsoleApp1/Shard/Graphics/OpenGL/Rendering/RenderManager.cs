@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
-
+using OpenTK.Mathematics;
 using Shard.Misc;
 
 using GL = OpenTK.Graphics.OpenGL4.GL;
@@ -243,7 +242,19 @@ namespace Shard.Graphics.OpenGL.Rendering
                 Uniforms.setUniform(prog, uniform);
             }
             //set mvp
-            Uniforms.setUniform(prog, "mvp", obj.getModelMatrix());//todo vp
+            Matrix4 model = obj.getModelMatrix();
+            Matrix4 view = Bootstrap.getCamera().getViewMatrix();
+            Matrix4 projection = Bootstrap.getCamera().getPerspectiveMatrix();
+
+            //PConsole.WriteLine(Bootstrap.getCamera().getTransform().getPos().ToString());
+            //PConsole.WriteLine(Bootstrap.getCamera().getTransform().getForward().ToString());
+
+
+            Uniforms.setUniform(prog, "mvp", model * view * projection);
+
+            Uniforms.setUniform(prog, "model", model);
+            Uniforms.setUniform(prog, "view", view);
+            Uniforms.setUniform(prog, "projection", projection);
 
             GL.DrawArrays(OGL.PrimitiveType.Triangles,0, 3);
             string error = GL.GetError().ToString();

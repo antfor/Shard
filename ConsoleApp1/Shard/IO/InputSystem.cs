@@ -8,7 +8,9 @@
 *   
 */
 
+using SDL2;
 using System.Collections.Generic;
+using Shard.Misc;
 
 namespace Shard
 {
@@ -24,6 +26,15 @@ namespace Shard
         public InputSystem()
         {
             myListeners = new List<InputListener>();
+   
+            SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING);
+            SDL_ttf.TTF_Init();
+            SDL.SDL_CreateWindow("Shard Game Engine",
+                SDL.SDL_WINDOWPOS_CENTERED,
+                SDL.SDL_WINDOWPOS_CENTERED,
+                100,
+                100,
+                0);
         }
 
         public void addListener(InputListener il)

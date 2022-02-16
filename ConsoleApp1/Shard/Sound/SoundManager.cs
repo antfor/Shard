@@ -15,7 +15,7 @@ using Shard.Sound;
 namespace Shard
 {
 
-    public class defultLisener : Listener
+    public class defultLisener : IListener
     {
         
         private Vector3 pos = new Vector3(0.0f, 0.0f, 5.0f);
@@ -61,9 +61,9 @@ namespace Shard
         private double TimeInterval;
 
 
-        private Listener listener;
+        private IListener listener;
 
-        internal Listener Listener { get => listener; set => listener = value; }
+        internal IListener Listener { get => listener; set => listener = value; }
 
         public unsafe  SoundManager()
         {
@@ -130,7 +130,7 @@ namespace Shard
 
         }
 
-        public void setListener(Listener l)
+        public void setListener(IListener l)
         {
             this.Listener = l;
             updateListener();

@@ -29,6 +29,7 @@ namespace Shard
         private static PhysicsManager phys;
         private static ThreadManager tm;
         private static RenderManager rm;
+        private static Camera camera;
 
         private static int targetFrameRate;
         private static int millisPerFrame;
@@ -111,7 +112,9 @@ namespace Shard
                         input = (InputSystem)ob;
                         input.initialize();
                         break;
-
+                    case "camera":
+                        camera = (Camera)ob;
+                        break;
                 }
                 
                 Debug.getInstance().log("Config file... setting " + kvp.Key + " to " + kvp.Value);
@@ -173,7 +176,6 @@ namespace Shard
         }
 
 
-
         static void Main(string[] args)
         {
             init();
@@ -227,8 +229,11 @@ namespace Shard
              {
                  frames += 1;
 
-                 timeInMillisecondsStart = getCurrentMillis();
+                timeInMillisecondsStart = getCurrentMillis();
                 test.update();
+                input.getInput();
+                
+                
                 /*
                                  // Clear the screen.
                                  Bootstrap.getDisplay().clearDisplay();
@@ -316,6 +321,11 @@ namespace Shard
              }
           
 
+        }
+
+        internal static Camera getCamera()
+        {
+            return camera;
         }
 
         public static bool isRunning() {
