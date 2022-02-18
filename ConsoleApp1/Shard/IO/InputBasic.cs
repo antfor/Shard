@@ -7,6 +7,7 @@
 *   
 */
 
+using SDL2;
 using System;
 
 namespace Shard
@@ -32,6 +33,16 @@ namespace Shard
             informListeners(ie, "KeyUp");
 
             Debug.getInstance().log("Key is " + ie.Key);
+        }
+
+        public override uint getMouseState(out int x, out int y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool isDown(SDL.SDL_Scancode code)
+        {
+            throw new NotImplementedException();
         }
     }
 }

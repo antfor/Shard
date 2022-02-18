@@ -47,7 +47,7 @@ namespace Shard.Graphics.OpenGL
             setName("Shard");
             setIcon(@"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\bin\Debug\net5.0\Crystal_Shards.png");
 
-            MouseMove += delegate (MouseMoveEventArgs e) { };
+            MouseMove += delegate (MouseMoveEventArgs e) {};
             KeyUp += delegate (KeyboardKeyEventArgs e) { };
             KeyDown += delegate (KeyboardKeyEventArgs e) { };
 
@@ -59,6 +59,10 @@ namespace Shard.Graphics.OpenGL
             // This gets called every 1/60 of a second.
             if (KeyboardState.IsKeyDown(Keys.Escape))
                 Close();
+            
+            //if (MouseState.) 
+            if(KeyboardState.IsAnyKeyDown)
+              //  Bootstrap.getInput().focusInput();
 
             base.OnUpdateFrame(e);
         }

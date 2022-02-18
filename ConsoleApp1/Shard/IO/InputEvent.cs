@@ -15,6 +15,8 @@ namespace Shard
     {
         private int x;
         private int y;
+        private int xrel;
+        private int yrel;
         private int button;
         private int key;
         private string classification;
@@ -44,5 +46,7 @@ namespace Shard
             get => key;
             set => key = value;
         }
+        public int YRel { get => yrel; set => yrel = value; }
+        public int XRel { get => xrel; set => xrel = value; }
     }
 }

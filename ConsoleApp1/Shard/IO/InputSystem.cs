@@ -11,6 +11,8 @@
 using SDL2;
 using System.Collections.Generic;
 using Shard.Misc;
+using System;
+using System.Runtime.InteropServices;
 
 namespace Shard
 {
@@ -26,15 +28,7 @@ namespace Shard
         public InputSystem()
         {
             myListeners = new List<InputListener>();
-   
-            SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING);
-            SDL_ttf.TTF_Init();
-            SDL.SDL_CreateWindow("Shard Game Engine",
-                SDL.SDL_WINDOWPOS_CENTERED,
-                SDL.SDL_WINDOWPOS_CENTERED,
-                100,
-                100,
-                0);
+  
         }
 
         public void addListener(InputListener il)
@@ -66,5 +60,10 @@ namespace Shard
             }
         }
         public abstract void getInput();
+
+        public abstract bool isDown(SDL.SDL_Scancode code);
+
+        public abstract uint getMouseState(out int x, out int y);
+
     }
 }

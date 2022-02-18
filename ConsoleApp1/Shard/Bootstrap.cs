@@ -203,86 +203,64 @@ namespace Shard
             phys.Debugging = true;
             phys.GravityModifier = 0.1f;
 
-            // DisplayOpenGL dis = new DisplayOpenGL();
-            //dis.initialize();
-
-            RenderManager rm = RenderManager.getInstance();
-
-            float[] vertices = {
-             -0.5f, -0.5f, 0.0f, //Bottom-left vertex
-              0.5f, -0.5f, 0.0f, //Bottom-right vertex
-              0.0f,  0.5f, 0.0f  //Top vertex
-             };
-
-            rm.addArrayBuffer("buffer", vertices); 
-            rm.addShader("vert", @"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\Shard\Graphics\OpenGL\Rendering\defult.vert", Shader.Vertex);
-            rm.addShader("frag", @"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\Shard\Graphics\OpenGL\Rendering\defult.frag", Shader.Fragment);
-            rm.addProgram("prog","vert","frag");
-
-            Test test = new Test();
-            
-
-
 
             // This is our game loop.
             while (running)
-             {
+            {
                  frames += 1;
 
                 timeInMillisecondsStart = getCurrentMillis();
-                test.update();
-                input.getInput();
                 
+               
+                // Clear the screen.
+                Bootstrap.getDisplay().clearDisplay();
+
+                // Update 
+                camera.update();
+                runningGame.update();
+
+                // Input
+
+                if (runningGame.isRunning() == true)
+                {
+
+                    // Get input, which works at 50 FPS to make sure it doesn't interfere with the 
+                    // variable frame rates.
+                    input.getInput();
+
+                    // Update runs as fast as the system lets it.  Any kind of movement or counter 
+                    // increment should be based then on the deltaTime variable.
+                    GameObjectManager.getInstance().update();
+
+                    // This will update every 20 milliseconds or thereabouts.  Our physics system aims 
+                    // at a 50 FPS cycle.
+                    if (phys.willTick())
+                    {
+                        GameObjectManager.getInstance().prePhysicsUpdate();
+                    }
+
+                    // Update the physics.  If it's too soon, it'll return false.   Otherwise 
+                    // it'll return true.
+                    physUpdate = phys.update();
+
+                    if (physUpdate)
+                    {
+                        // If it did tick, give every object an update
+                        // that is pinned to the timing of the physics system.
+                        GameObjectManager.getInstance().physicsUpdate();
+                    }
+
+                    phys.drawDebugColliders();
+
+                    // Sound
+                    // runs at 50 fps at the mometn (same as physics)
+                    soundUpdate = soundEngine.update();
+                    if (soundUpdate)
+                    {
+                        GameObjectManager.getInstance().soundUpdate();
+                    }
+                }
                 
-                /*
-                                 // Clear the screen.
-                                 Bootstrap.getDisplay().clearDisplay();
-
-                                 // Update 
-                                 runningGame.update();
-
-                                 // Input
-
-                                 if (runningGame.isRunning() == true)
-                                 {
-
-                                     // Get input, which works at 50 FPS to make sure it doesn't interfere with the 
-                                     // variable frame rates.
-                                     input.getInput();
-
-                                     // Update runs as fast as the system lets it.  Any kind of movement or counter 
-                                     // increment should be based then on the deltaTime variable.
-                                     GameObjectManager.getInstance().update();
-
-                                     // This will update every 20 milliseconds or thereabouts.  Our physics system aims 
-                                     // at a 50 FPS cycle.
-                                     if (phys.willTick())
-                                     {
-                                         GameObjectManager.getInstance().prePhysicsUpdate();
-                                     }
-
-                                     // Update the physics.  If it's too soon, it'll return false.   Otherwise 
-                                     // it'll return true.
-                                     physUpdate = phys.update();
-
-                                     if (physUpdate)
-                                     {
-                                         // If it did tick, give every object an update
-                                         // that is pinned to the timing of the physics system.
-                                         GameObjectManager.getInstance().physicsUpdate();
-                                     }
-
-                                     phys.drawDebugColliders();
-
-                                     // Sound
-                                     // runs at 50 fps at the mometn (same as physics)
-                                     soundUpdate = soundEngine.update();
-                                     if (soundUpdate)
-                                     {
-                                         GameObjectManager.getInstance().soundUpdate();
-                                     }
-                                 }
-                */
                 // Render the screen.
                 Bootstrap.getDisplay().display();
 

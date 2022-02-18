@@ -250,13 +250,13 @@ namespace Shard.Graphics.OpenGL.Rendering
             //PConsole.WriteLine(Bootstrap.getCamera().getTransform().getForward().ToString());
 
 
-            Uniforms.setUniform(prog, "mvp", model * view * projection);
+            Uniforms.setUniform(prog, "mvp",  model * view * projection);
 
             Uniforms.setUniform(prog, "model", model);
             Uniforms.setUniform(prog, "view", view);
             Uniforms.setUniform(prog, "projection", projection);
 
-            GL.DrawArrays(OGL.PrimitiveType.Triangles,0, 3);
+            GL.DrawArrays(OGL.PrimitiveType.Triangles,0, buffer.Size/3);
             string error = GL.GetError().ToString();
 
         }

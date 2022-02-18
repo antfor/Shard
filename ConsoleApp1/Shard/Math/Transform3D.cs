@@ -1,4 +1,5 @@
 ﻿using OpenTK.Mathematics;
+using System;
 
 namespace Shard
 {
@@ -103,33 +104,48 @@ namespace Shard
         public void rotate(float x, float y, float z) {
             rot = Quaternion.Multiply(rot, Quaternion.FromEulerAngles(x, y, z));
             rot.Normalize();
-            modelMatrix = modelMatrix.ClearRotation() * Matrix4.CreateFromQuaternion(rot);
+            modelMatrix = Matrix4.CreateFromQuaternion(rot) * modelMatrix.ClearRotation();
         }
 
         public void rotate(Vector3 axis, float deg) {
             rot = Quaternion.Multiply(rot, Quaternion.FromAxisAngle(axis, deg));
             rot.Normalize();
-            modelMatrix = modelMatrix.ClearRotation() * Matrix4.CreateFromQuaternion(rot);
+            modelMatrix = Matrix4.CreateFromQuaternion(rot) * modelMatrix.ClearRotation();
         }
 
         public void setRotation(float x, float y, float z)
         {
             rot = Quaternion.FromEulerAngles(x, y, z);
             rot.Normalize();
-            modelMatrix = modelMatrix.ClearRotation() * Matrix4.CreateFromQuaternion(rot);
+            modelMatrix = Matrix4.CreateFromQuaternion(rot) * modelMatrix.ClearRotation();
         }
 
         public void setRotation(Vector3 axis, float deg)
         {
             rot = Quaternion.FromAxisAngle(axis, deg);
             rot.Normalize();
-            modelMatrix = modelMatrix.ClearRotation() * Matrix4.CreateFromQuaternion(rot);
+            modelMatrix = Matrix4.CreateFromQuaternion(rot) * modelMatrix.ClearRotation();
         }
 
         public Vector3 getRotation() {
             return modelMatrix.ExtractRotation().ToEulerAngles();
         }
 
+
+        public void rotate(Vector3 v)
+        {
+            rotate(v.X, v.Y, v.Z);
+        }
+
+        public void rotateDeg(float x, float y, float z)
+        {
+            rotate(toRad(x,y,z));
+        }
+
+        internal void setRotation(Vector3 vector3)
+        {
+            setRotation(vector3.X, vector3.Y, vector3.Z);
+        }
 
         public Vector3 toRad(float x, float y, float z) {
             return new Vector3(MathHelper.DegreesToRadians(x), MathHelper.DegreesToRadians(y), MathHelper.DegreesToRadians(z));

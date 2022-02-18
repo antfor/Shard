@@ -10,6 +10,8 @@
 
 using SDL2;
 using Shard.Misc;
+using System;
+using System.Runtime.InteropServices;
 
 namespace Shard
 {
@@ -19,6 +21,8 @@ namespace Shard
     {
 
         double tick, timeInterval;
+        byte[] keys = { };
+        int numKeys;
         public override void getInput()
         {
 
@@ -35,7 +39,11 @@ namespace Shard
 
             while (tick >= timeInterval)
             {
-                
+
+                IntPtr keysPtr = SDL.SDL_GetKeyboardState(out numKeys);
+                keys = new byte[numKeys];
+                Marshal.Copy(keysPtr, keys, 0, numKeys);
+
                 res = SDL.SDL_PollEvent(out ev);
 
                 if (res != 1)
@@ -54,6 +62,8 @@ namespace Shard
 
                     ie.X = mot.x;
                     ie.Y = mot.y;
+                    ie.XRel = mot.xrel;
+                    ie.YRel = mot.yrel;
 
                     informListeners(ie, "MouseMotion");
                 }
@@ -115,6 +125,19 @@ namespace Shard
             }
 
 
+        }
+
+        public override bool isDown(SDL.SDL_Scancode code)
+        {
+            if (keys.Length > 0) {
+                return 1 == keys[(int)code];
+            }
+            return false;
+        }
+
+        public override uint getMouseState(out int x, out int y)
+        {
+            return SDL.SDL_GetMouseState(out x, out y);
         }
 
         public override void initialize()

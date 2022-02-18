@@ -14,18 +14,26 @@ namespace Shard
     class Camera: IListener, InputListener
     {
 
+        Vector2i prevMouseCoords = new Vector2i(-1, -1 );
+        Vector2i MouseCoords = new Vector2i(-1, -1);
+        bool isMouseDragging = false;
+        bool isMouseRightDragging = false;
+
+
         Transform3D transform;
         private bool isStatic;
-        private float metersPerSecond = 1;
+        private float metersPerSecond = 4;
         private float fov = 90f;
         private float nearPlane = 0.001f;
         private float farPlane = 10000;
+        private bool space = false;
+        float rotation_speed = 2.0f;
 
         public bool IsStatic { get => isStatic; set => isStatic = value; }
 
         public Camera() {
             transform = new Transform3D();
-            transform.setPos(0, 0, 4);
+            transform.setPos(0, 0, 0);
             isStatic = false;
 
             Bootstrap.getInput().addListener(this);
@@ -61,59 +69,92 @@ namespace Shard
 
         public void handleInput(InputEvent inp, string eventType)
         {
-
-            move(inp, eventType);
+            if (eventType == "MouseMotion")
+            {
+                PConsole.WriteLine("mouse" + inp.X);
+                MouseCoords.X = inp.X;
+                MouseCoords.Y = inp.Y;
+                //Vector2i delta = MouseCoords - prevMouseCoords;
+               // transform.rotate(transform.getUp().Xyz, -delta.X * rotation_speed);
+                
+                //prevMouseCoords = MouseCoords;
+            }
 
             if (eventType == "KeyUp")
             {
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
                 {
-                 //   transform.Y = 1.8f;
+                    space = true;
                 }
             }
+            
         }
 
-        protected virtual void  move(InputEvent inp, string eventType) {
-            Vector3 dir = new Vector3(0, 0, 0);
-            if (eventType == "KeyDown")
+
+        public unsafe void update() {
+
+            InputSystem io = Bootstrap.getInput();
+            float dt = (float)Bootstrap.getDeltaTime();
+            int x, y;
+            io.getMouseState(out x,out y);
+            Vector2i delta = new Vector2i(x, y) - prevMouseCoords;
+
+            if (isMouseDragging || true)
             {
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_W)
-                {
-                    dir.X += 1;
-                }
-
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_S)
-                {
-                    dir.X -= 1;
-                }
-
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
-                {
-                    dir.Y += 1;
-                }
-
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
-                {
-                    dir.Y -= 1;
-                }
-
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_LSHIFT) {
-                    dir.Z += 1;
-                }
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_LCTRL)
-                {
-                    dir.Z -= 1;
-                }
-                //PConsole.WriteLine("1:" + dir.ToString());
-                if(dir.Length != 0)
-                    dir.Normalize();
-                dir *= metersPerSecond * 0.1f;
-               // PConsole.WriteLine("2:" + dir.ToString());
-                transform.moveForward(dir.X);
-                transform.moveRight(dir.Y);
-                transform.moveUp(dir.Z);
+               // PConsole.WriteLine("out: " + delta.ToString());
+               transform.rotate(transform.getUp().Xyz, rotation_speed * dt );
+               //transform.rotate(transform.getRight().Xyz ,rotation_speed * -delta.Y);
+               //transform.setRotation(transform.toRad(0,45,0));
 
             }
+
+            prevMouseCoords = MouseCoords;
+
+
+            Vector3 dir = new Vector3(0, 0, 0);
+
+            if (io.isDown(SDL.SDL_Scancode.SDL_SCANCODE_W))
+            {
+                dir.X += 1;
+            }
+
+            if (io.isDown(SDL.SDL_Scancode.SDL_SCANCODE_S))
+            {
+                dir.X -= 1;
+            }
+
+            if (io.isDown(SDL.SDL_Scancode.SDL_SCANCODE_D))
+            {
+                dir.Y += 1;
+            }
+
+            if (io.isDown(SDL.SDL_Scancode.SDL_SCANCODE_A))
+            {
+                dir.Y -= 1;
+            }
+
+            if (io.isDown(SDL.SDL_Scancode.SDL_SCANCODE_Q))
+            {
+                dir.Z += 1;
+            }
+            if (io.isDown(SDL.SDL_Scancode.SDL_SCANCODE_E))
+            {
+                dir.Z -= 1;
+            }
+            //PConsole.WriteLine("1:" + dir.ToString());
+            
+            if (dir.Length != 0)
+                dir.Normalize();
+            dir *= metersPerSecond * dt;
+            // PConsole.WriteLine("2:" + dir.ToString());
+            transform.moveForward(dir.X);
+            transform.moveRight(dir.Y);
+            transform.moveUp(dir.Z);
+
+            if (space) {
+                space = false;
+                transform.Y = 1.8f;
+            }            
         }
 
         public Vector3 getPos()

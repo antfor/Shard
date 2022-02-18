@@ -76,6 +76,11 @@ namespace Shard.Misc
             fifo.Enqueue(cmd);
             tm.release(semID);
         }
+
+        public static void Write(object obj)
+        {
+            Write(obj.ToString());
+        }
         public static void Clear() {
             Command cmd = CommandFactory.Clear();
             fifo.Enqueue(cmd);
