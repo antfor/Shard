@@ -23,12 +23,18 @@ using Shard.Graphics.OpenGL.Rendering;
 namespace Shard.Graphics.OpenGL
 {
 
+    public interface Listener<T>
+    {
+
+        public void handleInputEvent(T inputEvent);
+    }
     class WindowOpenGL : GameWindow , IThread, IRenderContext
     {
 
         private IDisplay3D renderCall;
         private readonly string threadID = "window";
         private bool running = true;
+
 
         object resizeLock = new object();
 
@@ -40,10 +46,11 @@ namespace Shard.Graphics.OpenGL
             this.RenderFrequency = 1;
             //cursorVisible(false);
            // Cursor = MouseCursor.Crosshair;
-            //CursorGrabbed = true;
+            CursorGrabbed = true;
+         
             //cursorVisible(true);
             //CursorShape.Arrow;
-            cursorVisible(true);
+            //cursorVisible(true);
             setName("Shard");
             setIcon(@"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\bin\Debug\net5.0\Crystal_Shards.png");
 
@@ -53,6 +60,15 @@ namespace Shard.Graphics.OpenGL
 
         }
 
+        public KeyboardState getKeyboardState()
+        {
+            return KeyboardState;
+        }
+
+        public MouseState getMouseState()
+        {
+            return MouseState;
+        }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {

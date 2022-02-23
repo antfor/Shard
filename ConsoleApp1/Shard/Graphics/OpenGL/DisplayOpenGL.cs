@@ -116,5 +116,9 @@ namespace Shard
         {
             window.setName(name);
         }
+
+        public WindowOpenGL getWindow() {
+            return window;
+        }
     }
 }

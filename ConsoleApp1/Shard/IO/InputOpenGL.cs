@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using Shard.Misc;
 using System;
 using System.Runtime.InteropServices;
+using OpenTK.Mathematics;
 
 namespace Shard
 {
@@ -37,8 +38,8 @@ namespace Shard
 
 
             window = SDL.SDL_CreateWindow("Shard Game Engine",
-                SDL.SDL_WINDOWPOS_CENTERED,
-                SDL.SDL_WINDOWPOS_CENTERED,
+                0,
+                0,
                 100,
                 100,
                 0);// SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS|SDL.SDL_WindowFlags.SDL_WINDOW_SKIP_TASKBAR);
@@ -83,6 +84,12 @@ namespace Shard
             SDL.SDL_SetWindowMouseGrab(window, value);
             SDL.SDL_SetWindowKeyboardGrab(window, value);
 
+        }
+
+        public Vector2i getSize() {
+            int h, w;
+            SDL.SDL_GetWindowSize(window, out w, out h);
+            return new Vector2i(w,h);
         }
     }
 }

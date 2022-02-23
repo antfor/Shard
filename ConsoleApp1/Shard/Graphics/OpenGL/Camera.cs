@@ -8,16 +8,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Shard.Graphics;
+using Shard.Graphics.OpenGL;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Shard
 {
     class Camera: IListener, InputListener
     {
 
-        Vector2i prevMouseCoords = new Vector2i(-1, -1 );
-        Vector2i MouseCoords = new Vector2i(-1, -1);
+        Vector2 prevMouseCoords = new Vector2i(-1, -1 );
+        Vector2 MouseCoords = new Vector2i(-1, -1);
         bool isMouseDragging = false;
         bool isMouseRightDragging = false;
+
+        private Vector3 cameraDirection = new Vector3(0, 0, -1);
+        private Vector3 worldUP = new Vector3(0,1,0);
+        private float pitchAngle = 0;
 
 
         Transform3D transform;
@@ -36,7 +42,7 @@ namespace Shard
             transform.setPos(0, 0, 0);
             isStatic = false;
 
-            Bootstrap.getInput().addListener(this);
+            //Bootstrap.getInput().addListener(this);
             makeListener();
         }
 
@@ -69,92 +75,111 @@ namespace Shard
 
         public void handleInput(InputEvent inp, string eventType)
         {
-            if (eventType == "MouseMotion")
-            {
-                PConsole.WriteLine("mouse" + inp.X);
-                MouseCoords.X = inp.X;
-                MouseCoords.Y = inp.Y;
-                //Vector2i delta = MouseCoords - prevMouseCoords;
-               // transform.rotate(transform.getUp().Xyz, -delta.X * rotation_speed);
-                
-                //prevMouseCoords = MouseCoords;
-            }
-
-            if (eventType == "KeyUp")
-            {
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
-                {
-                    space = true;
-                }
-            }
-            
+   
         }
 
+        private Vector3 right() {
+            return (Vector3.Cross(transform.getForward().Xyz, worldUP)).Normalized();
+        }
 
         public unsafe void update() {
 
-            InputSystem io = Bootstrap.getInput();
+
+            WindowOpenGL wo = ((DisplayOpenGL)Bootstrap.getDisplay()).getWindow();
+            KeyboardState ks = wo.getKeyboardState();
+            MouseState ms = wo.getMouseState();
+            
             float dt = (float)Bootstrap.getDeltaTime();
-            int x, y;
-            io.getMouseState(out x,out y);
-            Vector2i delta = new Vector2i(x, y) - prevMouseCoords;
+     
+            MouseCoords = ms.Position;
+            Vector2 delta = MouseCoords - prevMouseCoords;
 
-            if (isMouseDragging || true)
+
+            Matrix4 yaw = Matrix4.CreateFromAxisAngle(worldUP, delta.X * rotation_speed * dt);
+
+            float angle = 0.5f * delta.Y * rotation_speed * dt;
+
+            if (angle + pitchAngle > MathHelper.DegreesToRadians(89))
             {
-               // PConsole.WriteLine("out: " + delta.ToString());
-               transform.rotate(transform.getUp().Xyz, rotation_speed * dt );
-               //transform.rotate(transform.getRight().Xyz ,rotation_speed * -delta.Y);
-               //transform.setRotation(transform.toRad(0,45,0));
-
+                angle = MathHelper.DegreesToRadians(89) - pitchAngle;
+         
+            } else if (angle + pitchAngle < MathHelper.DegreesToRadians(-89)) {
+                angle = MathHelper.DegreesToRadians(-89) - pitchAngle;
             }
+
+            pitchAngle += angle;
+            Matrix4 pitch = Matrix4.CreateFromAxisAngle(Vector3.Cross(cameraDirection, worldUP) , angle);
+                
+            cameraDirection = new Vector3(pitch * yaw  * new Vector4(cameraDirection, 0.0f));
+
+            transform.setForward(cameraDirection);
+
+          
 
             prevMouseCoords = MouseCoords;
 
 
             Vector3 dir = new Vector3(0, 0, 0);
-
-            if (io.isDown(SDL.SDL_Scancode.SDL_SCANCODE_W))
+            
+            if (ks.IsKeyDown(Keys.W))
             {
                 dir.X += 1;
             }
 
-            if (io.isDown(SDL.SDL_Scancode.SDL_SCANCODE_S))
+            if (ks.IsKeyDown(Keys.S))
             {
                 dir.X -= 1;
             }
 
-            if (io.isDown(SDL.SDL_Scancode.SDL_SCANCODE_D))
-            {
-                dir.Y += 1;
-            }
-
-            if (io.isDown(SDL.SDL_Scancode.SDL_SCANCODE_A))
+            if (ks.IsKeyDown(Keys.D))
             {
                 dir.Y -= 1;
             }
 
-            if (io.isDown(SDL.SDL_Scancode.SDL_SCANCODE_Q))
+            if (ks.IsKeyDown(Keys.A))
+            {
+                dir.Y += 1;
+            }
+
+            if (ks.IsKeyDown(Keys.Q))
             {
                 dir.Z += 1;
             }
-            if (io.isDown(SDL.SDL_Scancode.SDL_SCANCODE_E))
+            if (ks.IsKeyDown(Keys.E))
             {
                 dir.Z -= 1;
             }
-            //PConsole.WriteLine("1:" + dir.ToString());
             
             if (dir.Length != 0)
                 dir.Normalize();
             dir *= metersPerSecond * dt;
-            // PConsole.WriteLine("2:" + dir.ToString());
-            transform.moveForward(dir.X);
+
+
+            if (ms.IsButtonDown(MouseButton.Middle))
+            {
+                transform.moveForward(dir.X);
+            }
+            else
+            {
+                Vector3 forward = transform.getForward().Xyz;
+                Vector3 v = new Vector3(forward.X, 0, forward.Z);
+                v.Normalize();
+                v *= dir.X;
+                transform.translate(v);
+
+            }
+
             transform.moveRight(dir.Y);
             transform.moveUp(dir.Z);
 
-            if (space) {
+
+
+
+            if (ks.IsKeyDown(Keys.Space)) {
                 space = false;
                 transform.Y = 1.8f;
-            }            
+            }     
+           
         }
 
         public Vector3 getPos()

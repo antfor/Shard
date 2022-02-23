@@ -52,6 +52,6 @@ namespace Shard.Graphics
         public void setName(string name);
 
         public bool resizeDisplay(int w, int h);
-
+        
     }
 }
