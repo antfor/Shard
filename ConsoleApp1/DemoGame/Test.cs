@@ -8,7 +8,7 @@ using Shard.Graphics.OpenGL.Rendering;
 using Shard.Misc;
 namespace Shard
 {
-    class Test : GameObject
+    class Test : GameObject, ISoundSourceObject
     {
         float time = 0;
         float fullTime = 2;
@@ -111,8 +111,21 @@ namespace Shard
     -0.5f, -0.5f, 0.0f,  // bottom left
     -0.5f,  0.5f, 0.0f   // top left
 };
+
+        public Vector3 getSoundPos()
+        {
+            return Transform3D.getPos();
+        }
+
+        public Vector3 getSoundVel()
+        {
+            return new Vector3(0,0,0);
+        }
+
         public override void initialize()
         {
+
+            // render
             RenderManager rm = RenderManager.getInstance();
 
             float[] vertices = {
@@ -122,13 +135,27 @@ namespace Shard
              };
 
             rm.addArrayBuffer("buffer", cube);
-            rm.addArrayBuffer("buffer", cubeNormal);
+           // rm.addArrayBuffer("buffer", cubeNormal);
 
             rm.addShader("vert", @"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\Shard\Graphics\OpenGL\Rendering\defult.vert", Shader.Vertex);
             rm.addShader("frag", @"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\Shard\Graphics\OpenGL\Rendering\defult.frag", Shader.Fragment);
             rm.addProgram("prog", "vert", "frag");
 
             RenderObject.render("prog", "buffer");
+
+
+            //sound
+            SoundManager soundManeger = Bootstrap.getSound();
+            soundManeger.addSound("engine", @"D:\chalmers\tda572\music\bap.wav");
+
+
+
+            SoundSource soundPlayer = new SoundSource(this);
+            soundManeger.loadSource(soundPlayer, "engine");
+            soundPlayer.loop(true);
+            //soundPlayer.setGain(10);
+            soundPlayer.setRolloff(1.2f);
+            soundPlayer.play();
 
         }
 

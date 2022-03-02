@@ -41,6 +41,10 @@ namespace Shard
         protected void init(float rolloff)
         {
             Bootstrap.getSound().addSource(this);
+            setRolloff(rolloff);
+        }
+
+        public void setRolloff(float rolloff) {
             AL.Source(id, ALSourcef.RolloffFactor, rolloff);
         }
 
@@ -168,6 +172,10 @@ namespace Shard
                 AL.GetSource(id, ALGetSourcei.SourceState, out state);
                 playing = (ALSourceState)state == ALSourceState.Playing;
             }
+
+            Vector3 pos = Bootstrap.getCamera().getPos();
+             AL.Source(id, ALSource3f.Position, pos.X, pos.Y, pos.Z);
+            
         }
 
     }

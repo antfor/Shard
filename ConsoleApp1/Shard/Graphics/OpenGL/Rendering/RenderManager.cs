@@ -261,7 +261,7 @@ namespace Shard.Graphics.OpenGL.Rendering
             Uniforms.setUniform(prog, "view", view);
             Uniforms.setUniform(prog, "projection", projection);
             
-            PConsole.WriteLine(buffer.Size);
+            //PConsole.WriteLine(buffer.Size);
 
             GL.DrawArrays(OGL.PrimitiveType.Triangles, 0, buffer.Size/3);
             string error = GL.GetError().ToString();
