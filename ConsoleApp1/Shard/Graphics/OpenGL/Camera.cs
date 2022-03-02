@@ -97,7 +97,7 @@ namespace Shard
 
             Matrix4 yaw = Matrix4.CreateFromAxisAngle(worldUP, delta.X * rotation_speed * dt);
 
-            float angle = 0.5f * delta.Y * rotation_speed * dt;
+            float angle =  delta.Y * rotation_speed * dt;
 
             if (angle + pitchAngle > MathHelper.DegreesToRadians(89))
             {
