@@ -18,6 +18,48 @@ namespace Shard.Graphics.OpenGL.Rendering
 
     }
 
+    class VBO{
+
+        private Dictionary<string, Buffer> buffers = new Dictionary<string, Buffer> { };
+        private int id;
+        public VBO(int id) {
+            this.id = id;
+        }
+
+        public int ID { get => id; }
+
+        public void addBuffer(string id,Buffer buf) {
+
+            if (buffers.ContainsKey(id))
+            {
+                removeBuffer(id);
+            }
+
+            buffers.Add(id, buf);
+        }
+
+        public void removeBuffer(string id)
+        {
+            buffers.Remove(id);
+        }
+        public Buffer getBuffer(string id) {
+            Buffer buf;
+
+            buffers.TryGetValue(id, out buf);
+
+            return buf;
+        }
+
+        public void bindBuffers() {
+
+
+            foreach (Buffer buffer in buffers.Values) {
+                GL.BindVertexArray(buffer.ID);
+            }
+            
+        }
+    }
+
     class Buffer {
         private int id;
         private int size;
@@ -53,8 +95,8 @@ namespace Shard.Graphics.OpenGL.Rendering
         private Dictionary<string, int> programs = new Dictionary<string, int> { };
         private Dictionary<string, UnLinkedProgram> unLinkedprograms = new Dictionary<string, UnLinkedProgram> { }; 
 
-        private Dictionary<string, Buffer> buffers = new Dictionary<string, Buffer> { };
-        private Dictionary<string, float[]> unLodedbuffers = new Dictionary<string, float[]> { };
+        private Dictionary<string, VBO> vbos = new Dictionary<string, VBO> { };
+        private Dictionary<(string,string), float[]> unLodedVBOs = new Dictionary<(string, string), float[]> { };
 
         private SortedList<int, List<RenderObject>> renderObjects = new SortedList<int, List<RenderObject>>() { };
 
@@ -153,29 +195,28 @@ namespace Shard.Graphics.OpenGL.Rendering
 
             return programs.TryAdd(progID, prog);
         }
-        public void addArrayBuffer(string bufferID, float[] data) {
-           unLodedbuffers.Add(bufferID, data);
-        }
 
         public void addArrayBuffer(string vboID,string bufferID, float[] data)
         {
-            unLodedbuffers.Add(bufferID, data);
+            unLodedVBOs.Add((vboID, bufferID), data);
         }
 
-        private bool loadArrayBuffer(string id) {
 
-            if (buffers.ContainsKey(id)) {
-                return false;
+        private void loadVAO(string vaoID, string bufferID) {
+   
+            VBO vao;
+            if (!vbos.TryGetValue(vaoID, out vao)) {
+                int vaoGLID = GL.GenVertexArray();
+                vao = new VBO(vaoGLID);
             }
+            Buffer buffer = loadArrayBuffer(vao.ID, bufferID);
+            unLodedVBOs.Remove(vaoID);
 
-            float[] arr;
+            vao.addBuffer(bufferID, buffer);
+        }
 
-            if (!unLodedbuffers.TryGetValue(id, out arr)) {
-                return false;
-            }
+        private Buffer loadArrayBuffer(int vao, string id, float[] arr) {
 
-
-            int vao = GL.GenVertexArray();
             GL.BindVertexArray(vao);
 
             int buffer;
@@ -190,9 +231,7 @@ namespace Shard.Graphics.OpenGL.Rendering
             GL.BindVertexArray(0);
             // GL.BindBuffer(OGL.BufferTarget.ArrayBuffer, 0);
 
-            unLodedbuffers.Remove(id);
-
-            return buffers.TryAdd(id, new Buffer(vao,arr.Length));
+            return new Buffer(vao, arr.Length); // TODO change to buffer
         }
 
         private int useProgram(string progID) {
