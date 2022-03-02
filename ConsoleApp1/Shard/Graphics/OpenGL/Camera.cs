@@ -33,7 +33,7 @@ namespace Shard
         private float nearPlane = 0.001f;
         private float farPlane = 10000;
         private bool space = false;
-        float rotation_speed = 2.0f;
+        float rotation_speed = 1.0f;
 
         public bool IsStatic { get => isStatic; set => isStatic = value; }
 
