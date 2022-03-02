@@ -205,12 +205,19 @@ namespace Shard.Graphics.OpenGL.Rendering
         private void loadVAO(string vaoID, string bufferID) {
    
             VBO vao;
-            if (!vbos.TryGetValue(vaoID, out vao)) {
+            if (!vbos.TryGetValue(vaoID, out vao))
+            {
                 int vaoGLID = GL.GenVertexArray();
                 vao = new VBO(vaoGLID);
+                vbos.Add(vaoID, vao);
             }
-            Buffer buffer = loadArrayBuffer(vao.ID, bufferID);
-            unLodedVBOs.Remove(vaoID);
+
+            float[] arr;
+
+            unLodedVBOs.TryGetValue((vaoID, bufferID), out arr);
+
+            Buffer buffer = loadArrayBuffer(vao.ID, bufferID, arr);
+            unLodedVBOs.Remove((vaoID, bufferID));
 
             vao.addBuffer(bufferID, buffer);
         }
