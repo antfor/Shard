@@ -189,6 +189,7 @@ namespace Shard.Graphics.OpenGL
             float ct = 0;
 
             //GL.Viewport(0, 0, 600, 600);
+            GL.Enable(EnableCap.DepthTest);
 
             while (running)
             {
@@ -214,7 +215,7 @@ namespace Shard.Graphics.OpenGL
                 lock (resizeLock)
                 {
                     GL.Viewport(0, 0, this.Size.X, this.Size.Y);
-                    GL.Clear(ClearBufferMask.ColorBufferBit);
+                    GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
                     renderCall.render();
                     this.Context.SwapBuffers();
                 }
