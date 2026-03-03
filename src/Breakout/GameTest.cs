@@ -6,7 +6,6 @@ namespace Shard
 {
     class GameBreakout : Game
     {
-        GameObject top, left, right, bottom;
         Random rand;
         List<Brick> myBricks;
         public override void update()

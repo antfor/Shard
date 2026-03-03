@@ -183,7 +183,6 @@ namespace Shard
             long timeInMillisecondsStart, lastTick, timeInMillisecondsEnd;
             long interval;
             int sleep;
-            int tfro = 1;
             bool physUpdate = false;
             bool soundUpdate = false;
 

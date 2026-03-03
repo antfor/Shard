@@ -59,7 +59,7 @@ namespace Shard
         List<CollidingObject> colliding;
         private bool debugging;
         private double timeInterval;
-        SAPEntry sapX, sapY;
+        SAPEntry sapX;
         double start;
         float gravityModifier = 0.1f;
 
@@ -581,10 +581,9 @@ namespace Shard
 
         public void broadPassSearchAndSweep()
         {
-            SAPEntry sx, sy;
-            float[] x, y;
+            SAPEntry sx;
+            float[] x;
             sapX = null;
-            sapY = null;
             List<PhysicsBody> candidates = new List<PhysicsBody>();
 
 

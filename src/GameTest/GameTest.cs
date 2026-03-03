@@ -23,8 +23,6 @@ namespace Shard
         {
             GameObject ship = new Spaceship();
             Random rand = new Random();
-            int offsetx = 0, offsety = 0;
-
             GameObject asteroid;
 
 

@@ -18,8 +18,6 @@ namespace Shard
 
         Vector2 prevMouseCoords = new Vector2i(-1, -1 );
         Vector2 MouseCoords = new Vector2i(-1, -1);
-        bool isMouseDragging = false;
-        bool isMouseRightDragging = false;
 
         private Vector3 cameraDirection = new Vector3(0, 0, -1);
         private Vector3 worldUP = new Vector3(0,1,0);
@@ -32,7 +30,6 @@ namespace Shard
         private float fov = 90f;
         private float nearPlane = 0.001f;
         private float farPlane = 10000;
-        private bool space = false;
         float rotation_speed = 1.0f;
 
         public bool IsStatic { get => isStatic; set => isStatic = value; }
@@ -176,7 +173,6 @@ namespace Shard
 
 
             if (ks.IsKeyDown(Keys.Space)) {
-                space = false;
                 transform.Y = 1.8f;
             }     
            

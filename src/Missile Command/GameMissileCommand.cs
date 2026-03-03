@@ -7,7 +7,7 @@ namespace Shard
 {
     class GameMissileCommand : Game, InputListener
     {
-        List<Missile> myMissiles;
+
         List<Arsenal> myArsenals;
         List<City> cities;
         Random rand;

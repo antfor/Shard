@@ -172,7 +172,7 @@ namespace Shard
 
         public override void showText(string text, double x, double y, int size, int r, int g, int b)
         {
-            int nx, ny, w = 0, h = 0;
+            int w = 0, h = 0;
 
             IntPtr font = loadFont("Fonts/calibri.ttf", size);
             SDL.SDL_Color col = new SDL.SDL_Color();

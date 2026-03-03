@@ -4,7 +4,6 @@ namespace GameBreakout
 {
     class Ball : GameObject, CollisionHandler
     {
-        float cx, cy;
         Shard.Vector dir, lastDir;
         internal Shard.Vector LastDir { get => lastDir; set => lastDir = value; }
         internal Shard.Vector Dir { get => dir; set => dir = value; }

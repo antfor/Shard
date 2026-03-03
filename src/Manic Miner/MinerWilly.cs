@@ -6,8 +6,7 @@ namespace ManicMiner
 {
     class MinerWilly : GameObject, InputListener, CollisionHandler
     {
-        private string sprite;
-        private bool left, right, jumpUp, jumpDown, fall, canJump;
+        private bool left, right, jumpUp, fall, canJump;
         private int spriteCounter, spriteCounterDir;
         private string spriteName;
         private double spriteTimer, jumpCount;

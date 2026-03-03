@@ -23,7 +23,7 @@ namespace Shard
       
         private System.IntPtr window;
 
-        public virtual void initialize()
+        public override void initialize()
         {
         }
 
