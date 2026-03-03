@@ -134,11 +134,11 @@ namespace Shard
               0.0f,  0.5f, 0.0f  //Top vertex
              };
 
-            rm.addArrayBuffer("buffer", cube);
+            rm.addArrayBuffer("buffer", "buffer", cube);
            // rm.addArrayBuffer("buffer", cubeNormal);
 
-            rm.addShader("vert", @"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\Shard\Graphics\OpenGL\Rendering\defult.vert", Shader.Vertex);
-            rm.addShader("frag", @"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\Shard\Graphics\OpenGL\Rendering\defult.frag", Shader.Fragment);
+            rm.addShader("vert", @"Shard/Graphics/OpenGL/Rendering/defult.vert", Shader.Vertex);
+            rm.addShader("frag", @"Shard/Graphics/OpenGL/Rendering/defult.frag", Shader.Fragment);
             rm.addProgram("prog", "vert", "frag");
 
             RenderObject.render("prog", "buffer");
@@ -146,7 +146,7 @@ namespace Shard
 
             //sound
             SoundManager soundManeger = Bootstrap.getSound();
-            soundManeger.addSound("engine", @"D:\chalmers\tda572\music\bap.wav");
+            soundManeger.addSound("engine", @"Assets/bap.wav");
 
 
 

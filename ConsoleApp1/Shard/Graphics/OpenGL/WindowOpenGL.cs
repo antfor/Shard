@@ -43,16 +43,15 @@ namespace Shard.Graphics.OpenGL
         {
            
             this.UpdateFrequency = 1;
-            this.RenderFrequency = 1;
             //cursorVisible(false);
-           // Cursor = MouseCursor.Crosshair;
-            CursorGrabbed = true;
+           // Cursor = MouseCursor.Crosshair; OpenTK.Windowing.Common.
+            CursorState = CursorState.Grabbed;
          
             //cursorVisible(true);
             //CursorShape.Arrow;
             //cursorVisible(true);
             setName("Shard");
-            setIcon(@"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\bin\Debug\net5.0\Crystal_Shards.png");
+            setIcon(@"Assets/Crystal_Shards.png");
 
             MouseMove += delegate (MouseMoveEventArgs e) {};
             KeyUp += delegate (KeyboardKeyEventArgs e) { };
@@ -89,7 +88,7 @@ namespace Shard.Graphics.OpenGL
 
             while (GLFW.WindowShouldClose(WindowPtr) == false)
             {
-               ProcessEvents();
+               ProcessEvents(0.0);
                Thread.Sleep(1);
             }
             OnUnload();
@@ -128,7 +127,7 @@ namespace Shard.Graphics.OpenGL
         }
 
         public void cursorVisible(bool b) {
-            this.CursorVisible = b;
+            this.CursorState = b ? CursorState.Normal : CursorState.Hidden;
         }
 
         public void setName(string name) {
@@ -158,8 +157,6 @@ namespace Shard.Graphics.OpenGL
 
         protected unsafe override void OnLoad()
         {
-
-            this.Context.MakeNoneCurrent();
         
             ThreadManager tm = ThreadManager.getInstance();
             tm.addThread(threadID, this);

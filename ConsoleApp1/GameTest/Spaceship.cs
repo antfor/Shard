@@ -58,7 +58,7 @@ namespace GameTest
 
             //Sound
             SoundManager soundManeger = Bootstrap.getSound();
-            soundManeger.addSound("engine", @"D:\chalmers\tda572\music\spaceship.wav");
+            soundManeger.addSound("engine", @"Assets/spaceship.wav");
 
             SoundSource soundPlayer = new SoundSource(this);
             soundManeger.loadSource(soundPlayer, "engine");

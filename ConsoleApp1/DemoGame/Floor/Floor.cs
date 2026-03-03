@@ -51,9 +51,9 @@ namespace Shard.DemoGame.Floor
             //this.Transform3D.rotateDeg(90, 0, 0);
             this.Transform3D.scale(scale.Value,scale.Value, scale.Value);
 
-            rm.addArrayBuffer(floorBufferID, vertices);
-            rm.addShader(flootVertID, @"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\DemoGame\Floor\floor.vert", Shader.Vertex);
-            rm.addShader(flootFragID, @"D:\chalmers\tda572\shard\1.0.0\Shard\ConsoleApp1\DemoGame\Floor\floor.frag", Shader.Fragment);
+            rm.addArrayBuffer(floorBufferID, floorBufferID, vertices);
+            rm.addShader(flootVertID, @"DemoGame/Floor/floor.vert", Shader.Vertex);
+            rm.addShader(flootFragID, @"DemoGame/Floor/floor.frag", Shader.Fragment);
             rm.addProgram(floorProgramID, flootVertID, flootFragID);
 
             robj.changePrio(3);

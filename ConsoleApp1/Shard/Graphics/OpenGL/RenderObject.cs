@@ -14,6 +14,7 @@ namespace Shard
         private GameObject parent;
         private string progID;
         private string bufferID;
+        private string vboID;
         private bool added;
         List<Uniform> uniforms = new List<Uniform> { };
         RenderManager rm;
@@ -43,11 +44,14 @@ namespace Shard
         }
 
         public void render(string prog, string buffer) {
-            progID   = prog;
-            bufferID = buffer;
+            render(prog, buffer, buffer);
+        }
 
-            if (!added)
-            {
+        public void render(string prog, string vbo, string buffer) {
+            progID   = prog;
+            vboID    = vbo;
+            bufferID = buffer;
+            if (!added) {
                 rm.addRenderObject(this, prio);
                 added = true;
             }
@@ -71,6 +75,7 @@ namespace Shard
 
         public string Program { get => progID; }
         public string Buffer { get => bufferID; }
+        public string VBO      { get => vboID;    }
 
 
         public virtual Matrix4 getModelMatrix() {

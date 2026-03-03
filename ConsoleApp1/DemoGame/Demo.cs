@@ -31,7 +31,7 @@ namespace Shard
 
             //Sound
             SoundManager soundManager = Bootstrap.getSound();
-            soundManager.addSound("doom", @"D:\chalmers\tda572\music\doomMono.wav");
+            soundManager.addSound("doom", @"Assets/doomMono.wav");
 
             soundPlayer = new SoundStatic();
             soundManager.loadSource(soundPlayer, "doom");

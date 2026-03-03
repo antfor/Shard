@@ -261,18 +261,18 @@ namespace Shard.Graphics.OpenGL.Rendering
             return prog;
         }
 
-        private Buffer getBuffer(string bufferID) {
-            Buffer buffer;
-            if (!buffers.TryGetValue(bufferID, out buffer)) {
-                if (loadArrayBuffer(bufferID)) {
-                    return getBuffer(bufferID);
-                }
-                else
-                {
-                    throw new Exception("buffer not added");
-                }
+        private Buffer getBuffer(string vboID, string bufferID) {
+            VBO vao;
+            if (!vbos.TryGetValue(vboID, out vao)) {
+                loadVAO(vboID, bufferID);
+                vbos.TryGetValue(vboID, out vao);
             }
-
+            Buffer buffer = vao.getBuffer(bufferID);
+            if (buffer == null) {
+                loadVAO(vboID, bufferID);
+                buffer = vao.getBuffer(bufferID);
+            }
+            if (buffer == null) throw new Exception("buffer not found: " + bufferID);
             return buffer;
         }
 
@@ -281,7 +281,7 @@ namespace Shard.Graphics.OpenGL.Rendering
 
             int prog = useProgram(obj.Program);
 
-            Buffer buffer = getBuffer(obj.Buffer);
+            Buffer buffer = getBuffer(obj.VBO, obj.Buffer);
 
             GL.BindVertexArray(buffer.ID);
 

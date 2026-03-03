@@ -15,7 +15,7 @@ namespace Shard
     class DisplayOpenGL: IDisplay3D, IThread
     {
         private int _height, _width;
-        private static WindowOpenGL window = new WindowOpenGL(GameWindowSettings.Default, NativeWindowSettings.Default);
+        private static WindowOpenGL window;
         private RenderManager rm;
        
 
@@ -44,7 +44,8 @@ namespace Shard
 
         public void initialize()
         {
-
+            window = new WindowOpenGL(GameWindowSettings.Default, NativeWindowSettings.Default);
+            window.Context.MakeNoneCurrent();
             tm = ThreadManager.getInstance();
             tm.addBarrier(barrierId, 2);
             
