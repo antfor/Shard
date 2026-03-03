@@ -1,0 +1,24 @@
+## .NET build output
+bin/
+obj/
+
+## Visual Studio / Rider
+.vs/
+*.user
+*.suo
+*.userprefs
+*.pidb
+*.sdf
+.idea/
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Logs & temp
+*.log
+UpgradeLog.htm
+
+## NuGet
+*.nupkg
+packages/
