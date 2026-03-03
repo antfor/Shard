@@ -118,7 +118,7 @@ namespace Shard.Graphics.OpenGL
         }
 
         public unsafe void setIcon(string file) {
-            var image = (Image<Rgba32>)SixLabors.ImageSharp.Image.Load(Configuration.Default, file);
+            var image = SixLabors.ImageSharp.Image.Load<Rgba32>(file);
             image.DangerousTryGetSinglePixelMemory (out var imageSpan);
             var imageBytes = MemoryMarshal.AsBytes(imageSpan.Span).ToArray();
             var windowIcon = new WindowIcon(new OpenTK.Windowing.Common.Input.Image(image.Width, image.Height, imageBytes));
